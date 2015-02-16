@@ -3,14 +3,26 @@ package experiment;
 import java.util.*;
 
 public class IntBoard {
-	//All kinds of static/instance variables are gonna need to go here
+	private LinkedList<BoardCell> board;
+	
 	public IntBoard(){
-		
+		board = new LinkedList<BoardCell>();
+		for (int i = 0; i < 4; i++){
+			for (int j = 0; j < 4; j++){
+				BoardCell cell = new Cell(i,j);
+				board.add(cell);
+			}
+		}
+	}
+	
+	public BoardCell getCell(int x, int y){
+		BoardCell test = new BoardCell(x,y);
+		return test;
 	}
 	
 	public Map<BoardCell, LinkedList<BoardCell>> calcAdjacencies(){
 		Map<BoardCell, LinkedList<BoardCell>> masterList = new HashMap<BoardCell, LinkedList<BoardCell>>();
-		return masterList;//void?
+		return masterList;
 	}
 	
 	public void calcTargets(BoardCell start, int moves){
