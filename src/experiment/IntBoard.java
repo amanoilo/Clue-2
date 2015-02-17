@@ -4,6 +4,7 @@ import java.util.*;
 
 public class IntBoard {
 	private BoardCell[][] board;
+	private Map<BoardCell, LinkedList<BoardCell>> adj;
 	
 	public IntBoard(){
 		board = new BoardCell[4][4];
@@ -13,14 +14,20 @@ public class IntBoard {
 				board[i][j] = cell;
 			}
 		}
+		adj = calcAdjacencies();
 	}
 	
 	public BoardCell getCell(int x, int y){
-		BoardCell test = new BoardCell(x,y);
-		return test;
+		return board[x][y];
 	}
 	
-	public Map<BoardCell, LinkedList<BoardCell>> calcAdjacencies(){
+	private Map<BoardCell, LinkedList<BoardCell>> calcAdjacencies(){
+		for(int i = 0; i < board.length; i++){
+			for(int j = 0; j < board[i].length; j++){
+				
+			}
+		}
+		
 		Map<BoardCell, LinkedList<BoardCell>> masterList = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		return masterList;
 	}
