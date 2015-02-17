@@ -45,7 +45,7 @@ public class IntBoard {
 		}
 	}
 	
-	public void calcTargets(BoardCell start, int moves){
+	private void calcTargets(BoardCell start, int moves){
 		if(moves == 0){
 			targets.add(start);
 		}

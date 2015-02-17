@@ -13,9 +13,11 @@ import org.junit.Test;
 
 public class IntBoardTests {
 	
-	@BeforeClass
-	public static void setUp(){
-		IntBoard board = new IntBoard();
+	public IntBoard board;
+	
+	@Before
+	public void setUp(){
+		board = new IntBoard();
 	}
 //adjacency tests
 	@Test
@@ -71,13 +73,13 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(2,3)));
 		assertEquals(4, testList.size());
 	}
+	
 	//pathing tests
 	@Test
 	public void testTargets00_3()
 	{
 		BoardCell cell = board.getCell(0, 0);
-		board.calcTargets(cell, 3);
-		Set targets = board.getTargets();
+		Set targets = board.getTargets(cell, 3);
 		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCell(3, 0)));
 		assertTrue(targets.contains(board.getCell(2, 1)));
@@ -90,8 +92,7 @@ public class IntBoardTests {
 	public void testTargets01_3()
 	{
 		BoardCell cell = board.getCell(0,1);
-		board.calcTargets(cell, 3);
-		Set targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets(cell, 3);
 		assertEquals(5, targets.size());
 		assertTrue(targets.contains(board.getCell(1, 1)));
 		assertTrue(targets.contains(board.getCell(2, 0)));
@@ -103,8 +104,7 @@ public class IntBoardTests {
 	public void testTargets11_2()
 	{
 		BoardCell cell = board.getCell(1, 1);
-		board.calcTargets(cell, 2);
-		Set targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets(cell, 2);
 		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCell(0, 0)));
 		assertTrue(targets.contains(board.getCell(2, 0)));
@@ -117,8 +117,7 @@ public class IntBoardTests {
 	public void testTargets32_3()
 	{
 		BoardCell cell = board.getCell(3, 2);
-		board.calcTargets(cell, 3);
-		Set targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets(cell, 3);
 		assertEquals(5, targets.size());
 		assertTrue(targets.contains(board.getCell(2, 0)));
 		assertTrue(targets.contains(board.getCell(1, 1)));
@@ -130,8 +129,7 @@ public class IntBoardTests {
 	public void testTargets21_4()
 	{
 		BoardCell cell = board.getCell(2, 1);
-		board.calcTargets(cell, 4);
-		Set targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets(cell, 4);
 		assertEquals(7, targets.size());
 		assertTrue(targets.contains(board.getCell(1, 0)));
 		assertTrue(targets.contains(board.getCell(3, 0)));
@@ -145,8 +143,7 @@ public class IntBoardTests {
 	public void testTargets23_1()
 	{
 		BoardCell cell = board.getCell(2, 3);
-		board.calcTargets(cell, 1);
-		Set targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets(cell, 1);
 		assertEquals(3, targets.size());
 		assertTrue(targets.contains(board.getCell(1, 3)));
 		assertTrue(targets.contains(board.getCell(2, 2)));
