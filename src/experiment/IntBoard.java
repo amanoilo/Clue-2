@@ -9,7 +9,7 @@ public class IntBoard {
 		board = new LinkedList<BoardCell>();
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 4; j++){
-				BoardCell cell = new Cell(i,j);
+				BoardCell cell = new BoardCell(i,j);
 				board.add(cell);
 			}
 		}
