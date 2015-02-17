@@ -79,7 +79,7 @@ public class IntBoardTests {
 	public void testTargets00_3()
 	{
 		BoardCell cell = board.getCell(0, 0);
-		Set targets = board.getTargets(cell, 3);
+		Set<BoardCell> targets = board.getTargets(cell, 3);
 		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCell(3, 0)));
 		assertTrue(targets.contains(board.getCell(2, 1)));
