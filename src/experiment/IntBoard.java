@@ -3,14 +3,14 @@ package experiment;
 import java.util.*;
 
 public class IntBoard {
-	private LinkedList<BoardCell> board;
+	private BoardCell[][] board;
 	
 	public IntBoard(){
-		board = new LinkedList<BoardCell>();
+		board = new BoardCell[4][4];
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 4; j++){
 				BoardCell cell = new BoardCell(i,j);
-				board.add(cell);
+				board[i][j] = cell;
 			}
 		}
 	}
