@@ -1,6 +1,7 @@
 package clueGame;
 
 public abstract class BoardCell {
+
 	private int r;
 	private int c;
 	
@@ -20,4 +21,5 @@ public abstract class BoardCell {
 	public boolean isDoorway(){
 		return false;
 	}
+	
 }
