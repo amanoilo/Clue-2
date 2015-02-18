@@ -1,9 +1,21 @@
 package clueGame;
 
-public class ClueGame {
+import java.util.HashMap;
+import java.util.Map;
 
+public class ClueGame {
+	private Map<Character, String> rooms;
+	
+	
+	public void loadConfigFiles(){
+		
+	}
+	public void loadRoomConfig(){
+		
+	}
+	
 	public ClueGame() {
-		// TODO Auto-generated constructor stub
+		rooms = new HashMap<Character, String>();
 	}
 
 }
