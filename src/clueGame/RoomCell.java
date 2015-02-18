@@ -8,8 +8,8 @@ public abstract class RoomCell extends BoardCell {
 		return true;
 	}
 
-	public RoomCell() {
-		// TODO Auto-generated constructor stub
+	public RoomCell(int r, int c){
+		super(r,c);
 	}
 
 }
