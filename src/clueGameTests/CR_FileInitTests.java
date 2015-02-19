@@ -66,12 +66,30 @@ public class CR_FileInitTests {
 		game.loadRoomConfig();
 		game.getBoard().loadBoardConfig();
 	}
-	@Test (exspected = BadConfigFormatException.class)
+	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomsFormat() throws BadConfigFormatException, FileNotFoundException{
 		ClueGame game = new ClueGame("Clue Map.csv", "Badlegend.txt");
 		game.loadRoomConfig();
 		game.getBoard().loadBoardConfig();
 	}
 	
-	
+	@Test
+	public void testNumberOfDoorways(){
+		int numDoors = 0;
+		int numCells = board.getNumRows() * board.getNumColumns();
+		assertEquals(525,numCells);
+		for(int i = 0; i<board.getNumRows(); i++){
+			for(int j = 0; j<board.getNumColumns(); j++){
+				BoardCell bc = board.getBoardCell(i, j);
+				if(bc.isDoorway()){
+					numDoors++;
+				}
+			}
+		}
+		assertEquals(11,numDoors);
+	}
+	/*@Test
+	public void testRoomInitials(){
+		assertEquals('')
+	}*/
 }
