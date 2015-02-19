@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +9,10 @@ public class ClueGame {
 	private Board board;
 	
 	
-	public void loadConfigFiles(){
+	public void loadConfigFiles() throws BadConfigFormatException, FileNotFoundException{
 		
 	}
-	public void loadRoomConfig(){
+	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException{
 		
 	}
 	

@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Board {
@@ -15,7 +16,7 @@ public class Board {
 		numColumns = cols;
 	}
 	
-	public void loadBoardConfig(){
+	public void loadBoardConfig() throws BadConfigFormatException, FileNotFoundException{
 		
 	}
 	
