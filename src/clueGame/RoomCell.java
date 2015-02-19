@@ -11,5 +11,8 @@ public abstract class RoomCell extends BoardCell {
 	public RoomCell(int r, int c){
 		super(r,c);
 	}
-
+	
+	public DoorDirection getDoorDirection(){
+		return doorDirection;
+	}
 }
