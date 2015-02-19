@@ -15,4 +15,8 @@ public abstract class RoomCell extends BoardCell {
 	public DoorDirection getDoorDirection(){
 		return doorDirection;
 	}
+	
+	public char getRoomInitial(){
+		return roomInitial;
+	}
 }

@@ -5,6 +5,7 @@ import clueGame.*;
 
 import java.util.*;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CR_FileInitTests {
@@ -42,5 +43,23 @@ public class CR_FileInitTests {
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
 		room = (RoomCell) board.getBoardCell(0,0);
 	}
-	
+	@Test
+	public void testNumberOfDoorways(){
+		int numDoors = 0;
+		int numCells = board.getNumRows() * board.getNumColumns();
+		assertEquals(525,numCells);
+		for(int i = 0; i<board.getNumRows(); i++){
+			for(int j = 0; j<board.getNumColumns(); j++){
+				BoardCell bc = board.getBoardCell(i, j);
+				if(bc.isDoorway()){
+					numDoors++;
+				}
+			}
+		}
+		assertEquals(11,numDoors);
+	}
+	/*@Test
+	public void testRoomInitials(){
+		assertEquals('')
+	}*/
 }
