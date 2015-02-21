@@ -1,11 +1,11 @@
-Maelstrom,y
-Innistrad,i		
-Zendikar,z		
-Ravnica,r	
-Alara,a
-Mirrodin,m
-Phyrexia,p					
-Dominaria,d					
-Kamigawa,k					
-Shandalar,s						
-Blind Eternities,x
+y,Maelstrom
+i,Innistrad
+z,Zendikar
+r,Ravnica
+a,Alara
+m,Mirrodin
+p,Phyrexia
+d,Dominaria
+k,Kamigawa
+s,Shandalar
+x,Blind Eternities
