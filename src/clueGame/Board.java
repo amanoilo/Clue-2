@@ -1,13 +1,14 @@
 package clueGame;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.*;
 import java.util.*;
 
 public class Board {
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
+	private Map<BoardCell, LinkedList<BoardCell>> adj;
+	private Set<BoardCell> targets;
+	
 	private int numRows;
 	private int numColumns;
 	private String fileID;
@@ -43,6 +44,9 @@ public class Board {
 		
 		board = new BoardCell[numRows][numColumns];
 		rooms  = new HashMap<Character,String>();
+		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
+		targets = new HashSet<BoardCell>();
+		calcAdjacencies();
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
@@ -113,7 +117,7 @@ public class Board {
 		}
 	}
 	
-	public void editBoardPosition(){
+	private void editBoardPosition(){
 		if(currentCol<board[currentRow].length){
 			currentCol++;
 		}
@@ -121,6 +125,54 @@ public class Board {
 			currentCol=0;
 			currentRow++;
 		}
+	}
+	
+	private void calcTargets(BoardCell start, int moves, Set<BoardCell> Visited){
+		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
+		if(moves == 0){
+			if(!visited.contains(start)) targets.add(start); //If at the end and not a visited place, add the target
+		}
+		else{
+			if(!visited.contains(start)){ //check if you've been here before
+				visited.add(start); //if not, add the current position
+				for(BoardCell bc : getAdjList(start)){ //add all cells in the adjacency list
+					calcTargets(bc, moves-1, visited); //continue the path chain
+				}
+			}
+		}
+	}
+	
+	public LinkedList<BoardCell> getAdjList(BoardCell cell){
+		return adj.get(cell); //refer to the map we made earlier
+	}
+	
+	public void calcAdjacencies(){
+		for(int i = 0; i < board.length; i++){
+			for(int j = 0; j < board[i].length; j++){
+				if(!adj.containsKey(board[i][j])){
+					adj.put(board[i][j], new LinkedList<BoardCell>()); //if the cell isn't in the map, add it
+				}
+				if(i > 0){
+					adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
+				}
+				if(i < board.length - 1){
+					adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
+				}
+				if(j > 0){
+					adj.get(board[i][j]).add(board[i][j-1]);//etc
+				}
+				if(j < board[i].length - 1){
+					adj.get(board[i][j]).add(board[i][j+1]);
+				}
+			}
+		}
+	}
+	
+	public Set<BoardCell> getTargets(BoardCell start, int moves){
+		targets.clear(); //new targets set for each cell
+		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
+		calcTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
+		return targets;
 	}
 	
 	public BoardCell getBoardCell(int x, int y){

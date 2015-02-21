@@ -16,10 +16,6 @@ public class ClueGame {
 		board.loadBoardConfig();
 	}
 	
-	public void loadRoomConfig() throws BadConfigFormatException{
-		
-	}
-	
 	public Board getBoard(){
 		return board;
 	}
