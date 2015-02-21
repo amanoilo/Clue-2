@@ -137,7 +137,12 @@ public class Board {
 			if(!visited.contains(start)){ //check if you've been here before
 				visited.add(start); //if not, add the current position
 				for(BoardCell bc : getAdjList(start)){ //add all cells in the adjacency list
-					calcTargets(bc, moves-1, visited); //continue the path chain
+					if(bc.isDoorway()){
+						targets.add(bc);
+					}
+					else{
+						calcTargets(bc, moves-1, visited); //continue the path chain
+					}
 				}
 			}
 		}
@@ -153,16 +158,39 @@ public class Board {
 				if(!adj.containsKey(board[i][j])){
 					adj.put(board[i][j], new LinkedList<BoardCell>()); //if the cell isn't in the map, add it
 				}
-				if(i > 0){
-					adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
+				if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
+					if(board[i-1][j].isDoorway()){
+						if(((RoomCell)board[i-1][j]).getDoorDirection() == DoorDirection.DOWN){
+							adj.get(board[i][j]).add(board[i-1][j]);
+						}
+					}else{
+						adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
+					}
 				}
-				if(i < board.length - 1){
-					adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
+				if(i < board.length - 1 && (board[i+1][j].isDoorway() || !board[i+1][j].isRoom())){
+					if(board[i+1][j].isDoorway()){
+						if(((RoomCell)board[i+1][j]).getDoorDirection() == DoorDirection.UP){
+							adj.get(board[i][j]).add(board[i+1][j]);
+						}
+					}else{
+						adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
+					}
 				}
-				if(j > 0){
-					adj.get(board[i][j]).add(board[i][j-1]);//etc
+				if(j > 0 && (board[i][j-1].isDoorway() || !board[i][j-1].isRoom())){
+					if(board[i][j-1].isDoorway()){
+						if(((RoomCell)board[i][j-1]).getDoorDirection() == DoorDirection.RIGHT){
+							adj.get(board[i][j]).add(board[i][j-1]);
+						}
+					}else{
+						adj.get(board[i][j]).add(board[i][j-1]);//etc
+					}
 				}
-				if(j < board[i].length - 1){
+				if(j < board[i].length - 1 && (board[i][j+1].isDoorway() || !board[i][j+1].isRoom())){
+					if(board[i][j+1].isDoorway()){
+						if(((RoomCell)board[i][j+1]).getDoorDirection() == DoorDirection.LEFT){
+							adj.get(board[i][j]).add(board[i][j+1]);
+						}
+					}
 					adj.get(board[i][j]).add(board[i][j+1]);
 				}
 			}

@@ -28,13 +28,16 @@ public class ClueGame {
 					if(beforeComma){
 						if(currentLine.charAt(currentChar) != ','){
 							roomChar += currentLine.charAt(currentChar);
+							currentChar++;
 						}
 						else{
 							beforeComma = false;
+							currentChar++;
 						}
 					}
 					else{
 						roomName += currentLine.charAt(currentChar);
+						currentChar++;
 					}
 				}
 				if(roomChar.length() > 1){
@@ -45,6 +48,8 @@ public class ClueGame {
 					rooms.put(roomChar.charAt(0),roomName);
 					currentChar = 0;
 					beforeComma = true;
+					roomName = "";
+					roomChar = "";
 				}
 			}	
 			fin.close();
