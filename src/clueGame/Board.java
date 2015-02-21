@@ -16,7 +16,8 @@ public class Board {
 	private int currentRow;
 	private int currentCol;
 	
-	public Board(String fileID) {
+	public Board(String fileID, Map<Character, String> rooms) {
+		this.rooms = rooms;
 		try{
 			FileReader reader = new FileReader(fileID);
 			Scanner fin = new Scanner(reader);
@@ -109,7 +110,7 @@ public class Board {
 				 System.out.println(e.getMessage());
 			}
 		}catch(FileNotFoundException e){
-			
+			System.out.println("Couldn't find that map file!");
 		}
 	}
 	

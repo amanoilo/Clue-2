@@ -20,8 +20,7 @@ public class CR_FileInitTests {
 		ClueGame game = new ClueGame("Clue Map.csv", "legend.txt");
 		try {
 			game.loadConfigFiles();
-		} catch (FileNotFoundException | BadConfigFormatException e) {
-			// TODO Auto-generated catch block
+		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
 		board = game.getBoard();
@@ -63,13 +62,13 @@ public class CR_FileInitTests {
 	@Test (expected = BadConfigFormatException.class) 
 	public void testBadColums() throws BadConfigFormatException, FileNotFoundException {
 		ClueGame game = new ClueGame("ClueBadMap.csv", "legend.txt");
-		game.loadRoomConfig();
+		game.loadConfigFiles();
 		game.getBoard().loadBoardConfig();
 	}
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomsFormat() throws BadConfigFormatException, FileNotFoundException{
 		ClueGame game = new ClueGame("Clue Map.csv", "Badlegend.txt");
-		game.loadRoomConfig();
+		game.loadConfigFiles();
 		game.getBoard().loadBoardConfig();
 	}
 	
