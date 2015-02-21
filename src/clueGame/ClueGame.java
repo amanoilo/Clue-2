@@ -11,11 +11,12 @@ public class ClueGame {
 	private String FileID;
 	
 	
-	public void loadConfigFiles() throws BadConfigFormatException, FileNotFoundException{
+	public void loadConfigFiles() throws BadConfigFormatException{
 		board = new Board(FileID);
 		board.loadBoardConfig();
 	}
-	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException{
+	
+	public void loadRoomConfig() throws BadConfigFormatException{
 		
 	}
 	
