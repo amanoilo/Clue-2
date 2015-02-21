@@ -22,6 +22,7 @@ public class ClueGame {
 	
 	public ClueGame(String fileID, String config) {
 		rooms = new HashMap<Character, String>();
+		
 	}
 
 }
