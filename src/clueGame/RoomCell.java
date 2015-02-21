@@ -1,6 +1,6 @@
 package clueGame;
 
-public abstract class RoomCell extends BoardCell {
+public class RoomCell extends BoardCell {
 	private DoorDirection doorDirection;
 	private char roomInitial;
 	
@@ -8,8 +8,10 @@ public abstract class RoomCell extends BoardCell {
 		return true;
 	}
 
-	public RoomCell(int r, int c){
+	public RoomCell(int r, int c, char initial, DoorDirection d){
 		super(r,c);
+		roomInitial = initial;
+		doorDirection = d;
 	}
 	
 	public DoorDirection getDoorDirection(){
