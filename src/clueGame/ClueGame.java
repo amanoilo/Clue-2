@@ -18,15 +18,19 @@ public class ClueGame {
 			fin = new Scanner(reader);
 			
 			String currentLine = "";
-			int currentChar = 0;
 			boolean beforeComma = true;
 			String roomName = "";
 			String roomChar = "";
 			while(fin.hasNextLine()){
+				int currentChar = 0;
 				currentLine = fin.nextLine();
 				while(currentChar < currentLine.length()){
 					if(beforeComma){
-						if(currentLine.charAt(currentChar) != ','){
+						if(currentLine.charAt(currentChar) == ',' && currentLine.charAt(currentChar+1) == ' '){
+							beforeComma = false;
+							currentChar += 2;
+						}
+						else if(currentLine.charAt(currentChar) != ','){
 							roomChar += currentLine.charAt(currentChar);
 							currentChar++;
 						}
@@ -34,6 +38,9 @@ public class ClueGame {
 							beforeComma = false;
 							currentChar++;
 						}
+					}
+					else if(!beforeComma && currentLine.charAt(currentChar) == ','){
+						throw new BadConfigFormatException("Encountered two declarations on the same line: " + currentLine);
 					}
 					else{
 						roomName += currentLine.charAt(currentChar);
@@ -46,7 +53,6 @@ public class ClueGame {
 				}
 				else{
 					rooms.put(roomChar.charAt(0),roomName);
-					currentChar = 0;
 					beforeComma = true;
 					roomName = "";
 					roomChar = "";
@@ -60,7 +66,6 @@ public class ClueGame {
 			}
 
 			board = new Board(FileID, rooms);
-			board.loadBoardConfig();
 		}catch(FileNotFoundException e){
 			System.out.println("Couldn't find that legend file!");
 		}
