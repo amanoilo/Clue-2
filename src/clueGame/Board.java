@@ -66,6 +66,7 @@ public class Board {
 			String roomInitial = "";
 			while(fin.hasNextLine()){
 				currentLine = fin.nextLine();
+				int numCommas = 0;
 				int currentChar = 0;
 				while(currentChar < currentLine.length()){
 					if(currentLine.charAt(currentChar) != ','){
@@ -73,27 +74,34 @@ public class Board {
 						//currentChar++;
 					}
 					if(currentLine.charAt(currentChar) == ',' || currentChar == currentLine.length()-1){
+						if(currentLine.charAt(currentChar) == ','){
+							numCommas++;
+						}
 						if(rooms.containsKey(roomInitial.charAt(0))){
 							if(roomInitial.length() == 2 && rooms.containsKey(roomInitial.charAt(0))){
 								if(roomInitial.charAt(1) == 'U' || roomInitial.charAt(1) == 'u'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.UP);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.UP);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'L' || roomInitial.charAt(1) == 'l'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.LEFT);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.LEFT);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'D' || roomInitial.charAt(1) == 'd'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.DOWN);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.DOWN);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'R' || roomInitial.charAt(1) == 'r'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.RIGHT);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT);
 									editBoardPosition();
 									//currentChar++;
+								}
+								else if(roomInitial.charAt(1) == 'N' || roomInitial.charAt(1) == 'n'){
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
+									editBoardPosition();
 								}
 								else{
 									fin.close();
@@ -105,13 +113,13 @@ public class Board {
 								fin.close();
 								throw new BadConfigFormatException("Invalid room identifier at (" + currentRow + "," + currentCol + "). The initial was " + roomInitial.charAt(0) + ".");
 							}
-							else if(roomInitial.length() == 1 && roomInitial != WalkwayInitial){
+							else if(roomInitial.length() == 1 && !roomInitial.equals(WalkwayInitial)){
 								if(!rooms.containsKey(roomInitial.charAt(0))){
 									fin.close();
 									throw new BadConfigFormatException("The character identifier at (" + currentRow + "," + currentCol + ") was invalid (" + roomInitial + ").");
 								}
 								else{
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.NONE);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
 									editBoardPosition();
 								}
 							}
@@ -128,6 +136,10 @@ public class Board {
 						roomInitial = "";
 						}
 					currentChar++;
+				}
+				if(numCommas != numColumns-1){
+					fin.close();
+					throw new BadConfigFormatException("You didn't have enough elements in row " + currentRow);
 				}
 			}
 			
@@ -184,7 +196,7 @@ public class Board {
 				}
 				if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
 					if(board[i-1][j].isDoorway()){
-						if(((RoomCell)board[i-1][j]).getDoorDirection() == DoorDirection.DOWN){
+						if(((RoomCell)board[i-1][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
 							adj.get(board[i][j]).add(board[i-1][j]);
 						}
 					}else{
@@ -193,7 +205,7 @@ public class Board {
 				}
 				if(i < board.length - 1 && (board[i+1][j].isDoorway() || !board[i+1][j].isRoom())){
 					if(board[i+1][j].isDoorway()){
-						if(((RoomCell)board[i+1][j]).getDoorDirection() == DoorDirection.UP){
+						if(((RoomCell)board[i+1][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
 							adj.get(board[i][j]).add(board[i+1][j]);
 						}
 					}else{
@@ -202,7 +214,7 @@ public class Board {
 				}
 				if(j > 0 && (board[i][j-1].isDoorway() || !board[i][j-1].isRoom())){
 					if(board[i][j-1].isDoorway()){
-						if(((RoomCell)board[i][j-1]).getDoorDirection() == DoorDirection.RIGHT){
+						if(((RoomCell)board[i][j-1]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
 							adj.get(board[i][j]).add(board[i][j-1]);
 						}
 					}else{
@@ -211,7 +223,7 @@ public class Board {
 				}
 				if(j < board[i].length - 1 && (board[i][j+1].isDoorway() || !board[i][j+1].isRoom())){
 					if(board[i][j+1].isDoorway()){
-						if(((RoomCell)board[i][j+1]).getDoorDirection() == DoorDirection.LEFT){
+						if(((RoomCell)board[i][j+1]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
 							adj.get(board[i][j]).add(board[i][j+1]);
 						}
 					}
@@ -228,7 +240,7 @@ public class Board {
 		return targets;
 	}
 	
-	public BoardCell getBoardCell(int x, int y){
+	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
 	}
 	

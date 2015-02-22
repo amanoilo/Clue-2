@@ -18,11 +18,7 @@ public class CR_FileInitTests {
 	@BeforeClass
 	public static void setUp(){
 		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
-		try {
-			game.loadConfigFiles();
-		} catch (BadConfigFormatException e) {
-			e.printStackTrace();
-		}
+		game.loadConfigFiles();
 		board = game.getBoard();
 	}
 	@Test
@@ -45,29 +41,29 @@ public class CR_FileInitTests {
 	public void FourDoorDirections(){
 		RoomCell room = board.getRoomCellAt(1,4);
 		assertTrue(room.isDoorway());
-		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
+		assertEquals(RoomCell.DoorDirection.RIGHT, room.getDoorDirection());
 		room = board.getRoomCellAt(14,12);
 		assertTrue(room.isDoorway());
-		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
+		assertEquals(RoomCell.DoorDirection.LEFT, room.getDoorDirection());
 		room = board.getRoomCellAt(4,6);
 		assertTrue(room.isDoorway());
-		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
+		assertEquals(RoomCell.DoorDirection.DOWN, room.getDoorDirection());
 		room = board.getRoomCellAt(15,23);
 		assertTrue(room.isDoorway());
-		assertEquals(DoorDirection.UP, room.getDoorDirection());
+		assertEquals(RoomCell.DoorDirection.UP, room.getDoorDirection());
 		room = board.getRoomCellAt(13,8);
-		assertTrue(room.isDoorway());
+		assertFalse(room.isDoorway());
 	}
 	
 	@Test (expected = BadConfigFormatException.class) 
 	public void testBadColums() throws BadConfigFormatException, FileNotFoundException {
 		ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt");
-		game.loadConfigFiles();
+		game.loadRoomConfig();
 	}
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomsFormat() throws BadConfigFormatException, FileNotFoundException{
 		ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt");
-		game.loadConfigFiles();
+		game.loadRoomConfig();
 	}
 	
 	@Test
