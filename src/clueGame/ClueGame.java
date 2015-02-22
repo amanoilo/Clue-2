@@ -9,8 +9,8 @@ public class ClueGame {
 	private String Config;
 	private String FileID;
 	//Change these based on particular game titles - These determine necessary game values
-	private static final String WALKWAY_NAME = "Blind Eternities"; //Walkway
-	private static final String CLOSET_NAME = "Maelstrom"; //Closet
+	private static final String WALKWAY_NAME = "Walkway"; //These get edited based on the name of the walkway/closet in your legend
+	private static final String CLOSET_NAME = "Closet"; 
 
 	private String WalkwayInitial;
 	private String ClosetInitial;
