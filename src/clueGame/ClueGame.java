@@ -8,6 +8,12 @@ public class ClueGame {
 	private Board board;
 	private String Config;
 	private String FileID;
+	//Change these based on particular game titles - These determine necessary game values
+	private static final String WALKWAY_NAME = "Blind Eternities"; //Walkway
+	private static final String CLOSET_NAME = "Maelstrom"; //Closet
+
+	private String WalkwayInitial;
+	private String ClosetInitial;
 	
 	
 	public void loadConfigFiles() throws BadConfigFormatException{
@@ -40,6 +46,7 @@ public class ClueGame {
 						}
 					}
 					else if(!beforeComma && currentLine.charAt(currentChar) == ','){
+						fin.close();
 						throw new BadConfigFormatException("Encountered two declarations on the same line: " + currentLine);
 					}
 					else{
@@ -48,16 +55,27 @@ public class ClueGame {
 					}
 				}
 				if(roomChar.length() > 1){
+					fin.close();
 					throw new BadConfigFormatException("Your legend file was trying to associate " + roomChar + " with " + roomName +
 							". Only one character is permitted to be identified with a room.");
 				}
 				else{
 					rooms.put(roomChar.charAt(0),roomName);
+					if(roomName.equals(WALKWAY_NAME)){
+						WalkwayInitial = roomChar;
+					}
+					else if(roomName.equals(CLOSET_NAME)){
+						ClosetInitial = roomChar;
+					}
 					beforeComma = true;
 					roomName = "";
 					roomChar = "";
 				}
 			}	
+			if(WalkwayInitial == null || ClosetInitial == null){
+				fin.close();
+				throw new BadConfigFormatException("The legend file did not include any of the indicated walkway and closet names");
+			}
 			fin.close();
 			try{
 				reader.close();
@@ -65,7 +83,7 @@ public class ClueGame {
 				System.out.println("Couldn't close the legend file?");
 			}
 
-			board = new Board(FileID, rooms);
+			board = new Board(FileID, rooms,WalkwayInitial,ClosetInitial);
 		}catch(FileNotFoundException e){
 			System.out.println("Couldn't find that legend file!");
 		}

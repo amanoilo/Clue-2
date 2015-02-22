@@ -8,17 +8,18 @@ public class Board {
 	private Map<Character, String> rooms;
 	private Map<BoardCell, LinkedList<BoardCell>> adj;
 	private Set<BoardCell> targets;
-	
+
+	private String WalkwayInitial;
+	private String ClosetIntial;
 	private int numRows;
 	private int numColumns;
 	private String fileID;
-	private String WalkwayInitial;
 	
 	private int currentRow;
 	private int currentCol;
 	
-	public Board(String fileID, Map<Character, String> rooms) throws BadConfigFormatException {
-		this.rooms = rooms;
+	public Board(String fileID, Map<Character, String> rooms, String WalkwayInitial, String ClosetInitial) throws BadConfigFormatException {
+		this.rooms = new HashMap<Character,String>(rooms);
 		this.fileID = fileID;
 		try{
 			FileReader reader = new FileReader(fileID);
@@ -74,36 +75,39 @@ public class Board {
 					if(currentLine.charAt(currentChar) == ',' || currentChar == currentLine.length()-1){
 						if(rooms.containsKey(roomInitial.charAt(0))){
 							if(roomInitial.length() == 2 && rooms.containsKey(roomInitial.charAt(0))){
-								if(roomInitial.charAt(0) == 'U' || roomInitial.charAt(0) == 'u'){
+								if(roomInitial.charAt(1) == 'U' || roomInitial.charAt(1) == 'u'){
 									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.UP);
 									editBoardPosition();
 									//currentChar++;
 								}
-								else if(roomInitial.charAt(0) == 'L' || roomInitial.charAt(0) == 'l'){
+								else if(roomInitial.charAt(1) == 'L' || roomInitial.charAt(1) == 'l'){
 									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.LEFT);
 									editBoardPosition();
 									//currentChar++;
 								}
-								else if(roomInitial.charAt(0) == 'D' || roomInitial.charAt(0) == 'd'){
+								else if(roomInitial.charAt(1) == 'D' || roomInitial.charAt(1) == 'd'){
 									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.DOWN);
 									editBoardPosition();
 									//currentChar++;
 								}
-								else if(roomInitial.charAt(0) == 'R' || roomInitial.charAt(0) == 'r'){
+								else if(roomInitial.charAt(1) == 'R' || roomInitial.charAt(1) == 'r'){
 									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),DoorDirection.RIGHT);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else{
+									fin.close();
 									throw new BadConfigFormatException("That door had an illegal direction "
 											+ "modifier at position (" + currentRow +"," + currentCol +").");
 								}
 							}
 							else if(!rooms.containsKey(roomInitial.charAt(0))){
+								fin.close();
 								throw new BadConfigFormatException("Invalid room identifier at (" + currentRow + "," + currentCol + "). The initial was " + roomInitial.charAt(0) + ".");
 							}
 							else if(roomInitial.length() == 1 && roomInitial != WalkwayInitial){
 								if(!rooms.containsKey(roomInitial.charAt(0))){
+									fin.close();
 									throw new BadConfigFormatException("The character identifier at (" + currentRow + "," + currentCol + ") was invalid (" + roomInitial + ").");
 								}
 								else{
@@ -117,6 +121,7 @@ public class Board {
 							}
 						}
 						else{
+							fin.close();
 							throw new BadConfigFormatException("The character at position (" + currentRow + "," + currentCol + ") was "
 									+ "not a valid board cell identifier");
 						}
@@ -138,7 +143,7 @@ public class Board {
 	}
 	
 	private void editBoardPosition(){
-		if(currentCol<board[currentRow].length){
+		if(currentCol<board[currentRow].length-1){
 			currentCol++;
 		}
 		else{
@@ -227,12 +232,12 @@ public class Board {
 		return board[x][y];
 	}
 	
-	public RoomCell getRoomCell(int x, int y) throws Exception{
+	public RoomCell getRoomCellAt(int x, int y){
 		if(board[x][y].isRoom()){
 			return (RoomCell)board[x][y];
 		}
 		else{
-			throw new Exception("That cell is not a RoomCell!");
+			return null;
 		}
 	}
 

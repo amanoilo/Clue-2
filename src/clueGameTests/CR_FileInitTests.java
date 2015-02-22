@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class CR_FileInitTests {
 	private static Board board;
-	public static final int NUM_ROOMS = 9;
+	public static final int NUM_ROOMS = 11;
 	public static final int NUM_ROWS = 21;
 	public static final int NUM_COLUMNS = 25;
 	
@@ -43,19 +43,19 @@ public class CR_FileInitTests {
 	}
 	@Test
 	public void FourDoorDirections(){
-		RoomCell room = (RoomCell) board.getBoardCell(1,4);
+		RoomCell room = board.getRoomCellAt(1,4);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
-		room = (RoomCell) board.getBoardCell(14,12);
+		room = board.getRoomCellAt(14,12);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
-		room = (RoomCell) board.getBoardCell(4,6);
+		room = board.getRoomCellAt(4,6);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
-		room = (RoomCell) board.getBoardCell(15,23);
+		room = board.getRoomCellAt(15,23);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.UP, room.getDoorDirection());
-		room = (RoomCell) board.getBoardCell(13,8);
+		room = board.getRoomCellAt(13,8);
 		assertTrue(room.isDoorway());
 	}
 	
@@ -77,8 +77,8 @@ public class CR_FileInitTests {
 		assertEquals(525,numCells);
 		for(int i = 0; i<board.getNumRows(); i++){
 			for(int j = 0; j<board.getNumColumns(); j++){
-				BoardCell bc = board.getBoardCell(i, j);
-				if(bc.isDoorway()){
+				BoardCell bc = board.getRoomCellAt(i, j);
+				if(bc != null && ((RoomCell)bc).isDoorway()){
 					numDoors++;
 				}
 			}
