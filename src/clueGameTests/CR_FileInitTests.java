@@ -17,7 +17,7 @@ public class CR_FileInitTests {
 	
 	@BeforeClass
 	public static void setUp(){
-		ClueGame game = new ClueGame("map/Clue Map.csv", "map/legend.txt");
+		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
 		try {
 			game.loadConfigFiles();
 		} catch (BadConfigFormatException e) {
@@ -61,23 +61,13 @@ public class CR_FileInitTests {
 	
 	@Test (expected = BadConfigFormatException.class) 
 	public void testBadColums() throws BadConfigFormatException, FileNotFoundException {
-<<<<<<< HEAD
-		ClueGame game = new ClueGame("ClueBadMap.csv", "map/legend.txt");
-=======
-		ClueGame game = new ClueGame("map/ClueBadMap.csv", "map/legend.txt");
->>>>>>> 6a0e4b9a14cae072e46e8bb8d0814f2a31423398
+		ClueGame game = new ClueGame("map/ClueBadMap.txt", "map/legend.txt");
 		game.loadConfigFiles();
-		game.getBoard().loadBoardConfig();
 	}
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomsFormat() throws BadConfigFormatException, FileNotFoundException{
-<<<<<<< HEAD
-		ClueGame game = new ClueGame("map/Clue Map.csv", "Badlegend.txt");
-=======
-		ClueGame game = new ClueGame("map/Clue Map.csv", "map/Badlegend.txt");
->>>>>>> 6a0e4b9a14cae072e46e8bb8d0814f2a31423398
+		ClueGame game = new ClueGame("map/Clue Map.txt", "map/Badlegend.txt");
 		game.loadConfigFiles();
-		game.getBoard().loadBoardConfig();
 	}
 	
 	@Test
