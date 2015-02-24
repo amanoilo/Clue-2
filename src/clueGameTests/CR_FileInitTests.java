@@ -52,7 +52,7 @@ public class CR_FileInitTests {
 		assertTrue(room.isDoorway());
 		assertEquals(RoomCell.DoorDirection.UP, room.getDoorDirection());
 		room = board.getRoomCellAt(13,8);
-		assertFalse(room.isDoorway());
+		assertTrue(room == null);
 	}
 	
 	@Test (expected = BadConfigFormatException.class) 
@@ -132,8 +132,8 @@ public class CR_FileInitTests {
 	public void AdjTestRoomNotDoorway16_9(){
 		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(16,9));
 		assertEquals(2, adj.size());
-		assertFalse(adj.contains(board.getCellAt(16,8)));
-		assertFalse(adj.contains(board.getCellAt(16,10)));
+		assertFalse(adj.contains(board.getCellAt(15,9)));
+		assertFalse(adj.contains(board.getCellAt(17,9)));
 	}
 	@Test
 	public void AdjTestRoomNotDoorway6_15(){

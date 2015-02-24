@@ -21,6 +21,8 @@ public class Board {
 	public Board(String fileID, Map<Character, String> rooms, String WalkwayInitial, String ClosetInitial) throws BadConfigFormatException {
 		this.rooms = new HashMap<Character,String>(rooms);
 		this.fileID = fileID;
+		this.WalkwayInitial = WalkwayInitial;
+		this.ClosetIntial = ClosetInitial;
 		try{
 			FileReader reader = new FileReader(fileID);
 			Scanner fin = new Scanner(reader);
@@ -194,40 +196,56 @@ public class Board {
 				if(!adj.containsKey(board[i][j])){
 					adj.put(board[i][j], new LinkedList<BoardCell>()); //if the cell isn't in the map, add it
 				}
-				if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
-					if(board[i-1][j].isDoorway()){
-						if(((RoomCell)board[i-1][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
-							adj.get(board[i][j]).add(board[i-1][j]);
-						}
-					}else{
-						adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
+				if(board[i][j].isDoorway()){
+					if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
+						adj.get(board[i][j]).add(board[i][j-1]);
+					}
+					else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
+						adj.get(board[i][j]).add(board[i-1][j]);
+					}
+					else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
+						adj.get(board[i][j]).add(board[i+1][j]);
+					}
+					else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
+						adj.get(board[i][j]).add(board[i][j+1]);
 					}
 				}
-				if(i < board.length - 1 && (board[i+1][j].isDoorway() || !board[i+1][j].isRoom())){
-					if(board[i+1][j].isDoorway()){
-						if(((RoomCell)board[i+1][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
-							adj.get(board[i][j]).add(board[i+1][j]);
-						}
-					}else{
-						adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
-					}
-				}
-				if(j > 0 && (board[i][j-1].isDoorway() || !board[i][j-1].isRoom())){
-					if(board[i][j-1].isDoorway()){
-						if(((RoomCell)board[i][j-1]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
-							adj.get(board[i][j]).add(board[i][j-1]);
-						}
-					}else{
-						adj.get(board[i][j]).add(board[i][j-1]);//etc
-					}
-				}
-				if(j < board[i].length - 1 && (board[i][j+1].isDoorway() || !board[i][j+1].isRoom())){
-					if(board[i][j+1].isDoorway()){
-						if(((RoomCell)board[i][j+1]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
-							adj.get(board[i][j]).add(board[i][j+1]);
+				else{
+					if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
+						if(board[i-1][j].isDoorway()){
+							if(((RoomCell)board[i-1][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
+								adj.get(board[i][j]).add(board[i-1][j]);
+							}
+						}else{
+							adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
 						}
 					}
-					adj.get(board[i][j]).add(board[i][j+1]);
+					if(i < board.length - 1 && (board[i+1][j].isDoorway() || !board[i+1][j].isRoom())){
+						if(board[i+1][j].isDoorway()){
+							if(((RoomCell)board[i+1][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
+								adj.get(board[i][j]).add(board[i+1][j]);
+							}
+						}else{
+							adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
+						}
+					}
+					if(j > 0 && (board[i][j-1].isDoorway() || !board[i][j-1].isRoom())){
+						if(board[i][j-1].isDoorway()){
+							if(((RoomCell)board[i][j-1]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
+								adj.get(board[i][j]).add(board[i][j-1]);
+							}
+						}else{
+							adj.get(board[i][j]).add(board[i][j-1]);//etc
+						}
+					}
+					if(j < board[i].length - 1 && (board[i][j+1].isDoorway() || !board[i][j+1].isRoom())){
+						if(board[i][j+1].isDoorway()){
+							if(((RoomCell)board[i][j+1]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
+								adj.get(board[i][j]).add(board[i][j+1]);
+							}
+						}
+						adj.get(board[i][j]).add(board[i][j+1]);
+					}
 				}
 			}
 		}
