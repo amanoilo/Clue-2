@@ -190,7 +190,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargetsAlongWalkway10_7_2(){
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(10,7),2);
+		Set<BoardCell> tar = board.calcTargets(board.getCellAt(10,7),2);
 		assertEquals(6,tar.size());
 		assertTrue(tar.contains(board.getCellAt(8,7)));
 		assertTrue(tar.contains(board.getCellAt(9,6)));
@@ -201,7 +201,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargestAlongWalkway10_7_6(){
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(10,7),6);
+		Set<BoardCell> tar = board.calcTargets(board.getCellAt(10,7),6);
 		assertEquals(25,tar.size());
 		assertTrue(tar.contains(board.getCellAt(7,4)));
 		assertTrue(tar.contains(board.getCellAt(6,5)));
@@ -231,7 +231,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargetsAlongWalkway7_0_3(){//also entering a doorway
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(7,0),3);
+		Set<BoardCell> tar = board.calcTargets(board.getCellAt(7,0),3);
 		assertEquals(5,tar.size());
 		assertTrue(tar.contains(board.getCellAt(6,0)));
 		assertTrue(tar.contains(board.getCellAt(8,0)));
@@ -241,7 +241,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargetsAlongWalkway7_0_4(){//also entering a doorway
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(7,0),4);
+		Set<BoardCell> tar = board.calcTargets(board.getCellAt(7,0),4);
 		assertEquals(5,tar.size());
 		assertTrue(tar.contains(board.getCellAt(6,1)));
 		assertTrue(tar.contains(board.getCellAt(7,2)));
@@ -251,7 +251,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargetsAlongWalkway14_12_2(){//also entering a doorway
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(14,12),2);
+		Set<BoardCell> tar = board.calcTargets(board.getCellAt(14,12),2);
 		assertEquals(3,tar.size());
 		assertTrue(tar.contains(board.getCellAt(13,11)));
 		assertTrue(tar.contains(board.getCellAt(15,11)));
@@ -259,7 +259,7 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargetsAlongWalkway14_12_4(){//also entering a doorway
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(14,12),4);
+		Set<BoardCell> tar = board.calcTargets(board.getCellAt(14,12),4);
 		assertEquals(7,tar.size());
 		assertTrue(tar.contains(board.getCellAt(13,13)));
 		assertTrue(tar.contains(board.getCellAt(13,11)));

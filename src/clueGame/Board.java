@@ -50,7 +50,7 @@ public class Board {
 		rooms  = new HashMap<Character,String>();
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		calcAdjacencies();
+		//calcAdjacencies();
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
@@ -234,22 +234,26 @@ public class Board {
 		}
 	}
 	
-	public Set<BoardCell> getTargets(BoardCell start, int moves){
-		targets.clear(); //new targets set for each cell
-		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
-		calcTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
+	public Set<BoardCell> getTargets(){
 		return targets;
 	}
 	
-	public Set<BoardCell> getTargets(int i, int j, int moves){
+	public Set<BoardCell> calcTargets(BoardCell start, int moves){
+		targets.clear(); //new targets set for each cell
+		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
+		findTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
+		return targets;
+	}
+	
+	public Set<BoardCell> calcTargets(int i, int j, int moves){
 		targets.clear(); //new targets set for each cell
 		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
 		BoardCell start = getCellAt(i,j);
-		calcTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
+		findTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
 		return targets;
 	}
 	
-	private void calcTargets(BoardCell start, int moves, Set<BoardCell> Visited){
+	private void findTargets(BoardCell start, int moves, Set<BoardCell> Visited){
 		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
 		if(moves == 0 && !visited.contains(start)){
 			targets.add(start); //If at the end and not a visited place, add the target
@@ -263,7 +267,7 @@ public class Board {
 						targets.add(bc);
 					}
 					else{
-						calcTargets(bc, moves-1, visited); //continue the path chain
+						findTargets(bc, moves-1, visited); //continue the path chain
 					}
 				}
 			}
