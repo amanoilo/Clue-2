@@ -8,13 +8,6 @@ public class ClueGame {
 	private Board board;
 	private String Config;
 	private String FileID;
-	//Change these based on particular game titles - These determine necessary game values
-	private static final String WALKWAY_NAME = "Blind Eternities"; //These get edited based on the name of the walkway/closet in your legend
-	private static final String CLOSET_NAME = "Maelstrom"; 
-
-	private String WalkwayInitial;
-	private String ClosetInitial;
-	
 	
 	public void loadConfigFiles(){
 		FileReader reader = null;
@@ -61,20 +54,14 @@ public class ClueGame {
 				}
 				else{
 					rooms.put(roomChar.charAt(0),roomName);
-					if(roomName.equals(WALKWAY_NAME)){
-						WalkwayInitial = roomChar;
-					}
-					else if(roomName.equals(CLOSET_NAME)){
-						ClosetInitial = roomChar;
-					}
 					beforeComma = true;
 					roomName = "";
 					roomChar = "";
 				}
 			}	
-			if(WalkwayInitial == null || ClosetInitial == null){
+			if(!rooms.containsKey('W')){
 				fin.close();
-				throw new BadConfigFormatException("The legend file did not include any of the indicated walkway and closet names");
+				throw new BadConfigFormatException("The legend file did not include any w as an initial, indicating there are no valid walkways.");
 			}
 			fin.close();
 			try{
@@ -83,7 +70,7 @@ public class ClueGame {
 				System.out.println("Couldn't close the legend file?");
 			}
 
-			board = new Board(FileID, rooms, WalkwayInitial, ClosetInitial);
+			board = new Board(FileID, rooms);
 		}catch(FileNotFoundException e){
 			System.out.println("Couldn't find that legend file!");
 		}catch(BadConfigFormatException e){
@@ -135,20 +122,14 @@ public class ClueGame {
 				}
 				else{
 					rooms.put(roomChar.charAt(0),roomName);
-					if(roomName.equals(WALKWAY_NAME)){
-						WalkwayInitial = roomChar;
-					}
-					else if(roomName.equals(CLOSET_NAME)){
-						ClosetInitial = roomChar;
-					}
 					beforeComma = true;
 					roomName = "";
 					roomChar = "";
 				}
 			}	
-			if(WalkwayInitial == null || ClosetInitial == null){
+			if(!rooms.containsKey('w')){
 				fin.close();
-				throw new BadConfigFormatException("The legend file did not include any of the indicated walkway and closet names");
+				throw new BadConfigFormatException("The legend file did not include any w as an initial, indicating there are no valid walkways.");
 			}
 			fin.close();
 			try{
@@ -157,7 +138,7 @@ public class ClueGame {
 				System.out.println("Couldn't close the legend file?");
 			}
 
-			board = new Board(FileID, rooms,WalkwayInitial,ClosetInitial);
+			board = new Board(FileID, rooms);
 	}
 	
 	public Board getBoard(){

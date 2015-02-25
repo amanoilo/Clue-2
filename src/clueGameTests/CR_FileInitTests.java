@@ -30,7 +30,7 @@ public class CR_FileInitTests {
 		assertEquals("Alara", rooms.get('a'));
 		assertEquals("Kamigawa", rooms.get('k'));
 		assertEquals("Shandalar", rooms.get('s'));
-		assertEquals("Blind Eternities", rooms.get('x'));
+		assertEquals("Blind Eternities", rooms.get('w'));
 	}
 	@Test
 	public void testBoardDimentions(){

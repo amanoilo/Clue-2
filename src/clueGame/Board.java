@@ -9,8 +9,7 @@ public class Board {
 	private Map<BoardCell, LinkedList<BoardCell>> adj;
 	private Set<BoardCell> targets;
 
-	private String WalkwayInitial;
-	private String ClosetIntial;
+	private final String WalkwayInitial = "W";
 	private int numRows;
 	private int numColumns;
 	private String fileID;
@@ -18,11 +17,9 @@ public class Board {
 	private int currentRow;
 	private int currentCol;
 	
-	public Board(String fileID, Map<Character, String> rooms, String WalkwayInitial, String ClosetInitial) throws BadConfigFormatException {
+	public Board(String fileID, Map<Character, String> rooms) throws BadConfigFormatException {
 		this.rooms = new HashMap<Character,String>(rooms);
 		this.fileID = fileID;
-		this.WalkwayInitial = WalkwayInitial;
-		this.ClosetIntial = ClosetInitial;
 		try{
 			FileReader reader = new FileReader(fileID);
 			Scanner fin = new Scanner(reader);
@@ -170,6 +167,10 @@ public class Board {
 		return adj.get(cell); //refer to the map we made earlier
 	}
 	
+	public LinkedList<BoardCell> getAdjList(int i, int j){
+		return adj.get(getCellAt(i,j));
+	}
+	
 	public void calcAdjacencies(){
 		for(int i = 0; i < board.length; i++){
 			for(int j = 0; j < board[i].length; j++){
@@ -190,7 +191,7 @@ public class Board {
 						adj.get(board[i][j]).add(board[i][j+1]);
 					}
 				}
-				else{
+				else if(!board[i][j].isRoom()){
 					if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
 						if(board[i-1][j].isDoorway()){
 							if(((RoomCell)board[i-1][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
@@ -240,10 +241,18 @@ public class Board {
 		return targets;
 	}
 	
+	public Set<BoardCell> getTargets(int i, int j, int moves){
+		targets.clear(); //new targets set for each cell
+		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
+		BoardCell start = getCellAt(i,j);
+		calcTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
+		return targets;
+	}
+	
 	private void calcTargets(BoardCell start, int moves, Set<BoardCell> Visited){
 		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
-		if(moves == 0){
-			if(!visited.contains(start)) targets.add(start); //If at the end and not a visited place, add the target
+		if(moves == 0 && !visited.contains(start)){
+			targets.add(start); //If at the end and not a visited place, add the target
 		}
 		else{
 			if(!visited.contains(start)){ //check if you've been here before
