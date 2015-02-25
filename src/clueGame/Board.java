@@ -166,26 +166,6 @@ public class Board {
 		}
 	}
 	
-	private void calcTargets(BoardCell start, int moves, Set<BoardCell> Visited){
-		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
-		if(moves == 0){
-			if(!visited.contains(start)) targets.add(start); //If at the end and not a visited place, add the target
-		}
-		else{
-			if(!visited.contains(start)){ //check if you've been here before
-				visited.add(start); //if not, add the current position
-				for(BoardCell bc : getAdjList(start)){ //add all cells in the adjacency list
-					if(bc.isDoorway()){
-						targets.add(bc);
-					}
-					else{
-						calcTargets(bc, moves-1, visited); //continue the path chain
-					}
-				}
-			}
-		}
-	}
-	
 	public LinkedList<BoardCell> getAdjList(BoardCell cell){
 		return adj.get(cell); //refer to the map we made earlier
 	}
@@ -244,7 +224,9 @@ public class Board {
 								adj.get(board[i][j]).add(board[i][j+1]);
 							}
 						}
-						adj.get(board[i][j]).add(board[i][j+1]);
+						else{
+							adj.get(board[i][j]).add(board[i][j+1]);
+						}
 					}
 				}
 			}
@@ -256,6 +238,27 @@ public class Board {
 		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
 		calcTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
 		return targets;
+	}
+	
+	private void calcTargets(BoardCell start, int moves, Set<BoardCell> Visited){
+		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
+		if(moves == 0){
+			if(!visited.contains(start)) targets.add(start); //If at the end and not a visited place, add the target
+		}
+		else{
+			if(!visited.contains(start)){ //check if you've been here before
+				visited.add(start); //if not, add the current position
+				LinkedList<BoardCell> a = getAdjList(start);
+				for(BoardCell bc : a){ //add all cells in the adjacency list
+					if(bc.isDoorway() && !visited.contains(bc)){
+						targets.add(bc);
+					}
+					else{
+						calcTargets(bc, moves-1, visited); //continue the path chain
+					}
+				}
+			}
+		}
 	}
 	
 	public BoardCell getCellAt(int x, int y){

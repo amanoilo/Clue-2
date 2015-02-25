@@ -132,8 +132,8 @@ public class CR_FileInitTests {
 	public void AdjTestRoomNotDoorway16_9(){
 		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(16,9));
 		assertEquals(2, adj.size());
-		assertFalse(adj.contains(board.getCellAt(15,9)));
-		assertFalse(adj.contains(board.getCellAt(17,9)));
+		assertFalse(adj.contains(board.getCellAt(16,8)));
+		assertFalse(adj.contains(board.getCellAt(16,10)));
 	}
 	@Test
 	public void AdjTestRoomNotDoorway6_15(){
@@ -201,7 +201,7 @@ public class CR_FileInitTests {
 	}
 	@Test
 	public void TargestAlongWalkway10_7_6(){
-		Set<BoardCell> tar = board.getTargets(board.getCellAt(10,7),2);
+		Set<BoardCell> tar = board.getTargets(board.getCellAt(10,7),6);
 		assertEquals(25,tar.size());
 		assertTrue(tar.contains(board.getCellAt(7,4)));
 		assertTrue(tar.contains(board.getCellAt(6,5)));
@@ -242,7 +242,8 @@ public class CR_FileInitTests {
 	@Test
 	public void TargetsAlongWalkway7_0_4(){//also entering a doorway
 		Set<BoardCell> tar = board.getTargets(board.getCellAt(7,0),4);
-		assertEquals(4,tar.size());
+		assertEquals(5,tar.size());
+		assertTrue(tar.contains(board.getCellAt(6,1)));
 		assertTrue(tar.contains(board.getCellAt(7,2)));
 		assertTrue(tar.contains(board.getCellAt(8,0)));
 		assertTrue(tar.contains(board.getCellAt(6,3)));
