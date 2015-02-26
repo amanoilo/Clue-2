@@ -131,6 +131,7 @@ public class CR_FileInitTests {
 	@Test
 	public void AdjTestRoomNotDoorway16_9(){
 		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(16,9));
+		assertTrue(board.getCellAt(16, 9).isWalkway());
 		assertEquals(2, adj.size());
 		assertFalse(adj.contains(board.getCellAt(15,9)));
 		assertFalse(adj.contains(board.getCellAt(17,9)));
@@ -144,7 +145,7 @@ public class CR_FileInitTests {
 	@Test
 	public void AdjTestContainsDoorway14_11(){
 		LinkedList<BoardCell> adj = board.getAdjList(board.getCellAt(14,11));
-		assertEquals(4,adj.size());
+		assertTrue(board.getCellAt(14, 11).isWalkway());
 		assertTrue(adj.contains(board.getCellAt(14,12)));
 		assertTrue(adj.contains(board.getCellAt(14,10)));
 		assertTrue(adj.contains(board.getCellAt(13,11)));
@@ -202,6 +203,7 @@ public class CR_FileInitTests {
 	@Test
 	public void TargestAlongWalkway10_7_6(){
 		Set<BoardCell> tar = board.getTargets(board.getCellAt(10,7),2);
+		assertTrue(board.getCellAt(10, 7).isWalkway());
 		assertEquals(25,tar.size());
 		assertTrue(tar.contains(board.getCellAt(7,4)));
 		assertTrue(tar.contains(board.getCellAt(6,5)));
@@ -242,6 +244,7 @@ public class CR_FileInitTests {
 	@Test
 	public void TargetsAlongWalkway7_0_4(){//also entering a doorway
 		Set<BoardCell> tar = board.getTargets(board.getCellAt(7,0),4);
+		assertTrue(board.getCellAt(7, 5).isWalkway());
 		assertEquals(4,tar.size());
 		assertTrue(tar.contains(board.getCellAt(7,2)));
 		assertTrue(tar.contains(board.getCellAt(8,0)));
@@ -251,6 +254,7 @@ public class CR_FileInitTests {
 	@Test
 	public void TargetsAlongWalkway14_12_2(){//also entering a doorway
 		Set<BoardCell> tar = board.getTargets(board.getCellAt(14,12),2);
+		assertTrue(board.getCellAt(14, 12).isDoorway());
 		assertEquals(3,tar.size());
 		assertTrue(tar.contains(board.getCellAt(13,11)));
 		assertTrue(tar.contains(board.getCellAt(15,11)));
@@ -259,6 +263,7 @@ public class CR_FileInitTests {
 	@Test
 	public void TargetsAlongWalkway14_12_4(){//also entering a doorway
 		Set<BoardCell> tar = board.getTargets(board.getCellAt(14,12),4);
+		assertTrue(board.getCellAt(14, 12).isDoorway());
 		assertEquals(7,tar.size());
 		assertTrue(tar.contains(board.getCellAt(13,13)));
 		assertTrue(tar.contains(board.getCellAt(13,11)));
