@@ -20,6 +20,7 @@ public class ClueGame_Tests {
 		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
+		board.calcAdjacencies();
 	}
 	@Test
 	public void testRooms(){
@@ -30,7 +31,7 @@ public class ClueGame_Tests {
 		assertEquals("Alara", rooms.get('a'));
 		assertEquals("Kamigawa", rooms.get('k'));
 		assertEquals("Shandalar", rooms.get('s'));
-		assertEquals("Blind Eternities", rooms.get('w'));
+		assertEquals("Blind Eternities", rooms.get('W'));
 	}
 	@Test
 	public void testBoardDimentions(){

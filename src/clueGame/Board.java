@@ -50,7 +50,6 @@ public class Board {
 		rooms  = new HashMap<Character,String>();
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		//calcAdjacencies();
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
