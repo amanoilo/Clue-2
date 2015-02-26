@@ -127,7 +127,7 @@ public class ClueGame {
 					roomChar = "";
 				}
 			}	
-			if(!rooms.containsKey('w')){
+			if(!rooms.containsKey('W')){
 				fin.close();
 				throw new BadConfigFormatException("The legend file did not include any w as an initial, indicating there are no valid walkways.");
 			}
