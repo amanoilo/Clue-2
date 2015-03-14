@@ -13,6 +13,21 @@ public class ClueGame {
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;
 	
+	public void createPlayers()
+	{
+		
+	}
+	
+	public void createCards()
+	{
+		
+	}
+	
+	public void distributeCards()
+	{
+		
+	}
+	
 	public void selectAnswer()
 	{
 		
