@@ -9,6 +9,29 @@ public class ClueGame {
 	private String Config;
 	private String FileID;
 	
+	//******************* NEW **********************
+	private ArrayList<Card> gameCards;
+	private ArrayList<Player> gamePlayers;
+	
+	public void selectAnswer()
+	{
+		
+	}
+	
+	public void handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
+	{
+		
+	}
+	
+	public boolean checkAccusation(Solution solution)
+	{
+		
+		return true;
+	}
+	  
+	  
+	//******************* NEW **********************
+	
 	public void loadConfigFiles(){
 		FileReader reader = null;
 		Scanner fin = null;
