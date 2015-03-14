@@ -16,7 +16,8 @@ public class ClueGame_Tests {
 	public static final int NUM_COLUMNS = 25;
 	
 	@BeforeClass
-	public static void setUp(){
+	public static void setUp()
+	{
 		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
