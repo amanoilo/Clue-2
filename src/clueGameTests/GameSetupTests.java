@@ -25,9 +25,9 @@ public class GameSetupTests {
 	@Test
 	public void loadPeople()
 	{
-		HumanPlayer human1 = new HumanPlayer();
-		ComputerPlayer comp1 = new ComputerPlayer();
-		ComputerPlayer comp5 = new ComputerPlayer();
+		HumanPlayer human1 = new HumanPlayer("Nicol Bolas", "Blue");
+		ComputerPlayer comp1 = new ComputerPlayer("Ugin", "Red");
+		ComputerPlayer comp5 = new ComputerPlayer("Karn", "Black");
 
 		
 		game.createPlayers();

@@ -14,7 +14,7 @@ public class ClueGame {
 	//******************* NEW **********************
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;
-	private int numPlayers;	//player names are: Nicol Bolas, Ugin, Sorin, Urza, Jace, Karn
+	private int numPlayers;	//player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private int numWeapons; //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.		
 	private int numRooms;	//rooms are: Maelstrom, Innistrad, Zendikar, Ravnica, Alara, Mirrodin, Phyrexia, Dominaria, Kamigawa, Shandalar	
 	private int deckSize;
@@ -22,6 +22,7 @@ public class ClueGame {
 	public void createPlayers()		//player colors go: blue, red, teal, pink, white, black
 	{								
 		//assign names to Players from player file
+		
 		
 		
 	}

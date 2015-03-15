@@ -12,12 +12,14 @@ public class Player {
 	private boolean human;
 	private BoardCell location;
 	
-	Player(String name, String color, boolean human)
+	
+	public Player(String name, String color, boolean human)
 	{
 		this.name = name;
 		this.color = color;
 		this.human = human;
 	}
+	
 	public Card disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
 		return playerCards.get(0);
