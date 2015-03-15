@@ -126,8 +126,6 @@ public class ClueGame {
 				gameCards.add(new Card(CardType.ROOM, rooms.get(c)));		 
 		}
 		
-		System.out.println(gameCards.size());
-		
 		// create player cards
 		for (Player p : gamePlayers)
 		{
@@ -135,16 +133,12 @@ public class ClueGame {
 			
 		}
 		
-		System.out.println(gameCards.size());
-		
 		// create weapon cards
 		for (String s : gameWeapons)
 		{
 			gameCards.add(new Card(CardType.WEAPON, s));
 			
 		}
-		
-		System.out.println(gameCards.size());
 		
 		// Shuffles the deck
 		Collections.shuffle(gameCards);
