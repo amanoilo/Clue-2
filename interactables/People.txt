@@ -1,6 +1,6 @@
-Jon
-Mary
-Carl
-Bjorn Bjornson
-Alabama
-Chet
+Hank Fleck, blue, 6, 0
+Mary Duworth, red, 0, 12
+Carl Baghdad, cyan, 0, 19
+Bjorn Bjornson, pink, 11, 24
+Alabama Leibinowitz, white, 20, 15
+Chet Brown, black, 0, 15

@@ -25,30 +25,29 @@ public class GameSetupTests {
 	@Test
 	public void loadPeople()
 	{
-		HumanPlayer human1 = new HumanPlayer("Nicol Bolas", Color.blue);
-		ComputerPlayer comp1 = new ComputerPlayer("Ugin", Color.red);
-		ComputerPlayer comp5 = new ComputerPlayer("Karn", Color.black);
+		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
+		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
+		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
 
-		
 		game.createPlayers();
 		
 		assertEquals(game.getPlayers(), 6);
 		
 		
 		//Test Names
-		assertEquals(human1.getName(), "Nicol Bolas");
-		assertEquals(comp1.getName(), "Ugin");
-		assertEquals(comp5.getName(), "Karn");
+		assertEquals(human1.getName(), "Hank Fleck");
+		assertEquals(comp1.getName(), "Mary Duworth");
+		assertEquals(comp5.getName(), "Chet Brown");
 		
 		//Test Colors
-		assertEquals(human1.getColor(), "Blue");
-		assertEquals(comp1.getColor(), "Red");
-		assertEquals(comp5.getColor(), "Black");
+		assertEquals(human1.getColor(), Color.blue);
+		assertEquals(comp1.getColor(), Color.red);
+		assertEquals(comp5.getColor(), Color.black);
 		
 		//Test Start Locations
 		assertEquals(human1.getLocation(), board.getCellAt(6, 0));
 		assertEquals(comp1.getLocation(), board.getCellAt(0, 12));
-		assertEquals(comp5.getLocation(), board.getCellAt(22, 15));
+		assertEquals(comp5.getLocation(), board.getCellAt(0, 15));
 	}
 	
 	@Test

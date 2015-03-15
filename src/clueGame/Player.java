@@ -12,6 +12,13 @@ public class Player {
 	private boolean human;
 	private BoardCell location;
 	
+	public Player(String name, Color color, BoardCell location, boolean human)
+	{
+		this.name = name;
+		this.color = color;
+		this.location = location;
+		this.human = human;
+	}
 	
 	public Player(String name, Color color, boolean human)
 	{

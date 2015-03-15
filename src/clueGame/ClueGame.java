@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.awt.Color;
 import java.awt.Color.*;
@@ -14,7 +15,6 @@ public class ClueGame {
 	
 	//******************* NEW **********************
 	
-	private static List<Color> gameColors = Arrays.asList(Color.blue, Color.red, Color.cyan, Color.pink, Color.white, Color.black);
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;
 	private int numPlayers;	//player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
@@ -25,22 +25,38 @@ public class ClueGame {
 	public void createPlayers()		//player colors go: blue, red, teal, pink, white, black
 	{								
 		//assign names to Players from player file
+		
+		gamePlayers = new ArrayList<Player>();
 		BufferedReader reader;
-		String player;
+		String line = "";
+		String delimiter = ",";
+		
 		int playerCount = 0;
 		
 		try 
 		{
 			reader = new BufferedReader(new FileReader("interactables/People.txt"));
 			
-			while ((player = reader.readLine()) != null) 
+			while ((line = reader.readLine()) != null) 
 			{
-				if (playerCount == 0) gamePlayers.add(new HumanPlayer(player, Color.BLUE));
-				else gamePlayers.add(new HumanPlayer(player, Color.BLUE));
+				
+				// use comma as separator
+				String[] data = line.split(delimiter);
+				if (data.length != 4) throw new BadConfigFormatException(". Invalid format on people file. Error in createPlayers()");
+				
+				String player = data[0];
+				String strColor = data[1].trim();
+				int row = Integer.parseInt(data[2].trim());
+				int col = Integer.parseInt(data[3].trim());
+
+				if (playerCount == 0) gamePlayers.add(new HumanPlayer(player, convertColor(strColor), board.getCellAt(row, col)));
+				else gamePlayers.add(new ComputerPlayer(player, convertColor(strColor), board.getCellAt(row, col)));
 				
 				playerCount++;
 			}
 			
+			
+			// reader.close();
 			
 		}
 		// Swallowing exceptions and other poorly thought out things
@@ -51,8 +67,24 @@ public class ClueGame {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
+		numPlayers = playerCount;
+	}
+	
+	public Color convertColor(String strColor) {
+		Color color; 
+		try {     
+			// We can use reflection to convert the string to a color
+			Field field = Class.forName("java.awt.Color").getField(strColor.trim());     
+			color = (Color)field.get(null); } 
+		catch (Exception e) {  
+			color = null; // Not defined 
+		}
+		return color;
 	}
 	
 	public void createDeck()
