@@ -1,10 +1,12 @@
 package clueGame;
 import java.io.*;
 import java.util.*;
+
 import clueGame.BoardCell.*;
+
 import java.awt.Color;
 
-public class Player {
+public abstract class Player {
 	
 	private String name;
 	private Color color;
@@ -28,9 +30,29 @@ public class Player {
 		this.human = human;
 	}
 	
-	public Card disprove(String personGuess, String roomGuess, String weaponGuess)
+	public boolean disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
-		return playerCards.get(0);
+		for (Card c : playerCards)
+		{
+			if (c.getName() == personGuess || c.getName() == roomGuess || c.getName() == weaponGuess) 
+				return true; 
+		}
+		return false;
+	}
+	
+	public boolean disprove(Solution s)
+	{
+		for (Card c : playerCards)
+		{
+			if (c.getName() == s.getPerson() || c.getName() == s.getRoom() || c.getName() == s.getWeapon()) 
+				return true; 
+		}
+		return false;
+	}
+	
+	public Solution makeAccusation(String personGuess, String roomGuess, String weaponGuess)
+	{
+		return null;
 	}
 	
 	public String getName()
@@ -56,5 +78,10 @@ public class Player {
 	public ArrayList<Card> getCards()
 	{
 		return playerCards;	
+	}
+	
+	public boolean isHuman() 
+	{ 
+		return human; 
 	}
 }

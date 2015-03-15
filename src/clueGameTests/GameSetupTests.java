@@ -93,9 +93,10 @@ public class GameSetupTests {
 		// assertTrue(game.getDeckSize() == 0);
 
 		// check that all players have roughly the same number of cards
-		assertEquals(game.getPlayer(0).getCards().size(), 4);
-		assertEquals(game.getPlayer(1).getCards().size(), 4);
-		assertEquals(game.getPlayer(2).getCards().size(), 4);
+		// should be a total of 18 (21 - 3 cards taken for solution)
+		assertEquals(game.getPlayer(0).getCards().size(), 3);
+		assertEquals(game.getPlayer(1).getCards().size(), 3);
+		assertEquals(game.getPlayer(2).getCards().size(), 3);
 		assertEquals(game.getPlayer(3).getCards().size(), 3);
 		assertEquals(game.getPlayer(4).getCards().size(), 3);
 		assertEquals(game.getPlayer(5).getCards().size(), 3);
@@ -136,6 +137,53 @@ public class GameSetupTests {
 		assertTrue(human1.getCards().contains(c1));
 		assertTrue(comp1.getCards().contains(c2));
 		assertTrue(comp5.getCards().contains(c3));
+	}
+	
+	@Test
+	public void testAccusations()
+	{
+		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
+		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
+		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
+		
+		Solution solution = new Solution("Bjorn Bjornson", "Pen", "Shandalar");
+		Solution accusationH1, accusationC1, accusationC5;
+		
+		// Tests correct solution
+		accusationH1 = human1.makeAccusation("Bjorn Bjornson", "Pen", "Shandalar");
+		accusationC1 = comp1.makeAccusation("Bjorn Bjornson", "Pen", "Shandalar");
+		accusationC5 = comp5.makeAccusation("Bjorn Bjornson", "Pen", "Shandalar");
+		
+		assertEquals(solution.compareTo(accusationH1), 1);
+		assertEquals(solution.compareTo(accusationC1), 1);
+		assertEquals(solution.compareTo(accusationC5), 1);
+		
+		// Tests solution with wrong person
+		accusationH1 = human1.makeAccusation("Chet Brown", "Pen", "Shandalar");
+		accusationC1 = comp1.makeAccusation("Chet Brown", "Pen", "Shandalar");
+		accusationC5 = comp5.makeAccusation("Chet Brown", "Pen", "Shandalar");
+		
+		assertEquals(solution.compareTo(accusationH1), 0);
+		assertEquals(solution.compareTo(accusationC1), 0);
+		assertEquals(solution.compareTo(accusationC5), 0);
+		
+		// Tests solution with wrong weapon
+		accusationH1 = human1.makeAccusation("Bjorn Bjornson", "Heartbreak", "Shandalar");
+		accusationC1 = comp1.makeAccusation("Bjorn Bjornson", "Heartbreak", "Shandalar");
+		accusationC5 = comp5.makeAccusation("Bjorn Bjornson", "Heartbreak", "Shandalar");
+		
+		assertEquals(solution.compareTo(accusationH1), 0);
+		assertEquals(solution.compareTo(accusationC1), 0);
+		assertEquals(solution.compareTo(accusationC5), 0);
+		
+		// Tests solution with wrong room
+		accusationH1 = human1.makeAccusation("Bjorn Bjornson", "Pen", "Innistrad");
+		accusationC1 = comp1.makeAccusation("Bjorn Bjornson", "Pen", "Innistrad");
+		accusationC5 = comp5.makeAccusation("Bjorn Bjornson", "Pen", "Innistrad");
+		
+		assertEquals(solution.compareTo(accusationH1), 0);
+		assertEquals(solution.compareTo(accusationC1), 0);
+		assertEquals(solution.compareTo(accusationC5), 0);
 	}
 
 }

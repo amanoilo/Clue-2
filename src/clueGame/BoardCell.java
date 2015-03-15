@@ -21,5 +21,4 @@ public abstract class BoardCell {
 	public boolean isDoorway(){
 		return false;
 	}
-	
 }

@@ -15,6 +15,7 @@ public class ClueGame {
 
 	//******************* NEW **********************
 
+	private Solution solution;
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
@@ -151,6 +152,9 @@ public class ClueGame {
 
 	public void distributeCards()
 	{
+		// removes 3 cards from deck
+		selectAnswer();
+		
 		int index = 0;
 		for (Card c : gameCards)
 		{
@@ -161,18 +165,48 @@ public class ClueGame {
 
 	public void selectAnswer()
 	{
-
+		ArrayList<Card> temp = new ArrayList<Card>(gameCards);
+		String person, weapon, room;
+		person = weapon = room = "";
+		
+		for (Card c : gameCards)
+		{
+			if (c.getType() == CardType.PERSON && person.equals(""))
+			{
+				person = c.getName();
+				temp.remove(c);
+			}
+			
+			if (c.getType() == CardType.WEAPON && weapon.equals(""))
+			{
+				weapon = c.getName();
+				temp.remove(c);
+			}
+			
+			if (c.getType() == CardType.ROOM && room.equals(""))
+			{
+				room = c.getName();
+				temp.remove(c);
+			}
+		}
+		gameCards = new ArrayList<Card>(temp);
+		solution = new Solution(person, weapon, room);
 	}
 
 	public void handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
 	{
-
+		
+	}
+	
+	public void handleSuggestion(Solution s)
+	{
+		
 	}
 
 	public boolean checkAccusation(Solution solution)
 	{
-
-		return true;
+		if (this.solution == solution) return true;
+		return false;
 	}
 
 	public int getPlayerQuantity()
