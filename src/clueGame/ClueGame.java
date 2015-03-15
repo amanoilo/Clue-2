@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.*;
 import java.util.*;
+import java.awt.Color.*;
 
 public class ClueGame {
 	private Map<Character, String> rooms;
@@ -20,7 +21,8 @@ public class ClueGame {
 	
 	public void createPlayers()		//player colors go: blue, red, teal, pink, white, black
 	{								
-									
+		//assign names to Players from player file
+		
 		
 	}
 	
