@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.*;
 import java.util.*;
+import java.awt.Color;
 import java.awt.Color.*;
 
 public class ClueGame {
@@ -12,6 +13,8 @@ public class ClueGame {
 	
 	
 	//******************* NEW **********************
+	
+	private static List<Color> gameColors = Arrays.asList(Color.blue, Color.red, Color.cyan, Color.pink, Color.white, Color.black);
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;
 	private int numPlayers;	//player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
@@ -22,8 +25,33 @@ public class ClueGame {
 	public void createPlayers()		//player colors go: blue, red, teal, pink, white, black
 	{								
 		//assign names to Players from player file
+		BufferedReader reader;
+		String player;
+		int playerCount = 0;
 		
-		
+		try 
+		{
+			reader = new BufferedReader(new FileReader("interactables/People.txt"));
+			
+			while ((player = reader.readLine()) != null) 
+			{
+				if (playerCount == 0) gamePlayers.add(new HumanPlayer(player, Color.BLUE));
+				else gamePlayers.add(new HumanPlayer(player, Color.BLUE));
+				
+				playerCount++;
+			}
+			
+			
+		}
+		// Swallowing exceptions and other poorly thought out things
+		catch (FileNotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

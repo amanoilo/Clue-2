@@ -1,11 +1,11 @@
 package clueGameTests;
 
+import java.awt.Color;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import clueGame.Board;
-import clueGame.ClueGame;
+import static org.junit.Assert.*;
 import clueGame.*;
 
 
@@ -25,9 +25,9 @@ public class GameSetupTests {
 	@Test
 	public void loadPeople()
 	{
-		HumanPlayer human1 = new HumanPlayer("Nicol Bolas", "Blue");
-		ComputerPlayer comp1 = new ComputerPlayer("Ugin", "Red");
-		ComputerPlayer comp5 = new ComputerPlayer("Karn", "Black");
+		HumanPlayer human1 = new HumanPlayer("Nicol Bolas", Color.blue);
+		ComputerPlayer comp1 = new ComputerPlayer("Ugin", Color.red);
+		ComputerPlayer comp5 = new ComputerPlayer("Karn", Color.black);
 
 		
 		game.createPlayers();

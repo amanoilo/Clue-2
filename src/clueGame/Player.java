@@ -7,13 +7,13 @@ import java.awt.Color;
 public class Player {
 	
 	private String name;
-	private String color;
+	private Color color;
 	private ArrayList<Card> playerCards;
 	private boolean human;
 	private BoardCell location;
 	
 	
-	public Player(String name, String color, boolean human)
+	public Player(String name, Color color, boolean human)
 	{
 		this.name = name;
 		this.color = color;
@@ -30,7 +30,7 @@ public class Player {
 		return name;
 	}
 	
-	public String getColor()
+	public Color getColor()
 	{
 		return color;
 	}
