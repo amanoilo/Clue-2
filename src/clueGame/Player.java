@@ -52,7 +52,8 @@ public abstract class Player {
 	
 	public Solution makeAccusation(String personGuess, String roomGuess, String weaponGuess)
 	{
-		return null;
+		Solution accusation = new Solution(personGuess, roomGuess, weaponGuess);
+		return accusation;
 	}
 	
 	public String getName()
