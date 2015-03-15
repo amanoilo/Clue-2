@@ -154,7 +154,7 @@ public class ClueGame {
 		int index = 0;
 		for (Card c : gameCards)
 		{
-			gamePlayers.get(index % gamePlayers.size()).receiveCard(c);
+			gamePlayers.get(index % gamePlayers.size()).giveCard(c);
 			index++;
 		}
 	}
@@ -175,18 +175,18 @@ public class ClueGame {
 		return true;
 	}
 
-	public int getPlayers()
+	public int getPlayerQuantity()
 	{
 		return gamePlayers.size();
 	}
 
-	public int getRooms()
+	public int getRoomQuantity()
 	{
 		// returns size of rooms, but removes hallways ("blind eternities") and closet ("maelstrom")
 		return rooms.size() - 2;
 	}
 
-	public int getWeapons()
+	public int getWeaponQuantity()
 	{
 		return gameWeapons.size();
 	}

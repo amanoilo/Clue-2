@@ -48,8 +48,13 @@ public class Player {
 		return location;
 	}
 	
-	public void receiveCard(Card card)
+	public void giveCard(Card card)
 	{
 		playerCards.add(card);
+	}
+	
+	public ArrayList<Card> getCards()
+	{
+		return playerCards;	
 	}
 }
