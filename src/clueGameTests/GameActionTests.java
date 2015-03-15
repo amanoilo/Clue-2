@@ -12,12 +12,14 @@ import org.junit.Test;
 
 public class GameActionTests {
 	private static Board board;
-
+	private static ClueGame game;
+	private static Solution solution;
 	@BeforeClass
 	public static void setUp()
 	{
-		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
+		game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
 		game.loadConfigFiles();
+		solution = new Solution("Nicol Bolas", "Endless Breadsticks", "Shalandar");
 		board = game.getBoard();
 		board.calcAdjacencies();
 	}
