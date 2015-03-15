@@ -36,14 +36,14 @@ public class GameSetupTests {
 		
 		
 		//Test Names
-		assertEquals(human1.getName(), "Jon");
-		assertEquals(comp1.getName(), "Mary");
-		assertEquals(comp5.getName(), "Chet");
+		assertEquals(human1.getName(), "Nicol Bolas");
+		assertEquals(comp1.getName(), "Ugin");
+		assertEquals(comp5.getName(), "Karn");
 		
 		//Test Colors
 		assertEquals(human1.getColor(), "Blue");
-		assertEquals(Comp1.getColor(), "Red");
-		assertEquals(Comp5.getColor(), "Black");
+		assertEquals(comp1.getColor(), "Red");
+		assertEquals(comp5.getColor(), "Black");
 		
 		//Test Start Locations
 		assertEquals(human1.getLocation(), board.getCellAt(6, 0));
@@ -52,8 +52,9 @@ public class GameSetupTests {
 	}
 	
 	@Test
-	public void loadCards()
+	public void loadCards_distributeCards()
 	{
+		game.createDeck();
 		//check amount of cards
 		assertTrue(game.getDeckSize() == 21);
 		
@@ -62,12 +63,24 @@ public class GameSetupTests {
 		assertTrue(game.getPlayers() == 6);
 		assertTrue(game.getRooms() == 9);
 		
+		//check that the deck has these cards
+		assertTrue(game.deckContains("Nicol Bolas"));
+		assertTrue(game.deckContains("Endless Breadsticks"));
+		assertTrue(game.deckContains("Shandalar"));
+		
+		//dealing tests
+		game.distributeCards();
+		assertTrue(game.getDeckSize() == 0);
+		/*fill in here
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		
+		
+		
 		
 	}
-	
-	@Test
-	public void dealCards()
-	{
-		
-	}
+
 }

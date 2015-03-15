@@ -9,13 +9,18 @@ public class ClueGame {
 	private String Config;
 	private String FileID;
 	
+	
 	//******************* NEW **********************
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;
-	
+	private int numPlayers;	//player names are: Nicol Bolas, Ugin, Sorin, Urza, Jace, Karn
+	private int numWeapons; //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.		
+	private int numRooms;	//rooms are: Maelstrom, Innistrad, Zendikar, Ravnica, Alara, Mirrodin, Phyrexia, Dominaria, Kamigawa, Shandalar	
+	private int deckSize;
 	
 	public void createPlayers()		//player colors go: blue, red, teal, pink, white, black
-	{								//player names go: Jon, Mary, Bjorn Bjornson, Alabama, Chet
+	{								
+									
 		
 	}
 	
@@ -45,8 +50,33 @@ public class ClueGame {
 		return true;
 	}
 	  
+	public int getPlayers()
+	{
+		return numPlayers;
+	}
 	  
-	//******************* NEW **********************
+	public int getRooms()
+	{
+		return numRooms;
+	}
+	
+	public int getWeapons()
+	{
+		return numWeapons;
+	}
+	
+	public int getDeckSize()
+	{
+		return deckSize;
+	}
+	
+	public boolean deckContains(String CardName)
+	{
+		return false;
+	}
+	
+	
+	//******************* END NEW **********************
 	
 	public void loadConfigFiles(){
 		FileReader reader = null;
