@@ -1,6 +1,7 @@
 package clueGameTests;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,14 +26,13 @@ public class GameSetupTests {
 	@Test
 	public void loadPeople()
 	{
-		// test constructors
+		// set up for constructor tests
 		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
 		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
 		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
 
-		// test creatPlayers() method
+		// set up for creatPlayers() tests
 		game.createPlayers();
-		
 		assertEquals(game.getPlayers(), 6);
 		
 		
@@ -56,7 +56,6 @@ public class GameSetupTests {
 		assertEquals(game.getPlayer(1).getColor(), Color.red);
 		assertEquals(game.getPlayer(5).getColor(), Color.black);
 		
-		
 		//Test Start Locations for Constructors
 		assertEquals(human1.getLocation(), board.getCellAt(6, 0));
 		assertEquals(comp1.getLocation(), board.getCellAt(0, 12));
@@ -73,20 +72,21 @@ public class GameSetupTests {
 	{
 		game.createDeck();
 		//check amount of cards
-		assertTrue(game.getDeckSize() == 21);
+		assertEquals(21, game.getDeckSize());
 		
 		//check amount of each CardType
-		assertTrue(game.getWeapons() == 6);
-		assertTrue(game.getPlayers() == 6);
-		assertTrue(game.getRooms() == 9);
+		assertEquals(6, game.getWeapons());
+		assertEquals(6, game.getPlayers());
+		assertEquals(9, game.getRooms());
 		
 		//check that the deck has these cards
-		assertTrue(game.deckContains("Nicol Bolas"));
+		assertTrue(game.deckContains("Hank Fleck"));
 		assertTrue(game.deckContains("Endless Breadsticks"));
 		assertTrue(game.deckContains("Shandalar"));
 		
 		//dealing tests
 		game.distributeCards();
+		
 		assertTrue(game.getDeckSize() == 0);
 		/*fill in here
 		 * 

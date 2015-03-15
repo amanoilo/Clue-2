@@ -14,6 +14,7 @@ public class Player {
 	
 	public Player(String name, Color color, BoardCell location, boolean human)
 	{
+		playerCards = new ArrayList<Card>();
 		this.name = name;
 		this.color = color;
 		this.location = location;
@@ -45,5 +46,10 @@ public class Player {
 	public BoardCell getLocation()
 	{
 		return location;
+	}
+	
+	public void receiveCard(Card card)
+	{
+		playerCards.add(card);
 	}
 }
