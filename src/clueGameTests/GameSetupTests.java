@@ -2,6 +2,7 @@ package clueGameTests;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import clueGame.Board;
 import clueGame.ClueGame;
@@ -24,21 +25,43 @@ public class GameSetupTests {
 	@Test
 	public void loadPeople()
 	{
-		ComputerPlayer human1 = new HumanPlayer();
+		HumanPlayer human1 = new HumanPlayer();
 		ComputerPlayer comp1 = new ComputerPlayer();
 		ComputerPlayer comp5 = new ComputerPlayer();
 
 		
 		game.createPlayers();
 		
-		AssertTrue(game.getPlayers(), 6);
+		assertEquals(game.getPlayers(), 6);
 		
 		
+		//Test Names
+		assertEquals(human1.getName(), "Jon");
+		assertEquals(comp1.getName(), "Mary");
+		assertEquals(comp5.getName(), "Chet");
+		
+		//Test Colors
+		assertEquals(human1.getColor(), "Blue");
+		assertEquals(Comp1.getColor(), "Red");
+		assertEquals(Comp5.getColor(), "Black");
+		
+		//Test Start Locations
+		assertEquals(human1.getLocation(), board.getCellAt(6, 0));
+		assertEquals(comp1.getLocation(), board.getCellAt(0, 12));
+		assertEquals(comp5.getLocation(), board.getCellAt(22, 15));
 	}
 	
 	@Test
 	public void loadCards()
 	{
+		//check amount of cards
+		assertTrue(game.getDeckSize() == 21);
+		
+		//check amount of each CardType
+		assertTrue(game.getWeapons() == 6);
+		assertTrue(game.getPlayers() == 6);
+		assertTrue(game.getRooms() == 9);
+		
 		
 	}
 	

@@ -13,12 +13,13 @@ public class ClueGame {
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;
 	
-	public void createPlayers()
-	{
+	
+	public void createPlayers()		//player colors go: blue, red, teal, pink, white, black
+	{								//player names go: Jon, Mary, Bjorn Bjornson, Alabama, Chet
 		
 	}
 	
-	public void createCards()
+	public void createDeck()
 	{
 		
 	}
