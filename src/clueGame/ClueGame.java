@@ -133,6 +133,12 @@ public class ClueGame {
 		return deckSize;
 	}
 	
+	public Player getPlayer(int n)
+	{
+		return gamePlayers.get(n);
+		
+	}
+	
 	public boolean deckContains(String CardName)
 	{
 		return false;
