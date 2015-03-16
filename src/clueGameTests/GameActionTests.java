@@ -89,7 +89,7 @@ public class GameActionTests {
 		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
-		BoardCell start, end;
+		BoardCell start;
 		Set<BoardCell> targets;
 		ComputerPlayer comp1;
 		
@@ -97,19 +97,23 @@ public class GameActionTests {
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(6, 0));
 		comp1.setLastRoomVisited('k');
 		start = board.getCellAt(6, 0);
-		end = board.getCellAt(8, 0);
 		targets = board.calcTargets(start, 2);
 		comp1.pickLocation(targets);
-		((RoomCell)end).getDoorDirection();
 		
-		assertEquals(((RoomCell)end).getDoorDirection(), DoorDirection.UP);
+		assertEquals(((RoomCell)comp1.getLocation()).getDoorDirection(), DoorDirection.UP);
 		
 		// Tests when a room is nearby but has already been visited
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(15, 3));
 		comp1.setLastRoomVisited('d');
-		start = board.getCellAt(15, 3);
-		targets = board.calcTargets(start, 5);
+		start = board.getCellAt(15, 6);
+		targets = board.calcTargets(start, 2);
 		comp1.pickLocation(targets);
+		
+		for (int i = 0; i < targets.size(); i++)
+		{
+			comp1.pickLocation(targets);
+			assertFalse(comp1.getLocation().isDoorway());
+		}
 		
 		// Tests when no room is nearby
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(15, 3));
@@ -124,28 +128,28 @@ public class GameActionTests {
 	public void testTargetRandomSelection() {
 	ComputerPlayer player = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(6, 0));
 	// Pick a location with no rooms in target, just three targets
-	board.calcTargets(10, 8, 2);
-	int loc_12_0Tot = 0;
-	int loc_14_2Tot = 0;
-	int loc_15_1Tot = 0;
+	board.calcTargets(0, 12, 2);
+	int loc_0_10Tot = 0;
+	int loc_2_12Tot = 0;
+	int loc_1_11Tot = 0;
 	// Run the test 100 times
 	for (int i=0; i<100; i++) {
 		BoardCell selected = player.pickLocation(board.getTargets());
-		if (selected == board.getCellAt(12, 0))
-			loc_12_0Tot++;
-		else if (selected == board.getCellAt(14, 2))
-			loc_14_2Tot++;
-		else if (selected == board.getCellAt(15, 1))
-			loc_15_1Tot++;
+		if (selected == board.getCellAt(0, 10))
+			loc_0_10Tot++;
+		else if (selected == board.getCellAt(2, 12))
+			loc_2_12Tot++;
+		else if (selected == board.getCellAt(1, 11))
+			loc_1_11Tot++;
 		else
 			fail("Invalid target selected");
 	}
 	// Ensure we have 100 total selections (fail should also ensure)
-	assertEquals(100, loc_12_0Tot + loc_14_2Tot + loc_15_1Tot);
+	assertEquals(100, loc_0_10Tot + loc_2_12Tot + loc_1_11Tot);
 	// Ensure each target was selected more than once
-	assertTrue(loc_12_0Tot > 10);
-	assertTrue(loc_14_2Tot > 10);
-	assertTrue(loc_15_1Tot > 10);							
+	assertTrue(loc_0_10Tot > 10);
+	assertTrue(loc_2_12Tot > 10);
+	assertTrue(loc_1_11Tot > 10);							
 }
 	
 	@Test

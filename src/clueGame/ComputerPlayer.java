@@ -30,7 +30,7 @@ public class ComputerPlayer extends Player{
 		
 		// if no rooms exist, find a random square from the targets list
 		int size = targets.size();
-		int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
+		int item = new Random().nextInt(size);
 		int i = 0;
 		
 		for(BoardCell b : targets)
@@ -41,7 +41,7 @@ public class ComputerPlayer extends Player{
 		    	return getLocation();
 		    }
 		        
-		    i = i + 1;
+		    i++;
 		}
 		
 		return null;
