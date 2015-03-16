@@ -70,6 +70,15 @@ public class GameActionTests {
 		assertEquals(solution.compareTo(accusationH1), 0);
 		assertEquals(solution.compareTo(accusationC1), 0);
 		assertEquals(solution.compareTo(accusationC5), 0);
+		
+		// Tests solution with everything wrong
+		accusationH1 = human1.makeAccusation("Chet Brown", "Heartbreak", "Innistrad");
+		accusationC1 = comp1.makeAccusation("Chet Brown", "Heartbreak", "Innistrad");
+		accusationC5 = comp5.makeAccusation("Chet Brown", "Heartbreak", "Innistrad");
+		
+		assertEquals(solution.compareTo(accusationH1), 0);
+		assertEquals(solution.compareTo(accusationC1), 0);
+		assertEquals(solution.compareTo(accusationC5), 0);
 	}
 	
 	@Test
