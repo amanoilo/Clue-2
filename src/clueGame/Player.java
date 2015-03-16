@@ -71,6 +71,11 @@ public abstract class Player {
 		return location;
 	}
 	
+	public void setLocation(BoardCell location)
+	{
+		this.location = location;
+	}
+	
 	public void giveCard(Card card)
 	{
 		playerCards.add(card);
