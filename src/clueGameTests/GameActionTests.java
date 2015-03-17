@@ -158,6 +158,13 @@ public class GameActionTests {
 	public void disproveSugggestion()
 	{
 		
+		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
+		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
+		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
+		Solution suggestion;
+		
+		
+		
 	}
 	
 	@Test
