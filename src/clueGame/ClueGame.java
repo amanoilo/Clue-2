@@ -192,9 +192,9 @@ public class ClueGame {
 		
 	}
 	
-	public void handleSuggestion(Solution s)
+	public Card handleSuggestion(Solution s)
 	{
-		
+		return null;
 	}
 
 	public boolean checkAccusation(Solution solution)
