@@ -29,10 +29,12 @@ public class GameActionTests {
 	@Test
 	public void checkAccusation()
 	{
+		// set up players for accusation tests
 		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
 		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
 		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
 		
+		// create a correct solution
 		Solution solution = new Solution("Bjorn Bjornson", "Pen", "Shandalar");
 		Solution accusationH1, accusationC1, accusationC5;
 		

@@ -70,7 +70,9 @@ public class GameSetupTests {
 	@Test
 	public void loadCards_distributeCards()
 	{
+		// create the deck
 		game.createDeck();
+		
 		//check amount of cards
 		assertEquals(21, game.getDeckSize());
 
@@ -87,11 +89,6 @@ public class GameSetupTests {
 		//dealing tests
 		game.distributeCards();
 
-		// distributeCards algorithm does not remove cards from the
-		// Arraylist after it "deals" it because it isn't necessary
-		// so I commented out this test
-		// assertTrue(game.getDeckSize() == 0);
-
 		// check that all players have roughly the same number of cards
 		// should be a total of 18 (21 - 3 cards taken for solution)
 		assertEquals(game.getPlayer(0).getCards().size(), 3);
@@ -101,9 +98,9 @@ public class GameSetupTests {
 		assertEquals(game.getPlayer(4).getCards().size(), 3);
 		assertEquals(game.getPlayer(5).getCards().size(), 3);
 
-		// elaborate test to see if two players received the same cards
+		// test to see if two players received the same cards
 		// only checks adjacent players because a more comprehensive
-		// test would require far too much computation time
+		// test would be overkill
 		ArrayList<Card> a1;
 		ArrayList<Card> a2;
 		
@@ -121,7 +118,7 @@ public class GameSetupTests {
 			}
 		}
 		
-		// tests for the methods themselves
+		// tests the methods themselves
 		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
 		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
 		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
@@ -130,6 +127,7 @@ public class GameSetupTests {
 		Card c2 = new Card(CardType.WEAPON, "Heartbreak");;
 		Card c3 = new Card(CardType.ROOM, "Zendikar");;
 		
+		// check giveCard method to ensure cards are received by player objects
 		human1.giveCard(c1);
 		comp1.giveCard(c2);
 		comp5.giveCard(c3);
