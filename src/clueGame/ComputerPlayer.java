@@ -9,6 +9,7 @@ public class ComputerPlayer extends Player{
 
 	private char lastRoomVisited;
 	private ArrayList<Card> seenCards;
+	private ArrayList<Card> possibleChoices;
 
 	public ComputerPlayer(String name, Color color, BoardCell location)
 	{
@@ -74,4 +75,10 @@ public class ComputerPlayer extends Player{
 	{
 		return lastRoomVisited;
 	}
+	
+	public void setPossibleChoices(ArrayList<Card> possibleChoices)
+	{
+		this.possibleChoices = possibleChoices;
+	}
+	
 }

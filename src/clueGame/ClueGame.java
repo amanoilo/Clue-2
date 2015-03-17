@@ -37,7 +37,6 @@ public class ClueGame {
 
 			while ((line = reader.readLine()) != null) 
 			{
-
 				// use comma as separator
 				String[] data = line.split(delimiter);
 				if (data.length != 4) throw new BadConfigFormatException(". Invalid format on people file. Error in createPlayers()");
@@ -52,10 +51,7 @@ public class ClueGame {
 
 				playerCount++;
 			}
-
-
 			// reader.close();
-
 		}
 		// Swallowing exceptions and other poorly thought out things
 		catch (FileNotFoundException e) 
@@ -142,6 +138,12 @@ public class ClueGame {
 		
 		// Shuffles the deck
 		Collections.shuffle(gameCards);
+		
+		// Gives each computer player a copy of the deck to use as reference
+		for (Player p : gamePlayers)
+		{
+			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(gameCards);
+		}
 	}
 
 	public void distributeCards()

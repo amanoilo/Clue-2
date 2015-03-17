@@ -202,8 +202,18 @@ public class GameActionTests {
 	}
 
 	@Test
+	public void possibleChoices()
+	{
+		// Test to ensure all computer players have a private "possible choices"
+		// arrayList of all of the cards in play
+		
+		
+	}
+	@Test
 	public void makeSuggestion()
 	{
+		
+
 		
 	}
 }
