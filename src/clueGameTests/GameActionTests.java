@@ -175,30 +175,30 @@ public class GameActionTests {
 
 		// Test that suggestion is disproved by a computer with the person card
 		suggestion = new Solution("Mary Duworth", "Pen", "Kamigawa");
-		result = game.handleSuggestion(suggestion);
+		result = game.handleSuggestion(suggestion, game.getPlayer(0));
 		assertTrue(result.getName() == "Mary Duworth");
 
 		// Test that suggestion is disproved by a computer with the weapon card
 		
 		suggestion = new Solution("Hank Fleck", "Heartbreak", "Kamigawa");
-		result = game.handleSuggestion(suggestion);
+		result = game.handleSuggestion(suggestion, game.getPlayer(0));
 		assertTrue(result.getName() == "Heartbreak");
 
 		// Test that suggestion is disproved by a computer with the room card
 		suggestion = new Solution("Hank Fleck", "Pen", "Zendikar");
-		result = game.handleSuggestion(suggestion);
+		result = game.handleSuggestion(suggestion, game.getPlayer(0));
 		assertTrue(result.getName() == "Zendikar");
 
 		// Test that suggestion is disproved by a computer with multiple cards
+		// Computer will choose first card found that is a match
 		suggestion = new Solution("Mary Duworth", "Pen", "Zendikar");
-		result = game.handleSuggestion(suggestion);
+		result = game.handleSuggestion(suggestion, game.getPlayer(0));
 		assertTrue(result.getName() == "Mary Duworth" || result.getName() == "Zendikar");
 
 		// Test that suggestion is not disproved
 		suggestion = new Solution("Hank Fleck", "Pen", "Kamigawa");
-		result = game.handleSuggestion(suggestion);
+		result = game.handleSuggestion(suggestion, game.getPlayer(0));
 		assertTrue(result == null);
-
 	}
 
 	@Test

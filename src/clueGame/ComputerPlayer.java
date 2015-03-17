@@ -7,12 +7,14 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player{
 
-	private char lastRoomVisited = '\0';
-	private ArrayList<String> seenCards;
+	private char lastRoomVisited;
+	private ArrayList<Card> seenCards;
 
 	public ComputerPlayer(String name, Color color, BoardCell location)
 	{
 		super(name, color, location, false);
+		lastRoomVisited = '\0';
+		seenCards = new ArrayList<Card>();
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets)
@@ -58,9 +60,9 @@ public class ComputerPlayer extends Player{
 		return suggestion;
 	}
 
-	public void updateSeen()
+	public void updateSeen(Card card)
 	{
-
+		seenCards.add(card);
 	}
 	
 	public void setLastRoomVisited(char lastRoomVisited)

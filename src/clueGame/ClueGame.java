@@ -187,35 +187,41 @@ public class ClueGame {
 		solution = new Solution(person, weapon, room);
 	}
 
-	public void handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
+	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
 	{
-		
+		Solution solution = new Solution(personGuess, roomGuess, weaponGuess);
+		return handleSuggestion(solution, accuser);
 	}
 	
-	public Card handleSuggestion(Solution s)
-	{
-//		for (Player p : gamePlayers)
-//		{
-//			for (Card c : p.getCards())
-//			{
-//				if(p.getCards().contains(s.getPerson()) || p.getCards().contains(s.getWeapon()) || p.getCards().contains(s.getRoom()) )
-//					return c;
-//			}
-//			
-//		}
-//		return null;
-		
-		for (Player p : gamePlayers)
+	// NOTE: debating whether having an accuser even matters.
+	// It currently uses the information to not check the 
+	// accuser's hand, but that may not be the correct way
+	// of doing things. The accuser may guess cards in
+	// their own hand, after all. 
+	public Card handleSuggestion(Solution s, Player accuser)
+	{	
+		ArrayList<Player> tempPlayerList = new ArrayList<Player>(gamePlayers);
+		tempPlayerList.remove(accuser);
+		Card evidence = null;
+		for (Player p : tempPlayerList)
 		{
 			for (Card c : p.getCards())
 			{
 				if(c.getName() == s.getPerson() || c.getName() == s.getWeapon() || c.getName() == s.getRoom())
-					return c;
-			}
-			
+					evidence = c;
+			}	
 		}
-		return null;
 		
+		if (evidence != null) updateSeen(evidence);
+		
+		return evidence;	
+	}
+
+	private void updateSeen(Card card) {
+		for (Player p : gamePlayers)
+		{
+			if(!p.isHuman()) ((ComputerPlayer)p).updateSeen(card);
+		}
 		
 	}
 
