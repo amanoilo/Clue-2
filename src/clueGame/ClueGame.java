@@ -194,7 +194,29 @@ public class ClueGame {
 	
 	public Card handleSuggestion(Solution s)
 	{
+//		for (Player p : gamePlayers)
+//		{
+//			for (Card c : p.getCards())
+//			{
+//				if(p.getCards().contains(s.getPerson()) || p.getCards().contains(s.getWeapon()) || p.getCards().contains(s.getRoom()) )
+//					return c;
+//			}
+//			
+//		}
+//		return null;
+		
+		for (Player p : gamePlayers)
+		{
+			for (Card c : p.getCards())
+			{
+				if(c.getName() == s.getPerson() || c.getName() == s.getWeapon() || c.getName() == s.getRoom())
+					return c;
+			}
+			
+		}
 		return null;
+		
+		
 	}
 
 	public boolean checkAccusation(Solution solution)

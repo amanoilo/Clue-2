@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player{
 
-	private char lastRoomVisited;
+	private char lastRoomVisited = '\0';
 	private ArrayList<String> seenCards;
 
 	public ComputerPlayer(String name, Color color, BoardCell location)
@@ -21,7 +21,7 @@ public class ComputerPlayer extends Player{
 		for (BoardCell b : targets)
 		{
 			// visit that location, if it has not already been visited
-			if (b.isRoom() && ((RoomCell)b).getInitial() != lastRoomVisited) 
+			if (b.isDoorway() && ((RoomCell)b).getInitial() != lastRoomVisited) 
 			{
 				setLocation(b);
 				return getLocation();
@@ -35,7 +35,7 @@ public class ComputerPlayer extends Player{
 		
 		for(BoardCell b : targets)
 		{
-		    if (i == item)
+		    if (i == item && !b.isDoorway())
 		    {
 		    	setLocation(b);
 		    	return getLocation();

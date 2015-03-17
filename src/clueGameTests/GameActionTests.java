@@ -109,7 +109,6 @@ public class GameActionTests {
 		comp1.setLastRoomVisited('d');
 		start = board.getCellAt(15, 6);
 		targets = board.calcTargets(start, 2);
-		comp1.pickLocation(targets);
 
 		for (int i = 0; i < targets.size(); i++)
 		{
@@ -123,7 +122,6 @@ public class GameActionTests {
 		start = board.getCellAt(10, 8);
 		targets = board.calcTargets(start, 2);
 		comp1.pickLocation(targets);
-
 	}
 
 	@Test
@@ -181,6 +179,7 @@ public class GameActionTests {
 		assertTrue(result.getName() == "Mary Duworth");
 
 		// Test that suggestion is disproved by a computer with the weapon card
+		
 		suggestion = new Solution("Hank Fleck", "Heartbreak", "Kamigawa");
 		result = game.handleSuggestion(suggestion);
 		assertTrue(result.getName() == "Heartbreak");

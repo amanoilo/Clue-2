@@ -23,13 +23,6 @@ public abstract class Player {
 		this.human = human;
 	}
 	
-	public Player(String name, Color color, boolean human)
-	{
-		this.name = name;
-		this.color = color;
-		this.human = human;
-	}
-	
 	public boolean disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
 		for (Card c : playerCards)
