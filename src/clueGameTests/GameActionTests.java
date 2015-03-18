@@ -204,8 +204,12 @@ public class GameActionTests {
 	@Test
 	public void possibleChoices()
 	{
-		// Test to ensure all computer players have a private "possible choices"
-		// arrayList of all of the cards in play
+		game.createDeck();
+		//game.distributeCards();
+		Card card = new Card(CardType.PERSON, "Mary Duworth");
+		
+		// test that computers have their own copy of the available in-game cards to cross-reference
+		// game.getPlayer(0).
 		
 		
 	}
@@ -214,16 +218,57 @@ public class GameActionTests {
 	{
 		game.createDeck();
 		game.distributeCards();
-		
-		
+		ArrayList<Card> possibleChoices, seenCards;
+		String roomName;
 		ComputerPlayer comp1;
 		Solution suggestion; 
+		Card seenCard;
 		
 		// Tests that computer suggests the room they are in
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
-		suggestion = comp1.createSuggestion();
+		roomName = board.getRooms().get(board.getCellAt(5, 3));
+		suggestion = comp1.createSuggestion(roomName);
+		assertEquals("Shandalar" ,suggestion.getRoom());
 		
-		// Tests that computer suggests 
+		// Tests that computer suggests a valid player
+		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		roomName = board.getRooms().get(board.getCellAt(5, 3));
+		seenCard = new Card(CardType.PERSON, "Bjorn Bjornson");
+		comp1.updateSeen(seenCard);
+		
+		for(int i = 0; i < 100; i++)
+		{
+			suggestion = comp1.createSuggestion(roomName);
+			assertTrue(suggestion.getPerson() != "Bjorn Bjornson");
+		}
+		
+		// Tests that computer suggests a valid weapon
+		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		roomName = board.getRooms().get(board.getCellAt(5, 3));
+		seenCard = new Card(CardType.WEAPON, "Sword");
+		comp1.updateSeen(seenCard);
+		
+		for(int i = 0; i < 100; i++)
+		{
+			suggestion = comp1.createSuggestion(roomName);
+			assertTrue(suggestion.getWeapon() != "Sword");
+		}
+		
+		// Tests that computer suggests valid room, player, and weapon
+		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		roomName = board.getRooms().get(board.getCellAt(5, 3));
+		seenCard = new Card(CardType.PERSON, "Bjorn Bjornson");
+		comp1.updateSeen(seenCard);
+		seenCard = new Card(CardType.WEAPON, "Sword");
+		comp1.updateSeen(seenCard);
+		
+		for(int i = 0; i < 100; i++)
+		{
+			suggestion = comp1.createSuggestion(roomName);
+			assertEquals("Shandalar" ,suggestion.getRoom());
+			assertTrue(suggestion.getPerson() != "Bjorn Bjornson");
+			assertTrue(suggestion.getWeapon() != "Sword");
+		}
 		
 	}
 }

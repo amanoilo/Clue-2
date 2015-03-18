@@ -50,12 +50,19 @@ public class ComputerPlayer extends Player{
 		return null;
 	}
 
-	public Solution createSuggestion()
+	public Solution createSuggestion(String roomName)
 	{
-		String roomName = ""; 
+		for(Card choice : possibleChoices)
+		{
+			for (Card seenCard : seenCards)
+			{
+				// if choice
+				
+			}
+			
+		}
 
-		// if (getLocation().isRoom()) room
-
+		
 		Solution suggestion = new Solution(roomName, "blah", "blah");		
 
 		return suggestion;
@@ -81,4 +88,8 @@ public class ComputerPlayer extends Player{
 		this.possibleChoices = possibleChoices;
 	}
 	
+	public ArrayList<Card> getPossibleChoices()
+	{
+		return possibleChoices;
+	}
 }

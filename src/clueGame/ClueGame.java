@@ -115,12 +115,7 @@ public class ClueGame {
 		createPlayers();
 		createWeapons();
 		
-		// create room cards
-		for (char c : rooms.keySet())
-		{
-			if (c != 'y' && c != 'W')
-				gameCards.add(new Card(CardType.ROOM, rooms.get(c)));		 
-		}
+
 		
 		// create player cards
 		for (Player p : gamePlayers)
@@ -136,14 +131,25 @@ public class ClueGame {
 			
 		}
 		
-		// Shuffles the deck
-		Collections.shuffle(gameCards);
-		
 		// Gives each computer player a copy of the deck to use as reference
+		// room cards excluded because computers can only guess the room 
+		// they are currently in
 		for (Player p : gamePlayers)
 		{
 			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(gameCards);
 		}
+		
+		// create room cards
+		for (char c : rooms.keySet())
+		{
+			if (c != 'y' && c != 'W')
+				gameCards.add(new Card(CardType.ROOM, rooms.get(c)));		 
+		}
+		
+		// Shuffles the deck
+		Collections.shuffle(gameCards);
+		
+
 	}
 
 	public void distributeCards()
