@@ -85,10 +85,7 @@ public class ComputerPlayer extends Player{
 			if (c.getType() == CardType.WEAPON) weaponName = c.getName();
 			
 		}
-		
-		Solution suggestion = new Solution(roomName, personName, weaponName);		
-
-		return suggestion;
+		return new Solution(personName, weaponName, roomName);	
 	}
 
 	public void updateSeen(Card card)
