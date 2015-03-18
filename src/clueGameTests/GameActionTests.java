@@ -212,8 +212,18 @@ public class GameActionTests {
 	@Test
 	public void makeSuggestion()
 	{
+		game.createDeck();
+		game.distributeCards();
 		
-
+		
+		ComputerPlayer comp1;
+		Solution suggestion; 
+		
+		// Tests that computer suggests the room they are in
+		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		suggestion = comp1.createSuggestion();
+		
+		// Tests that computer suggests 
 		
 	}
 }
