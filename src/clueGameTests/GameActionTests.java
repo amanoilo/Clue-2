@@ -224,6 +224,8 @@ public class GameActionTests {
 		Solution suggestion; 
 		Card seenCard;
 		
+		possibleChoices = ((ComputerPlayer)game.getPlayer(1)).getPossibleChoices();
+		
 		// Tests that computer suggests the room they are in
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
 		roomName = board.getRooms().get(board.getCellAt(5, 3));
@@ -232,6 +234,7 @@ public class GameActionTests {
 		
 		// Tests that computer suggests a valid player
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		comp1.setPossibleChoices(possibleChoices);
 		roomName = board.getRooms().get(board.getCellAt(5, 3));
 		seenCard = new Card(CardType.PERSON, "Bjorn Bjornson");
 		comp1.updateSeen(seenCard);
@@ -244,6 +247,7 @@ public class GameActionTests {
 		
 		// Tests that computer suggests a valid weapon
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		comp1.setPossibleChoices(possibleChoices);
 		roomName = board.getRooms().get(board.getCellAt(5, 3));
 		seenCard = new Card(CardType.WEAPON, "Sword");
 		comp1.updateSeen(seenCard);
@@ -256,6 +260,7 @@ public class GameActionTests {
 		
 		// Tests that computer suggests valid room, player, and weapon
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
+		comp1.setPossibleChoices(possibleChoices);
 		roomName = board.getRooms().get(board.getCellAt(5, 3));
 		seenCard = new Card(CardType.PERSON, "Bjorn Bjornson");
 		comp1.updateSeen(seenCard);

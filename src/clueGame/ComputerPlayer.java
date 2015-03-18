@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ public class ComputerPlayer extends Player{
 		super(name, color, location, false);
 		lastRoomVisited = '\0';
 		seenCards = new ArrayList<Card>();
+		possibleChoices = new ArrayList<Card>();
 	}
 
 	public BoardCell pickLocation(Set<BoardCell> targets)
@@ -52,18 +54,39 @@ public class ComputerPlayer extends Player{
 
 	public Solution createSuggestion(String roomName)
 	{
+		// suggestions will be populated with all  
+		// valid person and weapon suggestions
+		ArrayList<Card> suggestions = new ArrayList<Card>();
+		String personName = "";
+		String weaponName = "";
+		
 		for(Card choice : possibleChoices)
 		{
+			boolean seen = false;
 			for (Card seenCard : seenCards)
 			{
-				// if choice
-				
+				if (choice.getName() == seenCard.getName()) 
+				{
+					seen = true;
+					break;
+				}
 			}
 			
+			if (!seen) suggestions.add(choice);
 		}
-
 		
-		Solution suggestion = new Solution(roomName, "blah", "blah");		
+		// shuffles the suggestions
+		Collections.shuffle(suggestions);
+		
+		// find the first person and weapon in the suggestions list
+		for (Card c : suggestions)
+		{
+			if (c.getType() == CardType.PERSON) personName = c.getName();
+			if (c.getType() == CardType.WEAPON) weaponName = c.getName();
+			
+		}
+		
+		Solution suggestion = new Solution(roomName, personName, weaponName);		
 
 		return suggestion;
 	}
