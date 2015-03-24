@@ -19,8 +19,8 @@ public class RoomCell extends BoardCell {
 		}
 	}
 	
-	public RoomCell(int r, int c, char initial, DoorDirection d){
-		super(r,c);
+	public RoomCell(int r, int c, int pwidth, int pheight, char initial, DoorDirection d){
+		super(r,c, pwidth, pheight);
 		roomInitial = initial;
 		doorDirection = d;
 	}

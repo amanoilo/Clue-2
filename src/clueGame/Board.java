@@ -3,7 +3,12 @@ package clueGame;
 import java.io.*;
 import java.util.*;
 
-public class Board {
+import javax.swing.*;
+
+public class Board extends JPanel
+{
+	private static final int scaleFactor = 25;
+	private int width, height;   
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
 	private Map<BoardCell, LinkedList<BoardCell>> adj;
@@ -50,6 +55,9 @@ public class Board {
 		rooms  = new HashMap<Character,String>();
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
+		
+		width = numColumns * scaleFactor;
+		height = numRows * scaleFactor; 
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
@@ -78,27 +86,27 @@ public class Board {
 						if(rooms.containsKey(roomInitial.charAt(0))){
 							if(roomInitial.length() == 2 && rooms.containsKey(roomInitial.charAt(0))){
 								if(roomInitial.charAt(1) == 'U' || roomInitial.charAt(1) == 'u'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.UP);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.UP);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'L' || roomInitial.charAt(1) == 'l'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.LEFT);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.LEFT);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'D' || roomInitial.charAt(1) == 'd'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.DOWN);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.DOWN);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'R' || roomInitial.charAt(1) == 'r'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'N' || roomInitial.charAt(1) == 'n'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
 									editBoardPosition();
 								}
 								else{
@@ -117,12 +125,12 @@ public class Board {
 									throw new BadConfigFormatException("The character identifier at (" + currentRow + "," + currentCol + ") was invalid (" + roomInitial + ").");
 								}
 								else{
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol,roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
 									editBoardPosition();
 								}
 							}
 							else{
-								board[currentRow][currentCol] = new WalkWayCell(currentRow,currentCol);
+								board[currentRow][currentCol] = new WalkWayCell(currentRow, currentCol, scaleFactor, scaleFactor);
 								editBoardPosition();
 							}
 						}
