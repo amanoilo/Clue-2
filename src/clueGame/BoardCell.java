@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Graphics;
+
 public abstract class BoardCell 
 {
 	
@@ -32,8 +34,5 @@ public abstract class BoardCell
 		return false;
 	}
 	
-	public void drawCell() 
-	{
-		
-	}
+	public abstract void draw(Graphics g);
 }

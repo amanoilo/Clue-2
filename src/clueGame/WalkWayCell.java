@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Graphics;
+
 public class WalkWayCell extends BoardCell{
 	
 	public WalkWayCell(int r, int c, int pwidth, int pheight){
@@ -9,5 +11,10 @@ public class WalkWayCell extends BoardCell{
 	@Override
 	public boolean isWalkway(){
 		return true;
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
 	}
 }

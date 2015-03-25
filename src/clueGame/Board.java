@@ -1,12 +1,13 @@
 package clueGame;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
 
 public class Board extends JPanel
-{
+{	
 	private static final int scaleFactor = 25;
 	private int width, height;   
 	private BoardCell[][] board;
@@ -29,26 +30,31 @@ public class Board extends JPanel
 			FileReader reader = new FileReader(fileID);
 			Scanner fin = new Scanner(reader);
 			String temp = "";
-			while(fin.hasNextLine()){
+			while(fin.hasNextLine()) 
+			{
 				temp = fin.nextLine();
 				numRows++;
 			}
+			
 			int t = 0;
-			while(t < temp.length()){
-				if(temp.charAt(t) != ','){
+			while(t < temp.length()) 
+			{
+				if(temp.charAt(t) != ',') {
 					numColumns++;
-				}
+				}	
 				t++;
 			}
+			
 			fin.close();
-			try{
+			try 
+			{
 				reader.close();
-			}catch(IOException e){
-				System.out.println(e.getMessage());
 			}
-		}catch(FileNotFoundException e){
-			System.out.println("That was not a valid map file name!");
+			
+			catch(IOException e) { System.out.println(e.getMessage()); } 
 		}
+		
+		catch(FileNotFoundException e) { System.out.println("That was not a valid map file name!");	}
 		
 		board = new BoardCell[numRows][numColumns];
 		loadBoardConfig();
@@ -58,6 +64,24 @@ public class Board extends JPanel
 		
 		width = numColumns * scaleFactor;
 		height = numRows * scaleFactor; 
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) 
+	{
+		for (BoardCell[] row : board)
+		{
+			for (BoardCell b : row)
+			{
+				b.draw(g);
+			}
+		}	
+	}
+	
+	public void initializeGUI()
+	{
+		
+		
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
