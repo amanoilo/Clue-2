@@ -15,6 +15,8 @@ public class ClueGame extends JFrame{
 	private Board board;
 	private String Config;
 	private String FileID;
+	private String PlayerConfig = "interactables/People.txt";
+	private String WeaponsConfig = "interactables/Weapons.txt";
 	private Solution solution;
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
@@ -82,7 +84,7 @@ public class ClueGame extends JFrame{
 
 		try 
 		{
-			reader = new BufferedReader(new FileReader("interactables/People.txt"));
+			reader = new BufferedReader(new FileReader(PlayerConfig));
 
 			while ((line = reader.readLine()) != null) 
 			{
@@ -138,7 +140,7 @@ public class ClueGame extends JFrame{
 
 		try 
 		{
-			reader = new BufferedReader(new FileReader("interactables/Weapons.txt"));
+			reader = new BufferedReader(new FileReader(WeaponsConfig));
 
 			while ((line = reader.readLine()) != null) 
 			{

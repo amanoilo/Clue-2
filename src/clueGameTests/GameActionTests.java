@@ -128,7 +128,7 @@ public class GameActionTests {
 	public void testTargetRandomSelection() {
 		ComputerPlayer player = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(6, 0));
 		// Pick a location with no rooms in target, just three targets
-		board.calcTargets(0, 12, 2);
+		board.calcTargets(board.getCellAt(0, 12), 2);
 		int loc_0_10Tot = 0;
 		int loc_2_12Tot = 0;
 		int loc_1_11Tot = 0;

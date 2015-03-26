@@ -193,86 +193,86 @@ public class ClueGame_Tests {
 	}
 	@Test
 	public void TargetsAlongWalkway10_7_2(){
-		Set<BoardCell> tar = board.calcTargets(board.getCellAt(10,7),2);
-		assertEquals(6,tar.size());
-		assertTrue(tar.contains(board.getCellAt(8,7)));
-		assertTrue(tar.contains(board.getCellAt(9,6)));
-		assertTrue(tar.contains(board.getCellAt(11,6)));
-		assertTrue(tar.contains(board.getCellAt(12,7)));
-		assertTrue(tar.contains(board.getCellAt(11,8)));
-		assertTrue(tar.contains(board.getCellAt(9,8)));
+		Set<BoardCell> targets = board.calcTargets(board.getCellAt(10,7),2);
+		assertEquals(6,targets.size());
+		assertTrue(targets.contains(board.getCellAt(8,7)));
+		assertTrue(targets.contains(board.getCellAt(9,6)));
+		assertTrue(targets.contains(board.getCellAt(11,6)));
+		assertTrue(targets.contains(board.getCellAt(12,7)));
+		assertTrue(targets.contains(board.getCellAt(11,8)));
+		assertTrue(targets.contains(board.getCellAt(9,8)));
 	}
 	@Test
 	public void TargestAlongWalkway10_7_6(){
-		Set<BoardCell> tar = board.calcTargets(board.getCellAt(10,7),6);	
+		Set<BoardCell> targets = board.calcTargets(board.getCellAt(10,7),6);	
 		assertTrue(board.getCellAt(10, 7).isWalkway());
-		assertEquals(25,tar.size());
-		assertTrue(tar.contains(board.getCellAt(7,4)));
-		assertTrue(tar.contains(board.getCellAt(6,5)));
-		assertTrue(tar.contains(board.getCellAt(8,5)));
-		assertTrue(tar.contains(board.getCellAt(7,6)));
-		assertTrue(tar.contains(board.getCellAt(5,6)));
-		assertTrue(tar.contains(board.getCellAt(6,7)));
-		assertTrue(tar.contains(board.getCellAt(8,7)));
-		assertTrue(tar.contains(board.getCellAt(7,8)));
-		assertTrue(tar.contains(board.getCellAt(5,8)));
-		assertTrue(tar.contains(board.getCellAt(6,9)));
-		assertTrue(tar.contains(board.getCellAt(7,10)));
-		assertTrue(tar.contains(board.getCellAt(9,8)));
-		assertTrue(tar.contains(board.getCellAt(9,6)));
-		assertTrue(tar.contains(board.getCellAt(11,6)));
-		assertTrue(tar.contains(board.getCellAt(12,5)));
-		assertTrue(tar.contains(board.getCellAt(11,4)));
-		assertTrue(tar.contains(board.getCellAt(11,8)));
-		assertTrue(tar.contains(board.getCellAt(12,7)));
-		assertTrue(tar.contains(board.getCellAt(13,6)));
-		assertTrue(tar.contains(board.getCellAt(15,6)));
-		assertTrue(tar.contains(board.getCellAt(14,7)));
-		assertTrue(tar.contains(board.getCellAt(13,8)));
-		assertTrue(tar.contains(board.getCellAt(15,8)));
-		assertTrue(tar.contains(board.getCellAt(14,9)));
-		assertTrue(tar.contains(board.getCellAt(13,10)));
+		assertEquals(25,targets.size());
+		assertTrue(targets.contains(board.getCellAt(7,4)));
+		assertTrue(targets.contains(board.getCellAt(6,5)));
+		assertTrue(targets.contains(board.getCellAt(8,5)));
+		assertTrue(targets.contains(board.getCellAt(7,6)));
+		assertTrue(targets.contains(board.getCellAt(5,6)));
+		assertTrue(targets.contains(board.getCellAt(6,7)));
+		assertTrue(targets.contains(board.getCellAt(8,7)));
+		assertTrue(targets.contains(board.getCellAt(7,8)));
+		assertTrue(targets.contains(board.getCellAt(5,8)));
+		assertTrue(targets.contains(board.getCellAt(6,9)));
+		assertTrue(targets.contains(board.getCellAt(7,10)));
+		assertTrue(targets.contains(board.getCellAt(9,8)));
+		assertTrue(targets.contains(board.getCellAt(9,6)));
+		assertTrue(targets.contains(board.getCellAt(11,6)));
+		assertTrue(targets.contains(board.getCellAt(12,5)));
+		assertTrue(targets.contains(board.getCellAt(11,4)));
+		assertTrue(targets.contains(board.getCellAt(11,8)));
+		assertTrue(targets.contains(board.getCellAt(12,7)));
+		assertTrue(targets.contains(board.getCellAt(13,6)));
+		assertTrue(targets.contains(board.getCellAt(15,6)));
+		assertTrue(targets.contains(board.getCellAt(14,7)));
+		assertTrue(targets.contains(board.getCellAt(13,8)));
+		assertTrue(targets.contains(board.getCellAt(15,8)));
+		assertTrue(targets.contains(board.getCellAt(14,9)));
+		assertTrue(targets.contains(board.getCellAt(13,10)));
 	}
 	@Test
 	public void TargetsAlongWalkway7_0_3(){//also entering a doorway
-		Set<BoardCell> tar = board.calcTargets(board.getCellAt(7,0),3);
-		assertEquals(5,tar.size());
-		assertTrue(tar.contains(board.getCellAt(6,0)));
-		assertTrue(tar.contains(board.getCellAt(8,0)));
-		assertTrue(tar.contains(board.getCellAt(7,1)));
-		assertTrue(tar.contains(board.getCellAt(6,2)));
-		assertTrue(tar.contains(board.getCellAt(7,3)));
+		Set<BoardCell> targets = board.calcTargets(board.getCellAt(7,0),3);
+		assertEquals(5,targets.size());
+		assertTrue(targets.contains(board.getCellAt(6,0)));
+		assertTrue(targets.contains(board.getCellAt(8,0)));
+		assertTrue(targets.contains(board.getCellAt(7,1)));
+		assertTrue(targets.contains(board.getCellAt(6,2)));
+		assertTrue(targets.contains(board.getCellAt(7,3)));
 	}
 	@Test
 	public void TargetsAlongWalkway7_0_4(){//also entering a doorway
-		Set<BoardCell> tar = board.calcTargets(board.getCellAt(7,0),4);
-		assertEquals(5,tar.size());
-		assertTrue(tar.contains(board.getCellAt(6,1)));
-		assertTrue(tar.contains(board.getCellAt(7,2)));
-		assertTrue(tar.contains(board.getCellAt(8,0)));
-		assertTrue(tar.contains(board.getCellAt(6,3)));
-		assertTrue(tar.contains(board.getCellAt(7,4)));
+		Set<BoardCell> targets = board.calcTargets(board.getCellAt(7,0),4);
+		assertEquals(5,targets.size());
+		assertTrue(targets.contains(board.getCellAt(6,1)));
+		assertTrue(targets.contains(board.getCellAt(7,2)));
+		assertTrue(targets.contains(board.getCellAt(8,0)));
+		assertTrue(targets.contains(board.getCellAt(6,3)));
+		assertTrue(targets.contains(board.getCellAt(7,4)));
 	}
 	@Test
 	public void TargetsAlongWalkway14_12_2(){//also entering a doorway
-		Set<BoardCell> tar = board.calcTargets(board.getCellAt(14,12),2);	
+		Set<BoardCell> targets = board.calcTargets(board.getCellAt(14,12),2);	
 		assertTrue(board.getCellAt(14, 12).isDoorway());
-		assertEquals(3,tar.size());
-		assertTrue(tar.contains(board.getCellAt(13,11)));
-		assertTrue(tar.contains(board.getCellAt(15,11)));
-		assertTrue(tar.contains(board.getCellAt(14,10)));
+		assertEquals(3,targets.size());
+		assertTrue(targets.contains(board.getCellAt(13,11)));
+		assertTrue(targets.contains(board.getCellAt(15,11)));
+		assertTrue(targets.contains(board.getCellAt(14,10)));
 	}
 	@Test
 	public void TargetsAlongWalkway14_12_4(){//also entering a doorway
-		Set<BoardCell> tar = board.calcTargets(board.getCellAt(14,12),4);
+		Set<BoardCell> targets = board.calcTargets(board.getCellAt(14,12),4);
 		assertTrue(board.getCellAt(14, 12).isDoorway());
-		assertEquals(7,tar.size());
-		assertTrue(tar.contains(board.getCellAt(13,13)));
-		assertTrue(tar.contains(board.getCellAt(13,11)));
-		assertTrue(tar.contains(board.getCellAt(15,11)));
-		assertTrue(tar.contains(board.getCellAt(14,10)));
-		assertTrue(tar.contains(board.getCellAt(13,9)));
-		assertTrue(tar.contains(board.getCellAt(15,9)));
-		assertTrue(tar.contains(board.getCellAt(14,8)));
+		assertEquals(7,targets.size());
+		assertTrue(targets.contains(board.getCellAt(13,13)));
+		assertTrue(targets.contains(board.getCellAt(13,11)));
+		assertTrue(targets.contains(board.getCellAt(15,11)));
+		assertTrue(targets.contains(board.getCellAt(14,10)));
+		assertTrue(targets.contains(board.getCellAt(13,9)));
+		assertTrue(targets.contains(board.getCellAt(15,9)));
+		assertTrue(targets.contains(board.getCellAt(14,8)));
 	}
 }

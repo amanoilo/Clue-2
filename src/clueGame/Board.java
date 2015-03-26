@@ -314,13 +314,6 @@ public class Board extends JPanel
 		return targets;
 	}
 
-	public Set<BoardCell> calcTargets(int i, int j, int moves){
-		targets.clear(); //new targets set for each cell
-		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
-		BoardCell start = getCellAt(i,j);
-		findTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
-		return targets;
-	}
 
 	private void findTargets(BoardCell start, int moves, Set<BoardCell> Visited){
 		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
