@@ -5,6 +5,7 @@ import java.util.*;
 import clueGame.BoardCell.*;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 public abstract class Player {
 	
@@ -82,5 +83,11 @@ public abstract class Player {
 	public boolean isHuman() 
 	{ 
 		return human; 
+	}
+	
+	public void draw(Graphics g)
+	{
+		g.setColor(color);
+		g.fillOval(location.getC() * Board.scaleFactor, location.getR() * Board.scaleFactor, Board.scaleFactor, Board.scaleFactor);
 	}
 }

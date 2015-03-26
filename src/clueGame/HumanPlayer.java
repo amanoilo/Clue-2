@@ -9,10 +9,4 @@ public class HumanPlayer extends Player{
 	{
 		super(name, color, location, true);
 	}
-
-
-//	public HumanPlayer(String name, Color color)
-//	{
-//		super(name, color, true);
-//	}
 }

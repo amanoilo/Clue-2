@@ -24,14 +24,17 @@ public class ClueGame extends JFrame{
 
 	public ClueGame(String fileID, String config) 
 	{
+		
 		rooms = new HashMap<Character, String>();
 		Config = config;
 		FileID = fileID;
 
+		loadConfigFiles();
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CLUE - The Game");
-		setSize(1080,720);
+		setSize(960,720);
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -46,13 +49,15 @@ public class ClueGame extends JFrame{
 		});
 		
 		JMenuItem detectiveNotes = new JMenuItem("Detective Notes");
-		detectiveNotes.addActionListener(new ActionListener() {
+		detectiveNotes.addActionListener(new ActionListener() 
+		{
 			public void actionPerformed(ActionEvent e)
 			{
 				if (detective == null) detective = new Detective();
 				detective.setVisible(true);
 			}
 		});
+		
 		setJMenuBar(menuBar);
 		menuBar.add(file);
 		file.add(detectiveNotes);
@@ -60,6 +65,7 @@ public class ClueGame extends JFrame{
 		
 		JPanel controlPanel = new Control();
 		add(controlPanel,BorderLayout.SOUTH);
+		add(board, BorderLayout.CENTER);
 		
 	}
 
@@ -322,6 +328,7 @@ public class ClueGame extends JFrame{
 
 	public void loadConfigFiles()
 	{
+
 		FileReader reader = null;
 		Scanner fin = null;
 		try{
@@ -382,13 +389,20 @@ public class ClueGame extends JFrame{
 				System.out.println("Couldn't close the legend file?");
 			}
 
-			board = new Board(FileID, rooms);
+			
+			board = new Board(FileID, rooms, null);
+			createPlayers();
+			board.setPlayers(gamePlayers);
+			
 
 		}catch(FileNotFoundException e){
 			System.out.println("Couldn't find that legend file!");
 		}catch(BadConfigFormatException e){
 			System.out.println(e);
 		}
+		
+		
+		board.calcAdjacencies();
 	}
 
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException
@@ -452,7 +466,7 @@ public class ClueGame extends JFrame{
 			System.out.println("Couldn't close the legend file?");
 		}
 
-		board = new Board(FileID, rooms);
+		board = new Board(FileID, rooms, null);
 	}
 
 	public Board getBoard() { return board;	}
@@ -461,16 +475,8 @@ public class ClueGame extends JFrame{
 	public static void main(String[] args) 
 	{
 		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
+	
 		game.setVisible(true);
-	}
-	
-	public void showDetective()
-	{
-		if (detective == null) detective = new Detective();
-		detective.setVisible(true);
 		
-	
 	}
-
-
 }

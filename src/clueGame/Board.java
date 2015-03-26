@@ -8,10 +8,12 @@ import javax.swing.*;
 
 public class Board extends JPanel
 {	
-	private static final int scaleFactor = 25;
+	public static final int scaleFactor = 27;
 	private int width, height;   
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
+	private ArrayList<Player> players;
+
 	private Map<BoardCell, LinkedList<BoardCell>> adj;
 	private Set<BoardCell> targets;
 
@@ -19,56 +21,65 @@ public class Board extends JPanel
 	private int numRows;
 	private int numColumns;
 	private String fileID;
-	
+
 	private int currentRow;
 	private int currentCol;
-	
-	public Board(String fileID, Map<Character, String> rooms) throws BadConfigFormatException {
+
+	public Board(String fileID, Map<Character, String> rooms, ArrayList<Player> players) throws BadConfigFormatException {
 		this.rooms = new HashMap<Character,String>(rooms);
 		this.fileID = fileID;
+		this.players = players;
 		try
 		{
 			FileReader reader = new FileReader(fileID);
 			Scanner fin = new Scanner(reader);
 			String temp = "";
-			
+
 			while(fin.hasNextLine()) 
 			{
 				temp = fin.nextLine();
 				numRows++;
 			}
-			
+
 			int t = 0;
 			while(t < temp.length()) 
 			{
 				if(temp.charAt(t) != ',') numColumns++;	
 				t++;
 			}
-			
+
 			fin.close();
 			try 
 			{
 				reader.close();
 			}
-			
+
 			catch(IOException e) { System.out.println(e.getMessage()); } 
 		}
-		
+
 		catch(FileNotFoundException e) { System.out.println("That was not a valid map file name!");	}
-		
+
 		board = new BoardCell[numRows][numColumns];
 		loadBoardConfig();
 		rooms  = new HashMap<Character,String>();
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		
+
 		width = numColumns * scaleFactor;
 		height = numRows * scaleFactor; 
+	}
+
+	
+	public void setPlayers(ArrayList<Player> players) 
+	{
+		this.players = players;
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) 
 	{
+		super.paintComponent(g);
+		
 		for (BoardCell[] row : board)
 		{
 			for (BoardCell b : row)
@@ -76,14 +87,36 @@ public class Board extends JPanel
 				b.draw(g);
 			}
 		}	
+		
+		for (BoardCell[] row : board)
+		{
+			for (BoardCell b : row)
+			{
+				System.out.println();
+				if (b.canWrite())
+				{
+					g.setColor(Color.black);
+					g.drawString(rooms.get(((RoomCell)b).getInitial()), b.getC() * scaleFactor, b.getR() * scaleFactor);
+					System.out.println(rooms.get(((RoomCell)b).getInitial()));
+				}
+			}
+		}	
+		
+		
+		for (Player p : players)
+		{
+			p.draw(g);
+		}
+		
+		
 	}
-	
+
 	public void initializeGUI()
 	{
-		
-		
+
+
 	}
-	
+
 	public void loadBoardConfig() throws BadConfigFormatException{
 		FileReader reader = null;
 		Scanner fin = null;
@@ -110,27 +143,31 @@ public class Board extends JPanel
 						if(rooms.containsKey(roomInitial.charAt(0))){
 							if(roomInitial.length() == 2 && rooms.containsKey(roomInitial.charAt(0))){
 								if(roomInitial.charAt(1) == 'U' || roomInitial.charAt(1) == 'u'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.UP);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.UP, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'L' || roomInitial.charAt(1) == 'l'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.LEFT);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.LEFT, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'D' || roomInitial.charAt(1) == 'd'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.DOWN);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.DOWN, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'R' || roomInitial.charAt(1) == 'r'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'N' || roomInitial.charAt(1) == 'n'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, false);
+									editBoardPosition();
+								}
+								else if(roomInitial.charAt(1) == 'X' || roomInitial.charAt(1) == 'x'){
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, true);
 									editBoardPosition();
 								}
 								else{
@@ -149,7 +186,7 @@ public class Board extends JPanel
 									throw new BadConfigFormatException("The character identifier at (" + currentRow + "," + currentCol + ") was invalid (" + roomInitial + ").");
 								}
 								else{
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, false);
 									editBoardPosition();
 								}
 							}
@@ -164,7 +201,7 @@ public class Board extends JPanel
 									+ "not a valid board cell identifier");
 						}
 						roomInitial = "";
-						}
+					}
 					currentChar++;
 				}
 				if(numCommas != numColumns-1){
@@ -172,18 +209,18 @@ public class Board extends JPanel
 					throw new BadConfigFormatException("You didn't have enough elements in row " + currentRow);
 				}
 			}
-			
+
 			fin.close();
 			try{
 				reader.close();
 			}catch(IOException e){
-				 System.out.println(e.getMessage());
+				System.out.println(e.getMessage());
 			}
 		}catch(FileNotFoundException e){
 			System.out.println("Couldn't find that map file!");
 		}
 	}
-	
+
 	private void editBoardPosition(){
 		if(currentCol<board[currentRow].length-1){
 			currentCol++;
@@ -193,15 +230,15 @@ public class Board extends JPanel
 			currentRow++;
 		}
 	}
-	
+
 	public LinkedList<BoardCell> getAdjList(BoardCell cell){
 		return adj.get(cell); //refer to the map we made earlier
 	}
-	
+
 	public LinkedList<BoardCell> getAdjList(int i, int j){
 		return adj.get(getCellAt(i,j));
 	}
-	
+
 	public void calcAdjacencies(){
 		for(int i = 0; i < board.length; i++){
 			for(int j = 0; j < board[i].length; j++){
@@ -264,18 +301,18 @@ public class Board extends JPanel
 			}
 		}
 	}
-	
+
 	public Set<BoardCell> getTargets(){
 		return targets;
 	}
-	
+
 	public Set<BoardCell> calcTargets(BoardCell start, int moves){
 		targets.clear(); //new targets set for each cell
 		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
 		findTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
 		return targets;
 	}
-	
+
 	public Set<BoardCell> calcTargets(int i, int j, int moves){
 		targets.clear(); //new targets set for each cell
 		Set<BoardCell> visited = new HashSet<BoardCell>(); //Fresh visited list
@@ -283,7 +320,7 @@ public class Board extends JPanel
 		findTargets(start, moves, visited); //start the path chain from where we are and how many moves we have to make
 		return targets;
 	}
-	
+
 	private void findTargets(BoardCell start, int moves, Set<BoardCell> Visited){
 		Set<BoardCell> visited = new HashSet<BoardCell>(Visited);//Copy the visited list for each new path branch
 		if(moves == 0 && !visited.contains(start)){
@@ -304,11 +341,11 @@ public class Board extends JPanel
 			}
 		}
 	}
-	
+
 	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
 	}
-	
+
 	public RoomCell getRoomCellAt(int x, int y){
 		if(board[x][y].isRoom()){
 			return (RoomCell)board[x][y];
