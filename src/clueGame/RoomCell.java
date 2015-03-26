@@ -33,6 +33,7 @@ public class RoomCell extends BoardCell {
 	
 	public RoomCell(int r, int c, int pwidth, int pheight, char initial, DoorDirection d, boolean canWrite){
 		super(r,c, pwidth, pheight);
+		this.canWrite = canWrite;
 		roomInitial = initial;
 		doorDirection = d;
 	}

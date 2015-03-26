@@ -92,7 +92,7 @@ public class Board extends JPanel
 		{
 			for (BoardCell b : row)
 			{
-				System.out.println();
+				System.out.println(b.canWrite());
 				if (b.canWrite())
 				{
 					g.setColor(Color.black);
