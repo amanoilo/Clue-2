@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.awt.*;
+
 import javax.swing.*;
 
 public class ClueGame extends JFrame{
@@ -16,10 +17,32 @@ public class ClueGame extends JFrame{
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
 
+	public ClueGame(String fileID, String config) 
+	{
+		rooms = new HashMap<Character, String>();
+		Config = config;
+		FileID = fileID;
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("CLUE - The Game");
+		setSize(1080,720);
+		
+		
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenuItem file = new JMenuItem("file"); 
+		setJMenuBar(menuBar);
+		menuBar.add(file);
+		JPanel controlPanel = new Control();
+		add(controlPanel,BorderLayout.SOUTH);
+		
+		
+	}
+
 	public void createPlayers()		//player colors go: blue, red, cyan, pink, white, black
 	{								
 		//assign names to Players from player file
-		
+
 		gamePlayers = new ArrayList<Player>();
 		BufferedReader reader;
 		String line = "";
@@ -82,17 +105,17 @@ public class ClueGame extends JFrame{
 		gameWeapons = new ArrayList<String>();
 		BufferedReader reader;
 		String line = "";
-		
+
 		try 
 		{
 			reader = new BufferedReader(new FileReader("interactables/Weapons.txt"));
-			
+
 			while ((line = reader.readLine()) != null) 
 			{
 				gameWeapons.add(line);
 			}
 		}
-		
+
 		// Swallowing exceptions and other poorly thought out things
 		catch (FileNotFoundException e) 
 		{
@@ -102,31 +125,31 @@ public class ClueGame extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void createDeck()
 	{
 		gameCards = new ArrayList<Card>();
 		createPlayers();
 		createWeapons();
-		
 
-		
+
+
 		// create player cards
 		for (Player p : gamePlayers)
 		{
 			gameCards.add(new Card(CardType.PERSON, p.getName()));
-			
+
 		}
-		
+
 		// create weapon cards
 		for (String s : gameWeapons)
 		{
 			gameCards.add(new Card(CardType.WEAPON, s));
-			
+
 		}
-		
+
 		// Gives each computer player a copy of the deck to use as reference
 		// room cards excluded because computers can only guess the room 
 		// they are currently in
@@ -134,17 +157,17 @@ public class ClueGame extends JFrame{
 		{
 			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(gameCards);
 		}
-		
+
 		// create room cards
 		for (char c : rooms.keySet())
 		{
 			if (c != 'y' && c != 'W')
 				gameCards.add(new Card(CardType.ROOM, rooms.get(c)));		 
 		}
-		
+
 		// Shuffles the deck
 		Collections.shuffle(gameCards);
-		
+
 
 	}
 
@@ -152,7 +175,7 @@ public class ClueGame extends JFrame{
 	{
 		// removes 3 cards from deck
 		selectAnswer();
-		
+
 		int index = 0;
 		for (Card c : gameCards)
 		{
@@ -166,7 +189,7 @@ public class ClueGame extends JFrame{
 		ArrayList<Card> temp = new ArrayList<Card>(gameCards);
 		String person, weapon, room;
 		person = weapon = room = "";
-		
+
 		for (Card c : gameCards)
 		{
 			if (c.getType() == CardType.PERSON && person.equals(""))
@@ -174,13 +197,13 @@ public class ClueGame extends JFrame{
 				person = c.getName();
 				temp.remove(c);
 			}
-			
+
 			if (c.getType() == CardType.WEAPON && weapon.equals(""))
 			{
 				weapon = c.getName();
 				temp.remove(c);
 			}
-			
+
 			if (c.getType() == CardType.ROOM && room.equals(""))
 			{
 				room = c.getName();
@@ -196,7 +219,7 @@ public class ClueGame extends JFrame{
 		Solution solution = new Solution(personGuess, roomGuess, weaponGuess);
 		return handleSuggestion(solution, accuser);
 	}
-	
+
 	// NOTE: debating whether having an accuser even matters.
 	// It currently uses the information to not check the 
 	// accuser's hand, but that may not be the correct way
@@ -215,9 +238,9 @@ public class ClueGame extends JFrame{
 					evidence = c;
 			}	
 		}
-		
+
 		if (evidence != null) updateSeen(evidence);
-		
+
 		return evidence;	
 	}
 
@@ -226,7 +249,7 @@ public class ClueGame extends JFrame{
 		{
 			if(!p.isHuman()) ((ComputerPlayer)p).updateSeen(card);
 		}
-		
+
 	}
 
 	public boolean checkAccusation(Solution solution)
@@ -264,17 +287,14 @@ public class ClueGame extends JFrame{
 
 	public boolean deckContains(String CardName)
 	{
-		
+
 		for (Card c : gameCards)
 		{
 			if (c.getName().equalsIgnoreCase(CardName)) return true;
 		}
-		
+
 		return false;
 	}
-
-
-	//******************* END NEW **********************
 
 	public void loadConfigFiles()
 	{
@@ -339,7 +359,7 @@ public class ClueGame extends JFrame{
 			}
 
 			board = new Board(FileID, rooms);
-			
+
 		}catch(FileNotFoundException e){
 			System.out.println("Couldn't find that legend file!");
 		}catch(BadConfigFormatException e){
@@ -413,11 +433,12 @@ public class ClueGame extends JFrame{
 
 	public Board getBoard() { return board;	}
 
-	public ClueGame(String fileID, String config) 
+
+	public static void main(String[] args) 
 	{
-		rooms = new HashMap<Character, String>();
-		Config = config;
-		FileID = fileID;
+		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
+		game.setVisible(true);
 	}
+
 
 }
