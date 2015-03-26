@@ -3,18 +3,14 @@ package clueGame;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
-import java.awt.Color;
-import java.awt.Color.*;
+import java.awt.*;
+import javax.swing.*;
 
-public class ClueGame {
+public class ClueGame extends JFrame{
 	private Map<Character, String> rooms;	//rooms are: Maelstrom, Innistrad, Zendikar, Ravnica, Alara, Mirrodin, Phyrexia, Dominaria, Kamigawa, Shandalar
 	private Board board;
 	private String Config;
 	private String FileID;
-
-
-	//******************* NEW **********************
-
 	private Solution solution;
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet

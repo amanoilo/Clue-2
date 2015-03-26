@@ -26,10 +26,12 @@ public class Board extends JPanel
 	public Board(String fileID, Map<Character, String> rooms) throws BadConfigFormatException {
 		this.rooms = new HashMap<Character,String>(rooms);
 		this.fileID = fileID;
-		try{
+		try
+		{
 			FileReader reader = new FileReader(fileID);
 			Scanner fin = new Scanner(reader);
 			String temp = "";
+			
 			while(fin.hasNextLine()) 
 			{
 				temp = fin.nextLine();
@@ -39,9 +41,7 @@ public class Board extends JPanel
 			int t = 0;
 			while(t < temp.length()) 
 			{
-				if(temp.charAt(t) != ',') {
-					numColumns++;
-				}	
+				if(temp.charAt(t) != ',') numColumns++;	
 				t++;
 			}
 			
