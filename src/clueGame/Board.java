@@ -95,7 +95,8 @@ public class Board extends JPanel
 				System.out.println(b.canWrite());
 				if (b.canWrite())
 				{
-					g.setColor(Color.black);
+					g.setColor(Color.BLACK);
+					g.setFont(new Font("Papyrus", Font.BOLD, 18));
 					g.drawString(rooms.get(((RoomCell)b).getInitial()), b.getC() * scaleFactor, b.getR() * scaleFactor);
 					System.out.println(rooms.get(((RoomCell)b).getInitial()));
 				}
