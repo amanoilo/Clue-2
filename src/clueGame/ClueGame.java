@@ -27,8 +27,6 @@ public class ClueGame extends JFrame{
 		setTitle("CLUE - The Game");
 		setSize(1080,720);
 		
-		
-		
 		JMenuBar menuBar = new JMenuBar();
 		JMenuItem file = new JMenuItem("file"); 
 		setJMenuBar(menuBar);
