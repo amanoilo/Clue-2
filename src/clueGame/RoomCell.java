@@ -50,28 +50,28 @@ public class RoomCell extends BoardCell {
 	public void draw(Graphics g) 
 	{
 		g.setColor(Color.GRAY);
-		g.fillRect(c * pwidth, r * pheight, pwidth, pheight);
+		g.fillRect(column * pwidth, row * pheight, pwidth, pheight);
 		
 		switch(doorDirection)
 		{
 		case UP:
 			g.setColor(Color.BLUE);
-			g.fillRect(c * pwidth, r * pheight, pwidth, DOOR_PIXEL_WIDTH);
+			g.fillRect(column * pwidth, row * pheight, pwidth, DOOR_PIXEL_WIDTH);
 			break;
 			
 		case DOWN:
 			g.setColor(Color.BLUE);
-			g.fillRect(c * pwidth, r * pheight + pheight - DOOR_PIXEL_WIDTH, pwidth, DOOR_PIXEL_WIDTH);
+			g.fillRect(column * pwidth, row * pheight + pheight - DOOR_PIXEL_WIDTH, pwidth, DOOR_PIXEL_WIDTH);
 			break;
 			
 		case LEFT:
 			g.setColor(Color.BLUE);
-			g.fillRect(c * pwidth, r * pheight, DOOR_PIXEL_WIDTH, pheight);
+			g.fillRect(column * pwidth, row * pheight, DOOR_PIXEL_WIDTH, pheight);
 			break; 
 			
 		case RIGHT:
 			g.setColor(Color.BLUE);
-			g.fillRect(c * pwidth + pwidth - DOOR_PIXEL_WIDTH, r * pheight, DOOR_PIXEL_WIDTH, pheight);
+			g.fillRect(column * pwidth + pwidth - DOOR_PIXEL_WIDTH, row * pheight, DOOR_PIXEL_WIDTH, pheight);
 			break;
 			
 		case NONE:

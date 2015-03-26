@@ -5,16 +5,16 @@ import java.awt.Graphics;
 public abstract class BoardCell 
 {
 	
-	protected int r;
-	protected int c;
+	protected int row;
+	protected int column;
 	protected int pwidth;
 	protected int pheight;
 	private boolean canWrite;
 	
 	public BoardCell(int r, int c, int pwidth, int pheight)
 	{
-		this.r = r;
-		this.c = c;
+		this.row = r;
+		this.column = c;
 		this.pwidth = pwidth;
 		this.pheight = pheight; 
 	}
@@ -43,12 +43,12 @@ public abstract class BoardCell
 	
 	public int getR() 
 	{
-		return r;
+		return row;
 	}
 
 	public int getC() 
 	{
-		return c;
+		return column;
 	}
 
 	public abstract void draw(Graphics g);

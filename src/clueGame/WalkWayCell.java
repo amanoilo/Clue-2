@@ -19,10 +19,10 @@ public class WalkWayCell extends BoardCell{
 	{
 		// create square
 		g.setColor(Color.YELLOW);
-		g.fillRect(c * pwidth, r * pheight, pwidth, pheight);
+		g.fillRect(column * pwidth, row * pheight, pwidth, pheight);
 		
 		// create border
 		g.setColor(Color.BLACK);
-		g.drawRect(c * pwidth, r * pheight, pwidth, pheight);
+		g.drawRect(column * pwidth, row * pheight, pwidth, pheight);
 	}
 }
