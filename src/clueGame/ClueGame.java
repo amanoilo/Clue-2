@@ -19,6 +19,8 @@ public class ClueGame extends JFrame{
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
+	
+	private Detective detective;
 
 	public ClueGame(String fileID, String config) 
 	{
@@ -43,16 +45,17 @@ public class ClueGame extends JFrame{
 			}
 		});
 		
-		JMenuItem detective = new JMenuItem("Detective Notes");
-		detective.addActionListener(new ActionListener() {
+		JMenuItem detectiveNotes = new JMenuItem("Detective Notes");
+		detectiveNotes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				showDetective();
+				if (detective == null) detective = new Detective();
+				detective.setVisible(true);
 			}
 		});
 		setJMenuBar(menuBar);
 		menuBar.add(file);
-		file.add(detective);
+		file.add(detectiveNotes);
 		file.add(exit);
 		
 		JPanel controlPanel = new Control();
@@ -463,8 +466,9 @@ public class ClueGame extends JFrame{
 	
 	public void showDetective()
 	{
-		Detective detective = new Detective();
+		if (detective == null) detective = new Detective();
 		detective.setVisible(true);
+		
 	
 	}
 
