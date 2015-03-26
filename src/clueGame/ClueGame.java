@@ -4,6 +4,9 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
@@ -23,17 +26,37 @@ public class ClueGame extends JFrame{
 		Config = config;
 		FileID = fileID;
 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CLUE - The Game");
 		setSize(1080,720);
 		
+		
 		JMenuBar menuBar = new JMenuBar();
-		JMenuItem file = new JMenuItem("file"); 
+		JMenu file = new JMenu("File");
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		});
+		
+		JMenuItem detective = new JMenuItem("Detective Notes");
+		detective.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				showDetective();
+			}
+		});
 		setJMenuBar(menuBar);
 		menuBar.add(file);
+		file.add(detective);
+		file.add(exit);
+		
 		JPanel controlPanel = new Control();
 		add(controlPanel,BorderLayout.SOUTH);
-		
 		
 	}
 
@@ -436,6 +459,13 @@ public class ClueGame extends JFrame{
 	{
 		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
 		game.setVisible(true);
+	}
+	
+	public void showDetective()
+	{
+		Detective detective = new Detective();
+		detective.setVisible(true);
+	
 	}
 
 

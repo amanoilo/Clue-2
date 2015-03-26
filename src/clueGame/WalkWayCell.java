@@ -16,5 +16,6 @@ public class WalkWayCell extends BoardCell{
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
+		
 	}
 }
