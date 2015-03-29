@@ -9,7 +9,6 @@ import javax.swing.*;
 public class Board extends JPanel
 {	
 	public static final int SCALE_FACTOR = 27;
-	private int width, height;   
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
 	private ArrayList<Player> players;
@@ -65,8 +64,6 @@ public class Board extends JPanel
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
 
-		width = numColumns * SCALE_FACTOR;
-		height = numRows * SCALE_FACTOR; 
 	}
 
 	
@@ -85,24 +82,16 @@ public class Board extends JPanel
 			for (BoardCell b : row)
 			{
 				b.draw(g);
-			}
-		}	
-		
-		for (BoardCell[] row : board)
-		{
-			for (BoardCell b : row)
-			{
-				System.out.println(b.canWrite());
 				if (b.canWrite())
 				{
 					g.setColor(Color.BLACK);
 					g.setFont(new Font("Papyrus", Font.BOLD, 18));
 					g.drawString(rooms.get(((RoomCell)b).getInitial()), b.getC() * SCALE_FACTOR, b.getR() * SCALE_FACTOR);
-					System.out.println(rooms.get(((RoomCell)b).getInitial()));
 				}
+				
 			}
 		}	
-		
+			
 		
 		for (Player p : players)
 		{
