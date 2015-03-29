@@ -43,8 +43,7 @@ public class Solution implements Comparable<Solution>{
 	
 	public boolean contains(Card card)
 	{
-		if (card.getName() == person || card.getName() == weapon || card.getName() == room) return true;
-		return false;
+		return (card.getName() == person || card.getName() == weapon || card.getName() == room);
 	}
 	
 	public ArrayList<Card> getCards()
