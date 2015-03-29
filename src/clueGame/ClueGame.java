@@ -34,7 +34,7 @@ public class ClueGame extends JFrame{
 		FileID = fileID;
 
 		loadConfigFiles();
-		Map<Character, String> tempRooms = new Map<Character, String>(rooms);
+		Map<Character, String> tempRooms = new HashMap<Character, String>(rooms);
 		
 		tempRooms.remove('y');
 		tempRooms.remove('W');
