@@ -229,30 +229,34 @@ public class ClueGame extends JFrame{
 		ArrayList<Card> temp = new ArrayList<Card>(gameCards);
 		String person, weapon, room;
 		person = weapon = room = "";
-
-		for (Card c : gameCards)
+		Random rand = new Random();
+		while (person == "" || weapon == "" || room == "")
 		{
+			int randChoice = rand.nextInt(temp.size());
+			Card c = temp.get(randChoice);
+			
 			if (c.getType() == Card.CardType.PERSON && person.equals(""))
 			{
 				person = c.getName();
+				gameCards.remove(c);
 			}
 
 			if (c.getType() == Card.CardType.WEAPON && weapon.equals(""))
 			{
 				weapon = c.getName();
+				gameCards.remove(c);
 			}
 
 			if (c.getType() == Card.CardType.ROOM && room.equals(""))
 			{
 				room = c.getName();
+				gameCards.remove(c);
 			}
 			
 			temp.remove(c);
 		}
 		solution = new Solution(person, weapon, room);
-		gameCards.remove(person);
-		gameCards.remove(weapon);
-		gameCards.remove(room);
+		
 	}
 
 	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
