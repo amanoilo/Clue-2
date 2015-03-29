@@ -25,7 +25,8 @@ public abstract class Player {
 		this.human = human;
 	}
 	
-
+	public abstract Solution createSuggestion(String roomName);
+	
 	public boolean disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
 		for (Card c : playerCards)
