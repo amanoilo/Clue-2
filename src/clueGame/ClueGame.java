@@ -38,7 +38,7 @@ public class ClueGame extends JFrame{
 		
 		tempRooms.remove('y');
 		tempRooms.remove('W');
-		gameRooms = new ArrayList<String>(rooms.values());
+		gameRooms = new ArrayList<String>(tempRooms.values());
 
 		createDeck();
 		
