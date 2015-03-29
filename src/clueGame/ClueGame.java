@@ -179,14 +179,14 @@ public class ClueGame extends JFrame{
 		// create player cards
 		for (Player p : gamePlayers)
 		{
-			gameCards.add(new Card(CardType.PERSON, p.getName()));
+			gameCards.add(new Card(Card.CardType.PERSON, p.getName()));
 
 		}
 
 		// create weapon cards
 		for (String s : gameWeapons)
 		{
-			gameCards.add(new Card(CardType.WEAPON, s));
+			gameCards.add(new Card(Card.CardType.WEAPON, s));
 
 		}
 
@@ -202,7 +202,7 @@ public class ClueGame extends JFrame{
 		for (char c : rooms.keySet())
 		{
 			if (c != 'y' && c != 'W')
-				gameCards.add(new Card(CardType.ROOM, rooms.get(c)));		 
+				gameCards.add(new Card(Card.CardType.ROOM, rooms.get(c)));		 
 		}
 
 		// Shuffles the deck
@@ -232,19 +232,19 @@ public class ClueGame extends JFrame{
 
 		for (Card c : gameCards)
 		{
-			if (c.getType() == CardType.PERSON && person.equals(""))
+			if (c.getType() == Card.CardType.PERSON && person.equals(""))
 			{
 				person = c.getName();
 				temp.remove(c);
 			}
 
-			if (c.getType() == CardType.WEAPON && weapon.equals(""))
+			if (c.getType() == Card.CardType.WEAPON && weapon.equals(""))
 			{
 				weapon = c.getName();
 				temp.remove(c);
 			}
 
-			if (c.getType() == CardType.ROOM && room.equals(""))
+			if (c.getType() == Card.CardType.ROOM && room.equals(""))
 			{
 				room = c.getName();
 				temp.remove(c);

@@ -15,9 +15,9 @@ public class Solution implements Comparable<Solution>{
 		this.room = room;
 		
 		cards = new ArrayList<Card>();
-		cards.add(new Card(CardType.PERSON, person));
-		cards.add(new Card(CardType.WEAPON, weapon));
-		cards.add(new Card(CardType.ROOM, room));
+		cards.add(new Card(Card.CardType.PERSON, person));
+		cards.add(new Card(Card.CardType.WEAPON, weapon));
+		cards.add(new Card(Card.CardType.ROOM, room));
 	}
 	
 	public String getPerson() 

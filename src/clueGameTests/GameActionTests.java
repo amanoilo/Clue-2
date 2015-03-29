@@ -165,9 +165,9 @@ public class GameActionTests {
 		Card c1, c2, c3, result;
 		
 		// prepare a player's cards to be checked
-		c1 = new Card(CardType.PERSON, "Mary Duworth");
-		c2 = new Card(CardType.WEAPON, "Heartbreak");;
-		c3 = new Card(CardType.ROOM, "Zendikar");;
+		c1 = new Card(Card.CardType.PERSON, "Mary Duworth");
+		c2 = new Card(Card.CardType.WEAPON, "Heartbreak");;
+		c3 = new Card(Card.CardType.ROOM, "Zendikar");;
 		game.getPlayer(1).giveCard(c1);
 		game.getPlayer(1).giveCard(c2);
 		game.getPlayer(1).giveCard(c3);
@@ -224,7 +224,7 @@ public class GameActionTests {
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
 		comp1.setPossibleChoices(possibleChoices);
 		roomName = board.getRooms().get(((RoomCell)board.getCellAt(5, 3)).getInitial());
-		seenCard = new Card(CardType.PERSON, "Bjorn Bjornson");
+		seenCard = new Card(Card.CardType.PERSON, "Bjorn Bjornson");
 		comp1.updateSeen(seenCard);
 		
 		for(int i = 0; i < 100; i++)
@@ -237,7 +237,7 @@ public class GameActionTests {
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
 		comp1.setPossibleChoices(possibleChoices);
 		roomName = board.getRooms().get(((RoomCell)board.getCellAt(5, 3)).getInitial());
-		seenCard = new Card(CardType.WEAPON, "Sword");
+		seenCard = new Card(Card.CardType.WEAPON, "Sword");
 		comp1.updateSeen(seenCard);
 		
 		for(int i = 0; i < 100; i++)
@@ -250,9 +250,9 @@ public class GameActionTests {
 		comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(5, 3));
 		comp1.setPossibleChoices(possibleChoices);
 		roomName = board.getRooms().get(((RoomCell)board.getCellAt(5, 3)).getInitial());
-		seenCard = new Card(CardType.PERSON, "Bjorn Bjornson");
+		seenCard = new Card(Card.CardType.PERSON, "Bjorn Bjornson");
 		comp1.updateSeen(seenCard);
-		seenCard = new Card(CardType.WEAPON, "Sword");
+		seenCard = new Card(Card.CardType.WEAPON, "Sword");
 		comp1.updateSeen(seenCard);
 		
 		for(int i = 0; i < 100; i++)

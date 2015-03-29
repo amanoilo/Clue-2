@@ -3,6 +3,7 @@ package clueGame;
 public class Card {
 	private CardType type;
 	private String name;
+	public enum CardType { PERSON, ROOM, WEAPON };
 
 	public Card(CardType type, String name) {
 		this.type = type;

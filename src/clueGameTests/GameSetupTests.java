@@ -76,7 +76,7 @@ public class GameSetupTests {
 		//check amount of cards
 		assertEquals(21, game.getDeckSize());
 
-		//check amount of each CardType
+		//check amount of each Card.CardType
 		assertEquals(6, game.getWeaponQuantity());
 		assertEquals(6, game.getPlayerQuantity());
 		assertEquals(9, game.getRoomQuantity());
@@ -123,9 +123,9 @@ public class GameSetupTests {
 		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
 		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
 		
-		Card c1 = new Card(CardType.PERSON, "Mary Duworth");
-		Card c2 = new Card(CardType.WEAPON, "Heartbreak");;
-		Card c3 = new Card(CardType.ROOM, "Zendikar");;
+		Card c1 = new Card(Card.CardType.PERSON, "Mary Duworth");
+		Card c2 = new Card(Card.CardType.WEAPON, "Heartbreak");;
+		Card c3 = new Card(Card.CardType.ROOM, "Zendikar");;
 		
 		// check giveCard method to ensure cards are received by player objects
 		human1.giveCard(c1);

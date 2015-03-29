@@ -81,8 +81,8 @@ public class ComputerPlayer extends Player{
 		// find the first person and weapon in the suggestions list
 		for (Card c : suggestions)
 		{
-			if (c.getType() == CardType.PERSON) personName = c.getName();
-			if (c.getType() == CardType.WEAPON) weaponName = c.getName();
+			if (c.getType() == Card.CardType.PERSON) personName = c.getName();
+			if (c.getType() == Card.CardType.WEAPON) weaponName = c.getName();
 			
 		}
 		return new Solution(personName, weaponName, roomName);	
