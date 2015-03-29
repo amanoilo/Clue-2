@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.sun.javafx.collections.MappingChange.Map;
+
 public class Detective extends JDialog{
 
 	
@@ -21,13 +25,22 @@ public class Detective extends JDialog{
     private JTextField response;
     private JTextField die;
     private JTextField current;
+    private ArrayList<Player> gamePlayers;
+    private Map<Character, String> roomsMap;
+    private ArrayList<String> gameWeapons;
+    private ArrayList<String> gameRooms;
     
-public Detective()
+public Detective(ArrayList<Player> gamePlayers, ArrayList<String> gameRooms, ArrayList<String> gameWeapons)
 {
+	
 	setTitle("Detective Notes");    
 	setSize(600,650);
 	
 	setLayout(new GridLayout(3,2));
+	
+	this.gamePlayers = new ArrayList<Player>(gamePlayers);
+	this.gameRooms = new ArrayList<String>(gameRooms);
+	this.gameWeapons = new ArrayList<String>(gameWeapons);
 	
 	//JPanel panel = characterPanel();
 	add(characterPanel());
@@ -46,14 +59,11 @@ public JPanel characterPanel()
 	JPanel panel = new JPanel();
 	JLabel characters = new JLabel("Characters");
 	panel.setLayout(new GridLayout(3,2));
-	panel.add(new Checkbox("Alabama"));
-	panel.add(new Checkbox("Bjorn Bjornson"));
-	panel.add(new Checkbox("Carl"));
-	panel.add(new Checkbox("Chet"));
-	panel.add(new Checkbox("Jon"));
-	panel.add(new Checkbox("Mary"));
+	for (Player p : gamePlayers) panel.add(new Checkbox(p.getName()));
+	
 	panel.setBorder(new TitledBorder (new EtchedBorder(), "Characters"));
 	return panel;
+	
 }
 
 public JPanel roomPanel()
@@ -62,15 +72,7 @@ public JPanel roomPanel()
 	JLabel rooms = new JLabel("Rooms");
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(5,2));
-	panel.add(new Checkbox("Alara"));
-	panel.add(new Checkbox("Dominaria"));
-	panel.add(new Checkbox("Innistrad"));
-	panel.add(new Checkbox("Kamigawa"));
-	panel.add(new Checkbox("Mirrodin"));
-	panel.add(new Checkbox("Phyrexia"));
-	panel.add(new Checkbox("Ravnica"));
-	panel.add(new Checkbox("Shandalar"));
-	panel.add(new Checkbox("Zendikar"));
+	for (String r : gameRooms) panel.add(new Checkbox(r));
 
 	panel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
 	return panel;
@@ -82,12 +84,8 @@ public JPanel weaponPanel()
 	JLabel weapons = new JLabel("Weapons");
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(3,2));
-	panel.add(new Checkbox("Endless Breadsticks"));
-	panel.add(new Checkbox("Heartbreak"));
-	panel.add(new Checkbox("Laughing Gas"));
-	panel.add(new Checkbox("Mace"));
-	panel.add(new Checkbox("Pen"));
-	panel.add(new Checkbox("Sword"));
+	for (String w : gameWeapons) panel.add(new Checkbox(w));
+
 	panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
 	return panel;
 }

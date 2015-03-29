@@ -8,4 +8,4 @@ p,Phyrexia
 d,Dominaria
 k,Kamigawa
 s,Shandalar
-W,Blind Eternities
+W,Space

@@ -22,6 +22,8 @@ public class ClueGame extends JFrame{
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
 	
+	private ArrayList<String> gameRooms;
+	
 	private Detective detective;
 
 	public ClueGame(String fileID, String config) 
@@ -32,7 +34,13 @@ public class ClueGame extends JFrame{
 		FileID = fileID;
 
 		loadConfigFiles();
+		Map<Character, String> tempRooms = new Map<Character, String>(rooms);
 		
+		tempRooms.remove('y');
+		tempRooms.remove('W');
+		gameRooms = new ArrayList<String>(rooms.values());
+
+		createDeck();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CLUE - The Game");
@@ -55,7 +63,7 @@ public class ClueGame extends JFrame{
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (detective == null) detective = new Detective();
+				if (detective == null) detective = new Detective(gamePlayers, gameRooms, gameWeapons);
 				detective.setVisible(true);
 			}
 		});
@@ -476,7 +484,7 @@ public class ClueGame extends JFrame{
 
 	public static void main(String[] args) 
 	{
-		ClueGame game = new ClueGame("map/Clue Map.txt", "map/legend.txt");
+		ClueGame game = new ClueGame("map/Clue Map2.csv", "map/legend.txt");
 	
 		game.setVisible(true);
 		
