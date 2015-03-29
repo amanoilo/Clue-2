@@ -94,7 +94,11 @@ public JPanel characterGuessPanel()
 {
 	JLabel characterGuess = new JLabel("Character Guess");
 	JPanel panel = new JPanel();
-	String[] characters = {"Alabama", "Bjorn Bjornson", "Carl", "Chet", "Jon", "Mary"};
+	String[] characters =  new String[gamePlayers.size()];
+	for (int i = 0; i < gamePlayers.size(); i++)
+	{
+		characters[i] = gamePlayers.get(i).getName();
+	}
 	JComboBox combox = new JComboBox(characters);
 	panel.add(combox);
 	panel.setBorder(new TitledBorder (new EtchedBorder(), "Character Guess"));
@@ -105,7 +109,12 @@ public JPanel roomGuessPanel()
 {
 	JLabel roomGuess = new JLabel("Room Guess");
 	JPanel panel = new JPanel();
-	String[] rooms = {"Alara", "Dominaria", "Innistrad", "Kamigawa", "Mirrodin", "Phyrexia", "Ravnica", "Shandalar", "Zendikar"};
+	String[] rooms =  new String[gameRooms.size()];
+	for (int i = 0; i < gameRooms.size(); i++)
+	{
+		rooms[i] = gameRooms.get(i);
+	}	
+	
 	JComboBox combox = new JComboBox(rooms);
 	panel.add(combox);
 	panel.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
@@ -116,7 +125,11 @@ public JPanel weaponGuessPanel()
 {
 	JLabel weaponGuess = new JLabel("Weapon Guess");
 	JPanel panel = new JPanel();
-	String[] weapons = {"Endless Breadsticks", "Heartbreak", "Laughing Gas", "Mace", "Pen", "Sword"};
+	String[] weapons =  new String[gameWeapons.size()];
+	for (int i = 0; i < gameWeapons.size(); i++)
+	{
+		weapons[i] = gameWeapons.get(i);
+	}
 	JComboBox combox = new JComboBox(weapons);
 	panel.add(combox);
 	panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
