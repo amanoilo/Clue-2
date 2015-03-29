@@ -57,7 +57,6 @@ public Detective(ArrayList<Player> gamePlayers, ArrayList<String> gameRooms, Arr
 public JPanel characterPanel()
 {
 	JPanel panel = new JPanel();
-	JLabel characters = new JLabel("Characters");
 	panel.setLayout(new GridLayout(3,2));
 	for (Player p : gamePlayers) panel.add(new Checkbox(p.getName()));
 	
@@ -69,7 +68,6 @@ public JPanel characterPanel()
 public JPanel roomPanel()
 {
 	//rooms are: Maelstrom, Innistrad, Zendikar, Ravnica, Alara, Mirrodin, Phyrexia, Dominaria, Kamigawa, Shandalar
-	JLabel rooms = new JLabel("Rooms");
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(5,2));
 	for (String r : gameRooms) panel.add(new Checkbox(r));
@@ -81,7 +79,6 @@ public JPanel roomPanel()
 public JPanel weaponPanel()
 {
 	//weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
-	JLabel weapons = new JLabel("Weapons");
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridLayout(3,2));
 	for (String w : gameWeapons) panel.add(new Checkbox(w));
@@ -92,7 +89,6 @@ public JPanel weaponPanel()
 
 public JPanel characterGuessPanel()
 {
-	JLabel characterGuess = new JLabel("Character Guess");
 	JPanel panel = new JPanel();
 	String[] characters =  new String[gamePlayers.size()];
 	for (int i = 0; i < gamePlayers.size(); i++)
@@ -107,7 +103,6 @@ public JPanel characterGuessPanel()
 
 public JPanel roomGuessPanel()
 {
-	JLabel roomGuess = new JLabel("Room Guess");
 	JPanel panel = new JPanel();
 	String[] rooms =  new String[gameRooms.size()];
 	for (int i = 0; i < gameRooms.size(); i++)
@@ -123,7 +118,6 @@ public JPanel roomGuessPanel()
 
 public JPanel weaponGuessPanel()
 {
-	JLabel weaponGuess = new JLabel("Weapon Guess");
 	JPanel panel = new JPanel();
 	String[] weapons =  new String[gameWeapons.size()];
 	for (int i = 0; i < gameWeapons.size(); i++)
