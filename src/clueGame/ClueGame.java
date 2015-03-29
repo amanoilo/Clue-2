@@ -235,23 +235,24 @@ public class ClueGame extends JFrame{
 			if (c.getType() == Card.CardType.PERSON && person.equals(""))
 			{
 				person = c.getName();
-				temp.remove(c);
 			}
 
 			if (c.getType() == Card.CardType.WEAPON && weapon.equals(""))
 			{
 				weapon = c.getName();
-				temp.remove(c);
 			}
 
 			if (c.getType() == Card.CardType.ROOM && room.equals(""))
 			{
 				room = c.getName();
-				temp.remove(c);
 			}
+			
+			temp.remove(c);
 		}
-		gameCards = new ArrayList<Card>(temp);
 		solution = new Solution(person, weapon, room);
+		gameCards.remove(person);
+		gameCards.remove(weapon);
+		gameCards.remove(room);
 	}
 
 	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)

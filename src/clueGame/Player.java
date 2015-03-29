@@ -15,6 +15,7 @@ public abstract class Player {
 	private boolean human;
 	private BoardCell location;
 	
+	
 	public Player(String name, Color color, BoardCell location, boolean human)
 	{
 		playerCards = new ArrayList<Card>();
@@ -24,6 +25,7 @@ public abstract class Player {
 		this.human = human;
 	}
 	
+
 	public boolean disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
 		for (Card c : playerCards)
