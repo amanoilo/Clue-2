@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Board extends JPanel
 {	
-	public static final int scaleFactor = 27;
+	public static final int SCALE_FACTOR = 27;
 	private int width, height;   
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
@@ -65,8 +65,8 @@ public class Board extends JPanel
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
 
-		width = numColumns * scaleFactor;
-		height = numRows * scaleFactor; 
+		width = numColumns * SCALE_FACTOR;
+		height = numRows * SCALE_FACTOR; 
 	}
 
 	
@@ -97,7 +97,7 @@ public class Board extends JPanel
 				{
 					g.setColor(Color.BLACK);
 					g.setFont(new Font("Papyrus", Font.BOLD, 18));
-					g.drawString(rooms.get(((RoomCell)b).getInitial()), b.getC() * scaleFactor, b.getR() * scaleFactor);
+					g.drawString(rooms.get(((RoomCell)b).getInitial()), b.getC() * SCALE_FACTOR, b.getR() * SCALE_FACTOR);
 					System.out.println(rooms.get(((RoomCell)b).getInitial()));
 				}
 			}
@@ -110,12 +110,6 @@ public class Board extends JPanel
 		}
 		
 		
-	}
-
-	public void initializeGUI()
-	{
-
-
 	}
 
 	public void loadBoardConfig() throws BadConfigFormatException{
@@ -144,31 +138,31 @@ public class Board extends JPanel
 						if(rooms.containsKey(roomInitial.charAt(0))){
 							if(roomInitial.length() == 2 && rooms.containsKey(roomInitial.charAt(0))){
 								if(roomInitial.charAt(1) == 'U' || roomInitial.charAt(1) == 'u'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.UP, false);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.UP, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'L' || roomInitial.charAt(1) == 'l'){
-									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.LEFT, false);
+									board[currentRow][currentCol] = new RoomCell(currentRow,currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.LEFT, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'D' || roomInitial.charAt(1) == 'd'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.DOWN, false);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.DOWN, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'R' || roomInitial.charAt(1) == 'r'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT, false);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.RIGHT, false);
 									editBoardPosition();
 									//currentChar++;
 								}
 								else if(roomInitial.charAt(1) == 'N' || roomInitial.charAt(1) == 'n'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, false);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, false);
 									editBoardPosition();
 								}
 								else if(roomInitial.charAt(1) == 'X' || roomInitial.charAt(1) == 'x'){
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, true);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, true);
 									editBoardPosition();
 								}
 								else{
@@ -187,12 +181,12 @@ public class Board extends JPanel
 									throw new BadConfigFormatException("The character identifier at (" + currentRow + "," + currentCol + ") was invalid (" + roomInitial + ").");
 								}
 								else{
-									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, scaleFactor, scaleFactor, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, false);
+									board[currentRow][currentCol] = new RoomCell(currentRow, currentCol, SCALE_FACTOR, SCALE_FACTOR, roomInitial.charAt(0),RoomCell.DoorDirection.NONE, false);
 									editBoardPosition();
 								}
 							}
 							else{
-								board[currentRow][currentCol] = new WalkWayCell(currentRow, currentCol, scaleFactor, scaleFactor);
+								board[currentRow][currentCol] = new WalkWayCell(currentRow, currentCol, SCALE_FACTOR, SCALE_FACTOR);
 								editBoardPosition();
 							}
 						}

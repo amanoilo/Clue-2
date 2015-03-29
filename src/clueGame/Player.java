@@ -88,6 +88,8 @@ public abstract class Player {
 	public void draw(Graphics g)
 	{
 		g.setColor(color);
-		g.fillOval(location.getC() * Board.scaleFactor, location.getR() * Board.scaleFactor, Board.scaleFactor, Board.scaleFactor);
+		g.fillOval(location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR);
+		g.setColor(Color.BLACK);
+		g.drawOval(location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR);
 	}
 }
