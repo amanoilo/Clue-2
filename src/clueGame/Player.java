@@ -8,14 +8,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Player {
-	
+
 	private String name;
 	private Color color;
 	private ArrayList<Card> playerCards;
 	private boolean human;
 	private BoardCell location;
-	
-	
+	private boolean canMove;
+
+
 	public Player(String name, Color color, BoardCell location, boolean human)
 	{
 		playerCards = new ArrayList<Card>();
@@ -23,10 +24,11 @@ public abstract class Player {
 		this.color = color;
 		this.location = location;
 		this.human = human;
+		this.canMove = false;
 	}
-	
+
 	public abstract Solution createSuggestion(String roomName);
-	
+
 	public boolean disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
 		for (Card c : playerCards)
@@ -36,7 +38,7 @@ public abstract class Player {
 		}
 		return false;
 	}
-	
+
 	public boolean disprove(Solution s)
 	{
 		for (Card c : playerCards)
@@ -46,48 +48,48 @@ public abstract class Player {
 		}
 		return false;
 	}
-	
+
 	public Solution makeAccusation(String personGuess, String roomGuess, String weaponGuess)
 	{
 		Solution accusation = new Solution(personGuess, roomGuess, weaponGuess);
 		return accusation;
 	}
-	
+
 	public String getName()
 	{
 		return name;
 	}
-	
+
 	public Color getColor()
 	{
 		return color;
 	}
-	
+
 	public BoardCell getLocation()
 	{
 		return location;
 	}
-	
+
 	public void setLocation(BoardCell location)
 	{
 		this.location = location;
 	}
-	
+
 	public void giveCard(Card card)
 	{
 		playerCards.add(card);
 	}
-	
+
 	public ArrayList<Card> getCards()
 	{
 		return playerCards;	
 	}
-	
+
 	public boolean isHuman() 
 	{ 
 		return human; 
 	}
-	
+
 	public void draw(Graphics g)
 	{
 		g.setColor(color);

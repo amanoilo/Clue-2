@@ -1,5 +1,10 @@
 package clueGame;
 
+import gui.Control;
+import gui.Detective;
+import gui.PlayerHand;
+import gui.SplashScreen;
+
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -21,6 +26,7 @@ public class ClueGame extends JFrame{
 	private ArrayList<Card> gameCards;
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
+	private HumanPlayer human;
 	
 	private ArrayList<String> gameRooms;
 	
@@ -74,6 +80,9 @@ public class ClueGame extends JFrame{
 		file.add(exit);
 		
 		JPanel controlPanel = new Control();
+		System.out.println(human.getCards());
+		JPanel PlayerHand = new PlayerHand(human);
+		add(PlayerHand, BorderLayout.EAST);
 		add(controlPanel,BorderLayout.SOUTH);
 		add(board, BorderLayout.CENTER);
 		
@@ -105,7 +114,13 @@ public class ClueGame extends JFrame{
 				int row = Integer.parseInt(data[2].trim());
 				int col = Integer.parseInt(data[3].trim());
 
-				if (playerCount == 0) gamePlayers.add(new HumanPlayer(player, convertColor(strColor), board.getCellAt(row, col)));
+				if (playerCount == 0)
+				{
+					HumanPlayer human = new HumanPlayer(player, convertColor(strColor), board.getCellAt(row, col));
+					this.human = human;
+					gamePlayers.add(human);
+				
+				}
 				else gamePlayers.add(new ComputerPlayer(player, convertColor(strColor), board.getCellAt(row, col)));
 
 				playerCount++;
@@ -490,8 +505,9 @@ public class ClueGame extends JFrame{
 	public static void main(String[] args) 
 	{
 		ClueGame game = new ClueGame("map/Clue Map2.csv", "map/legend.txt");
-	
 		game.setVisible(true);
+		SplashScreen splash = new SplashScreen(game);
+
 		
 	}
 }

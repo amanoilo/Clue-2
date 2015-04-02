@@ -1,4 +1,4 @@
-package clueGame;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import clueGame.Player;
 
 import com.sun.javafx.collections.MappingChange.Map;
 

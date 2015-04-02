@@ -66,17 +66,17 @@ public class Board extends JPanel
 
 	}
 
-	
+
 	public void setPlayers(ArrayList<Player> players) 
 	{
 		this.players = players;
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
-		
+
 		for (BoardCell[] row : board)
 		{
 			for (BoardCell b : row)
@@ -88,17 +88,17 @@ public class Board extends JPanel
 					g.setFont(new Font("Papyrus", Font.BOLD, 18));
 					g.drawString(rooms.get(((RoomCell)b).getInitial()), b.getC() * SCALE_FACTOR, b.getR() * SCALE_FACTOR);
 				}
-				
+
 			}
 		}	
-			
-		
+
+
 		for (Player p : players)
 		{
 			p.draw(g);
 		}
-		
-		
+
+
 	}
 
 	public void loadBoardConfig() throws BadConfigFormatException{
