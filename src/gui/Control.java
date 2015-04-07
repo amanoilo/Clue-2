@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +14,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JComboBox;
 
+import clueGame.Board;
+import clueGame.ClueGame;
+
 
 
 public class Control extends JPanel {
@@ -20,11 +25,12 @@ public class Control extends JPanel {
     private JTextField response;
     private JTextField die;
     private JTextField current;
+    private Board gameBoard;
     
     
-    public Control()
+    public Control(Board board)
     {
-    	
+    	gameBoard = board;
     	
     	setSize(800,100);
     	JPanel panel = createActionPanel();
@@ -38,15 +44,23 @@ public class Control extends JPanel {
     	add(panel, BorderLayout.EAST);
   	
     }
-    
+    private class TurnListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		gameBoard.advanceTurn();
+    		current.setText(gameBoard.getCPName());
+    		die.setText(Integer.toString(gameBoard.getDieRoll()));
+    	}
+    }
     private JPanel createTurnAndDiePanel()
     {
     	JPanel panel = new JPanel();
     	die = new JTextField(5);
     	JLabel dieText = new JLabel("Die Roll");
     	
+    	
     	current = new JTextField(20);
     	JLabel currentText = new JLabel("Current Player");
+    	
     	
     	die.setEditable(false);
     	
@@ -65,7 +79,8 @@ public class Control extends JPanel {
     {
     	JButton next = new JButton("Next Player");
     	JButton accuse = new JButton("Accuse");
-
+    	next.addActionListener(new TurnListener());
+    	
     	JPanel panel = new JPanel();
     	panel.add(next);
     	panel.add(accuse);

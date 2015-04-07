@@ -47,6 +47,7 @@ public class ClueGame extends JFrame{
 		gameRooms = new ArrayList<String>(tempRooms.values());
 
 		createDeck();
+		distributeCards();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CLUE - The Game");
@@ -78,8 +79,7 @@ public class ClueGame extends JFrame{
 		menuBar.add(file);
 		file.add(detectiveNotes);
 		file.add(exit);
-		
-		JPanel controlPanel = new Control();
+		JPanel controlPanel = new Control(board);
 		System.out.println(human.getCards());
 		JPanel PlayerHand = new PlayerHand(human);
 		add(PlayerHand, BorderLayout.EAST);
@@ -87,7 +87,15 @@ public class ClueGame extends JFrame{
 		add(board, BorderLayout.CENTER);
 		
 	}
-
+	
+	//Debug constructor to test LoadRoomConfig
+	public ClueGame(String fileID, String config, String debug){
+		rooms = new HashMap<Character, String>();
+		Config = config;
+		FileID = fileID;
+	}
+	
+	
 	public void createPlayers()		//player colors go: blue, red, cyan, pink, white, black
 	{								
 		//assign names to Players from player file
@@ -230,7 +238,7 @@ public class ClueGame extends JFrame{
 	{
 		// removes 3 cards from deck
 		selectAnswer();
-
+		
 		int index = 0;
 		for (Card c : gameCards)
 		{
@@ -273,7 +281,11 @@ public class ClueGame extends JFrame{
 		solution = new Solution(person, weapon, room);
 		
 	}
-
+	public class ButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			System.out.println("pressed");
+		}
+	}
 	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
 	{
 		Solution solution = new Solution(personGuess, roomGuess, weaponGuess);

@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.*;
 
@@ -20,6 +22,12 @@ public class Board extends JPanel
 	private int numRows;
 	private int numColumns;
 	private String fileID;
+	
+	private int dieRoll;
+	private int whoseTurn = 0;
+	private Player currentPlayer;
+	private boolean firstTurn = true;
+	private Set<BoardCell> toClear;
 
 	private int currentRow;
 	private int currentCol;
@@ -63,6 +71,7 @@ public class Board extends JPanel
 		rooms  = new HashMap<Character,String>();
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
+		addMouseListener(new BoardListener() );
 
 	}
 
@@ -228,57 +237,58 @@ public class Board extends JPanel
 			for(int j = 0; j < board[i].length; j++){
 				if(!adj.containsKey(board[i][j])){
 					adj.put(board[i][j], new LinkedList<BoardCell>()); //if the cell isn't in the map, add it
-				}
-				if(board[i][j].isDoorway()){
-					if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
-						adj.get(board[i][j]).add(board[i][j-1]);
-					}
-					else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
-						adj.get(board[i][j]).add(board[i-1][j]);
-					}
-					else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
-						adj.get(board[i][j]).add(board[i+1][j]);
-					}
-					else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
-						adj.get(board[i][j]).add(board[i][j+1]);
-					}
-				}
-				else if(!board[i][j].isRoom()){
-					if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
-						if(board[i-1][j].isDoorway()){
-							if(((RoomCell)board[i-1][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
-								adj.get(board[i][j]).add(board[i-1][j]);
-							}
-						}else{
-							adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
+
+					if(board[i][j].isDoorway()){
+						if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
+							adj.get(board[i][j]).add(board[i][j-1]);
+						}
+						else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
+							adj.get(board[i][j]).add(board[i-1][j]);
+						}
+						else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
+							adj.get(board[i][j]).add(board[i+1][j]);
+						}
+						else if(((RoomCell)board[i][j]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
+							adj.get(board[i][j]).add(board[i][j+1]);
 						}
 					}
-					if(i < board.length - 1 && (board[i+1][j].isDoorway() || !board[i+1][j].isRoom())){
-						if(board[i+1][j].isDoorway()){
-							if(((RoomCell)board[i+1][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
-								adj.get(board[i][j]).add(board[i+1][j]);
+					else if(!board[i][j].isRoom()){
+						if(i > 0 && (board[i-1][j].isDoorway() || !board[i-1][j].isRoom())){
+							if(board[i-1][j].isDoorway()){
+								if(((RoomCell)board[i-1][j]).getDoorDirection() == RoomCell.DoorDirection.DOWN){
+									adj.get(board[i][j]).add(board[i-1][j]);
+								}
+							}else{
+								adj.get(board[i][j]).add(board[i-1][j]);//If you're not on the left edge, add the cell to the left
 							}
-						}else{
-							adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
 						}
-					}
-					if(j > 0 && (board[i][j-1].isDoorway() || !board[i][j-1].isRoom())){
-						if(board[i][j-1].isDoorway()){
-							if(((RoomCell)board[i][j-1]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
-								adj.get(board[i][j]).add(board[i][j-1]);
+						if(i < board.length - 1 && (board[i+1][j].isDoorway() || !board[i+1][j].isRoom())){
+							if(board[i+1][j].isDoorway()){
+								if(((RoomCell)board[i+1][j]).getDoorDirection() == RoomCell.DoorDirection.UP){
+									adj.get(board[i][j]).add(board[i+1][j]);
+								}
+							}else{
+								adj.get(board[i][j]).add(board[i+1][j]);//If you're not on the right edge, add the cell to the right
 							}
-						}else{
-							adj.get(board[i][j]).add(board[i][j-1]);//etc
 						}
-					}
-					if(j < board[i].length - 1 && (board[i][j+1].isDoorway() || !board[i][j+1].isRoom())){
-						if(board[i][j+1].isDoorway()){
-							if(((RoomCell)board[i][j+1]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
+						if(j > 0 && (board[i][j-1].isDoorway() || !board[i][j-1].isRoom())){
+							if(board[i][j-1].isDoorway()){
+								if(((RoomCell)board[i][j-1]).getDoorDirection() == RoomCell.DoorDirection.RIGHT){
+									adj.get(board[i][j]).add(board[i][j-1]);
+								}
+							}else{
+								adj.get(board[i][j]).add(board[i][j-1]);//etc
+							}
+						}
+						if(j < board[i].length - 1 && (board[i][j+1].isDoorway() || !board[i][j+1].isRoom())){
+							if(board[i][j+1].isDoorway()){
+								if(((RoomCell)board[i][j+1]).getDoorDirection() == RoomCell.DoorDirection.LEFT){
+									adj.get(board[i][j]).add(board[i][j+1]);
+								}
+							}
+							else{
 								adj.get(board[i][j]).add(board[i][j+1]);
 							}
-						}
-						else{
-							adj.get(board[i][j]).add(board[i][j+1]);
 						}
 					}
 				}
@@ -318,7 +328,115 @@ public class Board extends JPanel
 			}
 		}
 	}
+	
+	private class BoardListener implements MouseListener {
+		@Override
+		public void mousePressed (MouseEvent e){
+			if(currentPlayer.isHuman()){
+				if(!currentPlayer.canAdvance()){
+					Point newPoint = e.getPoint();
+					BoardCell clickedCell = board[((int)newPoint.getY())/SCALE_FACTOR][(int)newPoint.getX()/SCALE_FACTOR];
+					if(clickedCell.isTargeted()){
+						currentPlayer.setLocation(clickedCell);
+						currentPlayer.setCanAdvance(true);
+						
+					}else{
+						JOptionPane.showMessageDialog( null, "Invalid Move Selection");
+					}
+				}
 
+
+				repaint();
+			}
+
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	public void advanceTurn(){
+		Random rand = new Random();
+		if (firstTurn){
+			currentPlayer = players.get(whoseTurn);
+		}
+		
+		
+		if(!currentPlayer.canAdvance()){
+			dieRoll = rand.nextInt(6)+1;
+		}
+		if(toClear == null){
+			calcTargets(currentPlayer.getLocation(), dieRoll);
+		}
+		
+		if(toClear != null && !currentPlayer.canAdvance()){
+			JOptionPane.showMessageDialog(null, "You must move before ending your turn!");
+		}
+		
+		if(currentPlayer.isHuman()){
+			for(BoardCell x: targets){
+				x.setisTargeted(true);
+			}
+			if(currentPlayer.canAdvance() && toClear != null){
+				for(BoardCell x: toClear){
+					x.setisTargeted(false);
+				}
+				
+				toClear = null;
+				nextPlayer();
+				currentPlayer.setCanAdvance(false);	
+				calcTargets(currentPlayer.getLocation(), dieRoll);
+
+
+			}else{
+				toClear = new HashSet<BoardCell>(targets);
+			}
+
+		}
+
+		if(!currentPlayer.isHuman()){
+			if(currentPlayer.canAdvance()){
+				nextPlayer();
+				currentPlayer.setCanAdvance(false);
+				advanceTurn();
+			}else{
+				((ComputerPlayer) currentPlayer).move(targets);
+				currentPlayer.setCanAdvance(true);
+			}
+			
+			
+		}
+		repaint();
+	}
+	
+	public void nextPlayer(){
+		if(whoseTurn < players.size()-1){
+			whoseTurn++;
+		}else{
+			whoseTurn = 0;
+		}
+		currentPlayer = players.get(whoseTurn);
+	}
 	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
 	}
@@ -346,5 +464,13 @@ public class Board extends JPanel
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public int getDieRoll() {
+		return dieRoll;
+	}
+	
+	public String getCPName(){
+		return currentPlayer.getName();
 	}
 }

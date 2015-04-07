@@ -48,8 +48,11 @@ public class ComputerPlayer extends Player{
 		        
 		    i++;
 		}
-		
 		return null;
+	}
+	
+	public void move(Set<BoardCell> targets){
+		BoardCell throwaway = pickLocation(targets);
 	}
 
 	@Override

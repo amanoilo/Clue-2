@@ -29,7 +29,7 @@ public class GameSetupTests {
 		// set up for constructor tests
 		HumanPlayer human1 = new HumanPlayer("Hank Fleck", Color.blue, board.getCellAt(6, 0));
 		ComputerPlayer comp1 = new ComputerPlayer("Mary Duworth", Color.red, board.getCellAt(0, 12));
-		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(0, 15));
+		ComputerPlayer comp5 = new ComputerPlayer("Chet Brown", Color.black, board.getCellAt(15, 0));
 
 		// set up for creatPlayers() tests
 		game.createPlayers();
@@ -59,12 +59,12 @@ public class GameSetupTests {
 		//Test Start Locations for Constructors
 		assertEquals(human1.getLocation(), board.getCellAt(6, 0));
 		assertEquals(comp1.getLocation(), board.getCellAt(0, 12));
-		assertEquals(comp5.getLocation(), board.getCellAt(0, 15));
+		assertEquals(comp5.getLocation(), board.getCellAt(15, 0));
 
 		//Test Start Locations for createPlayers()
 		assertEquals(game.getPlayer(0).getLocation(), board.getCellAt(6, 0));
 		assertEquals(game.getPlayer(1).getLocation(),  board.getCellAt(0, 12));
-		assertEquals(game.getPlayer(5).getLocation(), board.getCellAt(0, 15));
+		assertEquals(game.getPlayer(5).getLocation(), board.getCellAt(15, 0));
 	}
 
 	@Test

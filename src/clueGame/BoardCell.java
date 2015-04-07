@@ -10,6 +10,7 @@ public abstract class BoardCell
 	protected int pwidth;
 	protected int pheight;
 	private boolean canWrite;
+	private boolean isTargeted;
 	
 	public BoardCell(int r, int c, int pwidth, int pheight)
 	{
@@ -39,7 +40,12 @@ public abstract class BoardCell
 		return false; 
 	}
 	
-	
+	public boolean isTargeted(){
+		return isTargeted;
+	}
+	public void setisTargeted(boolean bool){
+		isTargeted = bool;
+	}
 	
 	public int getR() 
 	{

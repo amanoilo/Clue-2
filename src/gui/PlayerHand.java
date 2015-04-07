@@ -1,11 +1,16 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import clueGame.Card;
 import clueGame.Player;
@@ -20,20 +25,23 @@ public class PlayerHand extends JPanel {
 		ArrayList<Card> hand = new ArrayList<Card>(human.getCards());
 		sortHand(hand);
 		
-		setSize(200, 500);
 		
-		JPanel panel = new JPanel();
-		setLayout(new GridLayout(1,3));
+		JPanel panel = new JPanel(new GridLayout(3,1));
+		TitledBorder title;
+		title = BorderFactory.createTitledBorder("My Cards");
+		panel.setBorder(title);
 		
-		panel = persons();
+		
+		JPanel persons= persons();
+		panel.add(persons);
+		
+		JPanel rooms= rooms();
+		panel.add(rooms);
+		
+		JPanel weapons = weapons();
+		panel.add(weapons);
+		
 		add(panel);
-		
-		panel = rooms();
-		add(panel);
-		
-		panel = weapons();
-		add(panel);
-		
 	}
 	
 	public void sortHand(ArrayList<Card> hand){
@@ -56,27 +64,48 @@ public class PlayerHand extends JPanel {
 	
 	
 	private JPanel persons(){
-    	JPanel panel = new JPanel();
-    	panel.setLayout(new GridLayout(1,personCards.size()));
-    	JLabel label = new JLabel("here");
-    	panel.add(label); 
-    	fillPanel(personCards, panel);
-    	
+		JPanel panel;
+		if(!personCards.isEmpty()){
+			panel = new JPanel(new GridLayout(personCards.size(),1));
+			fillPanel(personCards, panel);
+		}else{
+			panel = new JPanel();
+		}
+    	TitledBorder title;
+		title = BorderFactory.createTitledBorder("People");
+		panel.setBorder(title);
+		
     	return panel;
 	}
 	
 	private JPanel rooms(){
-    	JPanel panel = new JPanel();
-    	panel.setLayout(new GridLayout(1,roomCards.size()));
-    	fillPanel(roomCards, panel);
+		JPanel panel;
+		if(!roomCards.isEmpty()){
+			panel = new JPanel(new GridLayout(roomCards.size(),1));
+			fillPanel(roomCards, panel);
+		}else{
+			panel = new JPanel();
+		}
+    	TitledBorder title;
+		title = BorderFactory.createTitledBorder("Rooms");
+		panel.setBorder(title);
+    	
 
     	return panel;
 	}
 	
 	private JPanel weapons(){
-    	JPanel panel = new JPanel();
-    	panel.setLayout(new GridLayout(1,weaponCards.size()));
-    	fillPanel(weaponCards, panel);
+		JPanel panel;
+		if(!weaponCards.isEmpty()){
+			panel = new JPanel(new GridLayout(weaponCards.size(),1));
+			fillPanel(weaponCards, panel);
+		}else{
+			panel = new JPanel();
+		}
+    	TitledBorder title;
+		title = BorderFactory.createTitledBorder("Weapons");
+		panel.setBorder(title);
+    	
 
     	return panel;
 	}
@@ -85,7 +114,8 @@ public class PlayerHand extends JPanel {
 	{
 		for(Card x : cardList){
     		JTextField p = new JTextField(x.getName());
-    		p.setEditable(false);
+    		//p.setPreferredSize(new Dimension(100,120));
+    		//p.setEditable(false);
     		panel.add(p);
     	}
 	}

@@ -50,6 +50,9 @@ public class RoomCell extends BoardCell {
 	public void draw(Graphics g) 
 	{
 		g.setColor(Color.GRAY);
+		if(this.isTargeted()){
+			g.setColor(Color.CYAN);
+		}
 		g.fillRect(column * pwidth, row * pheight, pwidth, pheight);
 		
 		switch(doorDirection)

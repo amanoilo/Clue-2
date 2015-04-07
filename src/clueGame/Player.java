@@ -14,7 +14,7 @@ public abstract class Player {
 	private ArrayList<Card> playerCards;
 	private boolean human;
 	private BoardCell location;
-	private boolean canMove;
+	private boolean canAdvance;
 
 
 	public Player(String name, Color color, BoardCell location, boolean human)
@@ -24,10 +24,11 @@ public abstract class Player {
 		this.color = color;
 		this.location = location;
 		this.human = human;
-		this.canMove = false;
+		this.canAdvance = false;
 	}
 
 	public abstract Solution createSuggestion(String roomName);
+	
 
 	public boolean disprove(String personGuess, String roomGuess, String weaponGuess)
 	{
@@ -89,6 +90,14 @@ public abstract class Player {
 	{ 
 		return human; 
 	}
+	
+	public boolean canAdvance(){
+		return canAdvance;
+	}
+	
+	public void setCanAdvance(boolean bool){
+		this.canAdvance = bool;
+	}
 
 	public void draw(Graphics g)
 	{
@@ -97,4 +106,5 @@ public abstract class Player {
 		g.setColor(Color.BLACK);
 		g.drawOval(location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR);
 	}
+
 }

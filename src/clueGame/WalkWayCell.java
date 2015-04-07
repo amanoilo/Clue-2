@@ -19,6 +19,10 @@ public class WalkWayCell extends BoardCell{
 	{
 		// create square
 		g.setColor(Color.YELLOW);
+		
+		if(this.isTargeted()){
+			g.setColor(Color.CYAN);
+		}
 		g.fillRect(column * pwidth, row * pheight, pwidth, pheight);
 		
 		// create border
