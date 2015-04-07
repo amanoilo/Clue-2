@@ -106,5 +106,17 @@ public abstract class Player {
 		g.setColor(Color.BLACK);
 		g.drawOval(location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR);
 	}
+	
+	public void drawConflict(Graphics g, Player p1, Player p2)
+	{
+		g.setColor(p1.color);
+		g.fillArc(p1.location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR, 0, 180);
+		g.setColor(p2.color);
+		System.out.println(p2.color);
+		System.out.println(p1.color);
+		g.fillArc(p2.location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR, 180, 360);
+		g.setColor(Color.BLACK);
+		g.drawOval(location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR);
+	}
 
 }

@@ -49,6 +49,10 @@ public class Control extends JPanel {
     		gameBoard.advanceTurn();
     		current.setText(gameBoard.getCPName());
     		die.setText(Integer.toString(gameBoard.getDieRoll()));
+    		
+    		guess.setText(gameBoard.lastGuess.toString());
+    		response.setText(gameBoard.lastResponse);
+    		
     	}
     }
     private JPanel createTurnAndDiePanel()

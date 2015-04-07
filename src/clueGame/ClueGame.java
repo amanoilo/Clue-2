@@ -28,6 +28,7 @@ public class ClueGame extends JFrame{
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
 	private HumanPlayer human;
 	
+	
 	private ArrayList<String> gameRooms;
 	
 	private Detective detective;
@@ -48,6 +49,9 @@ public class ClueGame extends JFrame{
 
 		createDeck();
 		distributeCards();
+		
+		board.setPlayers(gamePlayers);
+		board.setWeapons(gameWeapons);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CLUE - The Game");
@@ -80,7 +84,6 @@ public class ClueGame extends JFrame{
 		file.add(detectiveNotes);
 		file.add(exit);
 		JPanel controlPanel = new Control(board);
-		System.out.println(human.getCards());
 		JPanel PlayerHand = new PlayerHand(human);
 		add(PlayerHand, BorderLayout.EAST);
 		add(controlPanel,BorderLayout.SOUTH);
@@ -243,6 +246,7 @@ public class ClueGame extends JFrame{
 		for (Card c : gameCards)
 		{
 			gamePlayers.get(index % gamePlayers.size()).giveCard(c);
+
 			index++;
 		}
 	}
@@ -432,9 +436,8 @@ public class ClueGame extends JFrame{
 			}
 
 			
-			board = new Board(FileID, rooms, null);
+			board = new Board(FileID, rooms, null, null);
 			createPlayers();
-			board.setPlayers(gamePlayers);
 			
 
 		}catch(FileNotFoundException e){
@@ -508,7 +511,7 @@ public class ClueGame extends JFrame{
 			System.out.println("Couldn't close the legend file?");
 		}
 
-		board = new Board(FileID, rooms, null);
+		board = new Board(FileID, rooms, null, null);
 	}
 
 	public Board getBoard() { return board;	}

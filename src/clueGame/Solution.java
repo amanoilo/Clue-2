@@ -3,6 +3,16 @@ package clueGame;
 import java.util.ArrayList;
 
 public class Solution implements Comparable<Solution>{
+	@Override
+	public String toString() {
+		if(person!="" && weapon!="" && room!= ""){
+					return person + " with " + weapon + " in " + room;
+
+		}else{
+			return "";
+		}
+	}
+
 	private String person;
 	private String weapon;
 	private String room;

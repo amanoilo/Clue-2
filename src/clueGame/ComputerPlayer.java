@@ -116,4 +116,8 @@ public class ComputerPlayer extends Player{
 	{
 		return possibleChoices;
 	}
+	
+	public ArrayList<Card> getSeenCards(){
+		return seenCards;
+	}
 }
