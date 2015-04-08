@@ -156,6 +156,8 @@ public class ClueGame extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		board.setCP(gamePlayers.get(board.getTurn()));
+
 	}
 
 	// used in createPlayers() method to convert color names in a text file to Color objects
