@@ -52,8 +52,8 @@ public class ClueGame extends JFrame{
 	public Solution lastGuess = new Solution("","","");
 	public String lastResponse = "";
 
-	private static final int OFFSET = 50;
-
+	private static final int Y_OFFSET = 54;
+	private static final int X_OFFSET = 8;
 	
 	private ArrayList<String> gameRooms;
 	
@@ -259,11 +259,11 @@ public class ClueGame extends JFrame{
 		
 		for (Player p : gamePlayers)
 		{
-			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(gameCards);
+			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(new ArrayList<Card>(gameCards));
 		}
 		// Shuffles the deck
 		Collections.shuffle(gameCards);
-		allCards = new ArrayList<Card>(gameCards);
+		//allCards = new ArrayList<Card>(gameCards);
 
 	}
 
@@ -531,6 +531,7 @@ public class ClueGame extends JFrame{
 		ArrayList<Player> tempPlayerList = new ArrayList<Player>(gamePlayers);
 		tempPlayerList.remove(accuser);
 		
+		System.out.println(s.toString());
 		playerNames.get(s.getPerson()).setLocation(accuser.getLocation());
 		
 		
@@ -614,7 +615,7 @@ public class ClueGame extends JFrame{
 			if(currentPlayer.isHuman()){
 				if(!currentPlayer.canAdvance()){
 					Point newPoint = e.getPoint();
-					BoardCell clickedCell = board.getBoard()[(((int)newPoint.getY()-OFFSET))/board.SCALE_FACTOR][((int)newPoint.getX())/board.SCALE_FACTOR];
+					BoardCell clickedCell = board.getBoard()[(((int)newPoint.getY()-Y_OFFSET))/board.SCALE_FACTOR][(((int)newPoint.getX()) - X_OFFSET)/board.SCALE_FACTOR];
 					if(clickedCell.isTargeted())
 					{
 						currentPlayer.setLocation(clickedCell);
@@ -743,7 +744,7 @@ public class ClueGame extends JFrame{
 							lastResponse = newResponse.getName();
 						}else{
 							((ComputerPlayer)currentPlayer).readyToAccuse();
-							lastResponse = "no new clue";
+							lastResponse = "No New Clue";
 						}
 
 

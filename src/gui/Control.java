@@ -54,7 +54,7 @@ public class Control extends JPanel {
     	JLabel dieText = new JLabel("Die Roll");
     	
     	
-    	current = new JTextField(20);
+    	current = new JTextField(10);
     	JLabel currentText = new JLabel("Current Player");
     	
     	
@@ -91,10 +91,10 @@ public class Control extends JPanel {
     private JPanel createGuessPanel()
     {
     	
-    	guess = new JTextField(15);
+    	guess = new JTextField(25);
     	JLabel guessText = new JLabel("Guess");
     	
-    	response = new JTextField(15);
+    	response = new JTextField(25);
     	JLabel responseText = new JLabel("Guess Response");
     	
     	guess.setEditable(false);

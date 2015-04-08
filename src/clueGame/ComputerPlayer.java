@@ -85,7 +85,6 @@ public class ComputerPlayer extends Player{
 		}
 		Solution newSolution = new Solution(personName, weaponName, roomName);
 		lastSolution = newSolution;
-		System.out.println(lastSolution);
 		return 	newSolution;
 	}
 	
