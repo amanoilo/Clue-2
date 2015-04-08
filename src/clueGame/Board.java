@@ -34,7 +34,7 @@ public class Board extends JPanel
 	private int dieRoll;
 	private int whoseTurn = 0;
 	private Player currentPlayer;
-	//private boolean firstTurn = true;
+	private boolean firstTurn = true;
 	private Set<BoardCell> toClear;
 	
 	public Solution lastGuess = new Solution("","","");
@@ -126,33 +126,31 @@ public class Board extends JPanel
 		for (Player p : players)
 		{	
 
-			//for (Player q : players)
-			//{
-			p.drawConflict(g, p, currentPlayer);
+				//for (Player q : players)
+				//{
 
-//			if (currentPlayer.getLocation() != p.getLocation() || (currentPlayer.getColor() == p.getColor())) 
-//			{
-//				//repeat++;
-//				//if(repeatedPlayer != p){
-//				//	repeatedPlayer = q;
-//				//	conflicted.add(p);
-//				//	conflicted.add(q);
-//				//	System.out.println(q.getName());
-//				
-//				//	break;
-//
-//				//}
-//
-//
-//			}
-//			else
-//			{ 
-//				p.drawConflict(g, p, currentPlayer);
-//				//}
-//				//System.out.println(repeatedPlayer.getColor());
-//
-//			}
-//			//repeat = 0;
+					if (currentPlayer.getLocation() == p.getLocation() && (currentPlayer.getColor() != p.getColor())) 
+					{
+						//repeat++;
+						//if(repeatedPlayer != p){
+						//	repeatedPlayer = q;
+						//	conflicted.add(p);
+						//	conflicted.add(q);
+						//	System.out.println(q.getName());
+							p.drawConflict(g, currentPlayer, p);
+						//	break;
+
+						//}
+
+
+					}
+					else{ 
+						p.draw(g);
+			//}
+			//System.out.println(repeatedPlayer.getColor());
+				
+			}
+			//repeat = 0;
 
 		}
 
