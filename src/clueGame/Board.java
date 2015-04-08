@@ -24,6 +24,7 @@ public class Board extends JPanel
 
 	private Map<BoardCell, LinkedList<BoardCell>> adj;
 	private Set<BoardCell> targets;
+	//private BoardCell ClickedCell = null;
 
 	private final String WalkwayInitial = "W";
 	private int numRows;
@@ -84,7 +85,7 @@ public class Board extends JPanel
 		rooms  = new HashMap<Character,String>();
 		adj = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		targets = new HashSet<BoardCell>();
-		addMouseListener(new BoardListener() );
+		//addMouseListener(new BoardListener() );
 
 	}
 
@@ -120,41 +121,36 @@ public class Board extends JPanel
 			}
 		}	
 
-		int repeat = 0;
-		Set<Player> conflicted = new HashSet<Player>();
+		//int repeat = 0;
+		//Set<Player> conflicted = new HashSet<Player>();
 		for (Player p : players)
 		{	
 
-			if(!conflicted.contains(p)){
+				//for (Player q : players)
+				//{
 
-
-				for (Player q : players)
-				{
-
-					if (q.getLocation() == p.getLocation() && (q.getColor() != p.getColor())) 
+					if (currentPlayer.getLocation() == p.getLocation() && (currentPlayer.getColor() != p.getColor())) 
 					{
-						repeat++;
-						if(repeatedPlayer != p){
-							repeatedPlayer = q;
-							conflicted.add(p);
-							conflicted.add(q);
-							System.out.println(q.getName());
-							p.drawConflict(g, p, repeatedPlayer);
-							break;
+						//repeat++;
+						//if(repeatedPlayer != p){
+						//	repeatedPlayer = q;
+						//	conflicted.add(p);
+						//	conflicted.add(q);
+						//	System.out.println(q.getName());
+							p.drawConflict(g, currentPlayer, p);
+						//	break;
 
-						}
+						//}
 
 
 					}
-
-				}
-
-			}
+					else{ 
+						p.draw(g);
+			//}
 			//System.out.println(repeatedPlayer.getColor());
-			if (repeat == 0 ){ 
-				p.draw(g);
+				
 			}
-			repeat = 0;
+			//repeat = 0;
 
 		}
 
@@ -379,7 +375,7 @@ public class Board extends JPanel
 		}
 	}
 
-	private class BoardListener implements MouseListener {
+	/*private class BoardListener implements MouseListener {
 		@Override
 		public void mousePressed (MouseEvent e){
 			if(currentPlayer.isHuman()){
@@ -389,10 +385,10 @@ public class Board extends JPanel
 					if(clickedCell.isTargeted()){
 						currentPlayer.setLocation(clickedCell);
 						currentPlayer.setCanAdvance(true);
-						if(clickedCell.isRoom()){
-							HumanSuggestion suggestion = new HumanSuggestion(players, rooms.get(((RoomCell)clickedCell).getInitial()), weapons); 
-							suggestion.setVisible(true);
-						}
+						//if(clickedCell.isRoom()){
+						//	HumanSuggestion suggestion = new HumanSuggestion(players, rooms.get(((RoomCell)clickedCell).getInitial()), weapons); 
+						//	suggestion.setVisible(true);
+						//}
 					}else{
 						JOptionPane.showMessageDialog( null, "Invalid Move Selection");
 					}
@@ -426,13 +422,13 @@ public class Board extends JPanel
 			// TODO Auto-generated method stub
 
 		}
-	}
+	}*/
 
 	/*public void advanceTurn(){
 		Random rand = new Random();
-		if (firstTurn){
-			currentPlayer = players.get(whoseTurn);
-		}
+		//if (firstTurn){
+		//	currentPlayer = players.get(whoseTurn);
+		//}
 
 
 		if(!currentPlayer.canAdvance()){
@@ -596,4 +592,21 @@ public class Board extends JPanel
 	public void setWeapons(ArrayList<String> gameWeapons) {
 		this.weapons = gameWeapons;
 	}
+	
+	public Player getCP()
+	{
+		return currentPlayer;
+	}
+	
+	public void setCP(Player CP)
+	{
+		currentPlayer = CP;
+	}
+	
+	public int getTurn()
+	{
+		return whoseTurn;
+	}
 }
+
+

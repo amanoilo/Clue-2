@@ -4,6 +4,8 @@ import gui.Control;
 import gui.Detective;
 import gui.PlayerHand;
 import gui.SplashScreen;
+import gui.HumanSuggestion;
+
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -11,6 +13,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
@@ -27,7 +30,7 @@ public class ClueGame extends JFrame{
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
 	private HumanPlayer human;
-	
+
 	private Control controlPanel;
 	private PlayerHand playerHand;
 	
@@ -39,6 +42,9 @@ public class ClueGame extends JFrame{
 	
 	public Solution lastGuess = new Solution("","","");
 	public String lastResponse = "";
+
+	private static final int OFFSET = 50;
+
 	
 	private ArrayList<String> gameRooms;
 	
@@ -99,9 +105,10 @@ public class ClueGame extends JFrame{
 		add(playerHand, BorderLayout.EAST);
 		add(controlPanel,BorderLayout.SOUTH);
 		add(board, BorderLayout.CENTER);
-		
 		controlPanel.getNext().addActionListener(new TurnListener());
-		
+
+		addMouseListener(new BoardListener() );
+
 	}
 	
 	//Debug constructor to test LoadRoomConfig
@@ -163,6 +170,8 @@ public class ClueGame extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		board.setCP(gamePlayers.get(board.getTurn()));
+
 	}
 
 	// used in createPlayers() method to convert color names in a text file to Color objects
@@ -341,6 +350,57 @@ public class ClueGame extends JFrame{
 
 	}
 
+	private class BoardListener implements MouseListener {
+		@Override
+		public void mousePressed (MouseEvent e)
+		{
+			if(board.getCP().isHuman()){
+				if(!board.getCP().canAdvance()){
+					Point newPoint = e.getPoint();
+					BoardCell clickedCell = board.getBoard()[(((int)newPoint.getY()-OFFSET))/board.SCALE_FACTOR][((int)newPoint.getX())/board.SCALE_FACTOR];
+					if(clickedCell.isTargeted())
+					{
+						board.getCP().setLocation(clickedCell);
+						board.getCP().setCanAdvance(true);
+						if(clickedCell.isRoom())
+						{
+						HumanSuggestion suggestion = new HumanSuggestion(gamePlayers, rooms.get(((RoomCell)clickedCell).getInitial()), gameWeapons); 
+						suggestion.setVisible(true);
+						}}
+						else
+						{
+							JOptionPane.showMessageDialog( null, "Invalid Move Selection");
+						}
+					}
+				repaint();
+			}
+		}
+	
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+	
 	public boolean checkAccusation(Solution solution)
 	{
 		if (this.solution == solution) return true;

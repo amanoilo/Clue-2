@@ -18,7 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import clueGame.Player;
 
-import com.sun.javafx.collections.MappingChange.Map;
+//import com.sun.javafx.collections.MappingChange.Map;
 
 public class Detective extends JDialog{
 
@@ -28,7 +28,7 @@ public class Detective extends JDialog{
     private JTextField die;
     private JTextField current;
     private ArrayList<Player> gamePlayers;
-    private Map<Character, String> roomsMap;
+    private HashMap<Character, String> roomsMap;
     private ArrayList<String> gameWeapons;
     private ArrayList<String> gameRooms;
     
