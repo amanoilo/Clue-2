@@ -1,10 +1,6 @@
 package clueGame;
 
-import gui.HumanSuggestion;
-
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.*;
 
@@ -16,8 +12,7 @@ public class Board extends JPanel
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
 	private ArrayList<Player> players;
-	private Map<String, Player> playerNames;
-	private ArrayList<String> weapons;
+
 	
 	Player repeatedPlayer;
 
@@ -31,23 +26,14 @@ public class Board extends JPanel
 	private int numColumns;
 	private String fileID;
 
-	private int dieRoll;
-	private int whoseTurn = 0;
-	private Player currentPlayer;
-	private boolean firstTurn = true;
-	private Set<BoardCell> toClear;
-	
-	public Solution lastGuess = new Solution("","","");
-	public String lastResponse = "";
-
 	private int currentRow;
 	private int currentCol;
 
-	public Board(String fileID, Map<Character, String> rooms, ArrayList<Player> players, ArrayList<String> weapons) throws BadConfigFormatException {
+	public Board(String fileID, Map<Character, String> rooms, ArrayList<Player> players) throws BadConfigFormatException {
 		this.rooms = new HashMap<Character,String>(rooms);
 		this.fileID = fileID;
 		this.players = players;
-		this.weapons = weapons;
+		
 		
 		
 		try
@@ -94,11 +80,6 @@ public class Board extends JPanel
 	{
 		this.players = players;
 		
-		//Associate players with their names (for calling them by name later on)
-		playerNames = new HashMap<String, Player>();
-		for(Player p: players){
-			playerNames.put(p.getName(), p);
-		}
 	}
 
 	@Override
@@ -121,38 +102,30 @@ public class Board extends JPanel
 			}
 		}	
 
-		//int repeat = 0;
-		//Set<Player> conflicted = new HashSet<Player>();
+		Set<Player> conflicted = new HashSet<Player>();
 		for (Player p : players)
 		{	
-
-				//for (Player q : players)
-				//{
-
-					if (currentPlayer.getLocation() == p.getLocation() && (currentPlayer.getColor() != p.getColor())) 
+			for(Player q: players){
+				if(!conflicted.contains(p) && !conflicted.contains(q))
+				{
+					if (p.getLocation() == q.getLocation() && (q.getColor() != p.getColor())) 
 					{
-						//repeat++;
-						//if(repeatedPlayer != p){
-						//	repeatedPlayer = q;
-						//	conflicted.add(p);
-						//	conflicted.add(q);
-						//	System.out.println(q.getName());
-							p.drawConflict(g, currentPlayer, p);
-						//	break;
-
-						//}
-
-
+						p.drawConflict(g, q, p);
+						conflicted.add(p);
+						conflicted.add(q);
 					}
-					else{ 
-						p.draw(g);
-			//}
-			//System.out.println(repeatedPlayer.getColor());
+				}
 				
 			}
-			//repeat = 0;
-
+			
+		}	
+		for(Player p : players){ 
+			if(!conflicted.contains(p)){
+				p.draw(g);
+			}
+			
 		}
+		
 
 	}
 
@@ -374,183 +347,7 @@ public class Board extends JPanel
 			}
 		}
 	}
-
-	/*private class BoardListener implements MouseListener {
-		@Override
-		public void mousePressed (MouseEvent e){
-			if(currentPlayer.isHuman()){
-				if(!currentPlayer.canAdvance()){
-					Point newPoint = e.getPoint();
-					BoardCell clickedCell = board[((int)newPoint.getY())/SCALE_FACTOR][(int)newPoint.getX()/SCALE_FACTOR];
-					if(clickedCell.isTargeted()){
-						currentPlayer.setLocation(clickedCell);
-						currentPlayer.setCanAdvance(true);
-						//if(clickedCell.isRoom()){
-						//	HumanSuggestion suggestion = new HumanSuggestion(players, rooms.get(((RoomCell)clickedCell).getInitial()), weapons); 
-						//	suggestion.setVisible(true);
-						//}
-					}else{
-						JOptionPane.showMessageDialog( null, "Invalid Move Selection");
-					}
-				}
-
-
-				repaint();
-			}
-
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-	}*/
-
-	/*public void advanceTurn(){
-		Random rand = new Random();
-		//if (firstTurn){
-		//	currentPlayer = players.get(whoseTurn);
-		//}
-
-
-		if(!currentPlayer.canAdvance()){
-			dieRoll = rand.nextInt(6)+1;
-		}
-		if(toClear == null){
-			calcTargets(currentPlayer.getLocation(), dieRoll);
-		}
-
-		if(toClear != null && !currentPlayer.canAdvance()){
-			JOptionPane.showMessageDialog(null, "You must move before ending your turn!");
-		}
-
-		if(currentPlayer.isHuman()){
-			for(BoardCell x: targets){
-				x.setisTargeted(true);
-			}
-			if(currentPlayer.canAdvance() && toClear != null){
-				for(BoardCell x: toClear){
-					x.setisTargeted(false);
-				}
-
-				toClear = null;
-				nextPlayer();
-				currentPlayer.setCanAdvance(false);	
-				calcTargets(currentPlayer.getLocation(), dieRoll);
-
-
-			}else{
-				
-				toClear = new HashSet<BoardCell>(targets);
-			}
-
-		}
-
-		if(!currentPlayer.isHuman()){
-			if(currentPlayer.canAdvance()){
-				nextPlayer();
-				currentPlayer.setCanAdvance(false);
-				advanceTurn();
-			}else{
-				((ComputerPlayer) currentPlayer).move(targets);
-				if(currentPlayer.getLocation().isRoom()){
-					Solution guess;
-					guess = ((ComputerPlayer) currentPlayer).createSuggestion(
-							rooms.get(
-									((RoomCell)currentPlayer.getLocation()).getInitial()
-									)
-							);
-					lastGuess = guess;
-					Card newResponse = handleSuggestion(guess, currentPlayer);
-					if(newResponse!= null){
-						lastResponse = newResponse.getName();
-					}else{
-						lastResponse = "no new clue";
-					}
-					
-					
-					
-					
-				}
-				currentPlayer.setCanAdvance(true);
-			}
-
-
-		}
-		repaint();
-	}*/
-
 	
-	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
-	{
-		Solution solution = new Solution(personGuess, roomGuess, weaponGuess);
-		return handleSuggestion(solution, accuser);
-	}
-
-	// NOTE: debating whether having an accuser even matters.
-	// It currently uses the information to not check the 
-	// accuser's hand, but that may not be the correct way
-	// of doing things. The accuser may guess cards in
-	// their own hand, after all. 
-	public Card handleSuggestion(Solution s, Player accuser)
-	{	
-		ArrayList<Player> tempPlayerList = new ArrayList<Player>(players);
-		tempPlayerList.remove(accuser);
-		
-		playerNames.get(s.getPerson()).setLocation(accuser.getLocation());
-		
-		
-		Card evidence = null;
-		for (Player p : tempPlayerList)
-		{
-			for (Card c : p.getCards())
-			{
-				if(c.getName() == s.getPerson() || c.getName() == s.getWeapon() || c.getName() == s.getRoom())
-					evidence = c;
-			}	
-		}
-
-		if (evidence != null) updateSeen(evidence);
-		repaint();
-		return evidence;	
-	
-	}
-	
-	private void updateSeen(Card card) {
-		for (Player p : players)
-		{
-			if(!p.isHuman()) ((ComputerPlayer)p).updateSeen(card);
-		}
-
-	}
-	
-	
-	/*public void nextPlayer(){
-		if(whoseTurn < players.size()-1){
-			whoseTurn++;
-		}else{
-			whoseTurn = 0;
-		}
-		currentPlayer = players.get(whoseTurn);
-	}*/
 	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
 	}
@@ -579,34 +376,7 @@ public class Board extends JPanel
 	public int getNumColumns() {
 		return numColumns;
 	}
-
-	public int getDieRoll() {
-		return dieRoll;
-	}
-
-	public String getCPName(){
-		return currentPlayer.getName();
-	}
-
-
-	public void setWeapons(ArrayList<String> gameWeapons) {
-		this.weapons = gameWeapons;
-	}
 	
-	public Player getCP()
-	{
-		return currentPlayer;
-	}
-	
-	public void setCP(Player CP)
-	{
-		currentPlayer = CP;
-	}
-	
-	public int getTurn()
-	{
-		return whoseTurn;
-	}
 }
 
 

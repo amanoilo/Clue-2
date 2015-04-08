@@ -2,7 +2,7 @@ package clueGame;
 
 import java.util.ArrayList;
 
-public class Solution implements Comparable<Solution>{
+public class Solution{
 	@Override
 	public String toString() {
 		if(person!="" && weapon!="" && room!= ""){
@@ -45,10 +45,9 @@ public class Solution implements Comparable<Solution>{
 		return room;
 	}
 
-	@Override
-	public int compareTo(Solution s) 
+	public boolean equals(Solution s) 
 	{
-		return (person == s.getPerson() && weapon == s.getWeapon() && room == s.getRoom()) ? 1 : 0;
+		return (person.equals(s.getPerson()) && weapon.equals(s.getWeapon()) && room.equals(s.getRoom())) ? true : false;
 	}
 	
 	public boolean contains(Card card)

@@ -17,6 +17,7 @@ import clueGame.Player;
 public class HumanSuggestion extends JDialog 
 {
 
+	
 	private JComboBox name;
 	private JComboBox room;
 	private JComboBox weapon;
@@ -76,6 +77,16 @@ public class HumanSuggestion extends JDialog
 		
 	
 	
+	}
+	
+	public JComboBox get_Name() {
+		return name;
+	}
+	public JComboBox getRoom() {
+		return room;
+	}
+	public JComboBox getWeapon() {
+		return weapon;
 	}
 	public JButton getSubmitButton(){
 		return this.submitButton;

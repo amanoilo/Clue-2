@@ -43,45 +43,45 @@ public class GameActionTests {
 		accusationC1 = comp1.makeAccusation("Bjorn Bjornson", "Pen", "Shandalar");
 		accusationC5 = comp5.makeAccusation("Bjorn Bjornson", "Pen", "Shandalar");
 
-		assertEquals(solution.compareTo(accusationH1), 1);
-		assertEquals(solution.compareTo(accusationC1), 1);
-		assertEquals(solution.compareTo(accusationC5), 1);
+		assertEquals(solution.equals(accusationH1), true);
+		assertEquals(solution.equals(accusationC1), true);
+		assertEquals(solution.equals(accusationC5), true);
 
 		// Tests solution with wrong person
 		accusationH1 = human1.makeAccusation("Chet Brown", "Pen", "Shandalar");
 		accusationC1 = comp1.makeAccusation("Chet Brown", "Pen", "Shandalar");
 		accusationC5 = comp5.makeAccusation("Chet Brown", "Pen", "Shandalar");
 
-		assertEquals(solution.compareTo(accusationH1), 0);
-		assertEquals(solution.compareTo(accusationC1), 0);
-		assertEquals(solution.compareTo(accusationC5), 0);
+		assertEquals(solution.equals(accusationH1), false);
+		assertEquals(solution.equals(accusationC1), false);
+		assertEquals(solution.equals(accusationC5), false);
 
 		// Tests solution with wrong weapon
 		accusationH1 = human1.makeAccusation("Bjorn Bjornson", "Heartbreak", "Shandalar");
 		accusationC1 = comp1.makeAccusation("Bjorn Bjornson", "Heartbreak", "Shandalar");
 		accusationC5 = comp5.makeAccusation("Bjorn Bjornson", "Heartbreak", "Shandalar");
 
-		assertEquals(solution.compareTo(accusationH1), 0);
-		assertEquals(solution.compareTo(accusationC1), 0);
-		assertEquals(solution.compareTo(accusationC5), 0);
+		assertEquals(solution.equals(accusationH1), false);
+		assertEquals(solution.equals(accusationC1), false);
+		assertEquals(solution.equals(accusationC5), false);
 
 		// Tests solution with wrong room
 		accusationH1 = human1.makeAccusation("Bjorn Bjornson", "Pen", "Innistrad");
 		accusationC1 = comp1.makeAccusation("Bjorn Bjornson", "Pen", "Innistrad");
 		accusationC5 = comp5.makeAccusation("Bjorn Bjornson", "Pen", "Innistrad");
 
-		assertEquals(solution.compareTo(accusationH1), 0);
-		assertEquals(solution.compareTo(accusationC1), 0);
-		assertEquals(solution.compareTo(accusationC5), 0);
+		assertEquals(solution.equals(accusationH1), false);
+		assertEquals(solution.equals(accusationC1), false);
+		assertEquals(solution.equals(accusationC5), false);
 
 		// Tests solution with everything wrong
 		accusationH1 = human1.makeAccusation("Chet Brown", "Heartbreak", "Innistrad");
 		accusationC1 = comp1.makeAccusation("Chet Brown", "Heartbreak", "Innistrad");
 		accusationC5 = comp5.makeAccusation("Chet Brown", "Heartbreak", "Innistrad");
 
-		assertEquals(solution.compareTo(accusationH1), 0);
-		assertEquals(solution.compareTo(accusationC1), 0);
-		assertEquals(solution.compareTo(accusationC5), 0);
+		assertEquals(solution.equals(accusationH1), false);
+		assertEquals(solution.equals(accusationC1), false);
+		assertEquals(solution.equals(accusationC5), false);
 	}
 
 	@Test

@@ -2,9 +2,14 @@ package clueGame;
 
 import gui.Control;
 import gui.Detective;
+import gui.HumanAccusation;
 import gui.PlayerHand;
 import gui.SplashScreen;
 import gui.HumanSuggestion;
+
+
+
+
 
 
 import java.io.*;
@@ -27,12 +32,16 @@ public class ClueGame extends JFrame{
 	private String WeaponsConfig = "interactables/Weapons.txt";
 	private Solution solution;
 	private ArrayList<Card> gameCards;
+	private ArrayList<Card> allCards;
 	private ArrayList<Player> gamePlayers;  //player names are: Jon, Mary, Carl, Bjorn Bjornson, Alabama, Chet
+	private Map<String, Player> playerNames;
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
 	private HumanPlayer human;
 
 	private Control controlPanel;
 	private PlayerHand playerHand;
+	private HumanSuggestion suggestion;
+	private HumanAccusation accusation;
 	
 	private int dieRoll;
 	private int whoseTurn = 0;
@@ -68,7 +77,6 @@ public class ClueGame extends JFrame{
 		distributeCards();
 		
 		board.setPlayers(gamePlayers);
-		board.setWeapons(gameWeapons);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("CLUE - The Game");
@@ -106,6 +114,7 @@ public class ClueGame extends JFrame{
 		add(controlPanel,BorderLayout.SOUTH);
 		add(board, BorderLayout.CENTER);
 		controlPanel.getNext().addActionListener(new TurnListener());
+		controlPanel.getAccuse().addActionListener(new AccuseButtonListener());
 
 		addMouseListener(new BoardListener() );
 
@@ -150,6 +159,7 @@ public class ClueGame extends JFrame{
 					HumanPlayer human = new HumanPlayer(player, convertColor(strColor), board.getCellAt(row, col));
 					this.human = human;
 					gamePlayers.add(human);
+					currentPlayer = human;
 				
 				}
 				else gamePlayers.add(new ComputerPlayer(player, convertColor(strColor), board.getCellAt(row, col)));
@@ -161,16 +171,18 @@ public class ClueGame extends JFrame{
 		// Swallowing exceptions and other poorly thought out things
 		catch (FileNotFoundException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadConfigFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		board.setCP(gamePlayers.get(board.getTurn()));
+		
+		//Associate players with their names (for calling them by name later on)
+		playerNames = new HashMap<String, Player>();
+		for(Player p: gamePlayers){
+			playerNames.put(p.getName(), p);
+		}
 
 	}
 
@@ -207,10 +219,8 @@ public class ClueGame extends JFrame{
 		// Swallowing exceptions and other poorly thought out things
 		catch (FileNotFoundException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -238,13 +248,6 @@ public class ClueGame extends JFrame{
 
 		}
 
-		// Gives each computer player a copy of the deck to use as reference
-		// room cards excluded because computers can only guess the room 
-		// they are currently in
-		for (Player p : gamePlayers)
-		{
-			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(gameCards);
-		}
 
 		// create room cards
 		for (char c : rooms.keySet())
@@ -252,10 +255,15 @@ public class ClueGame extends JFrame{
 			if (c != 'y' && c != 'W')
 				gameCards.add(new Card(Card.CardType.ROOM, rooms.get(c)));		 
 		}
-
+		// Gives each computer player a copy of the deck to use as reference
+		
+		for (Player p : gamePlayers)
+		{
+			if(!p.isHuman()) ((ComputerPlayer)p).setPossibleChoices(gameCards);
+		}
 		// Shuffles the deck
 		Collections.shuffle(gameCards);
-
+		allCards = new ArrayList<Card>(gameCards);
 
 	}
 
@@ -263,6 +271,9 @@ public class ClueGame extends JFrame{
 	{
 		// removes 3 cards from deck
 		selectAnswer();
+		
+
+		
 		
 		int index = 0;
 		for (Card c : gameCards)
@@ -305,106 +316,12 @@ public class ClueGame extends JFrame{
 			temp.remove(c);
 		}
 		solution = new Solution(person, weapon, room);
-		
 	}
-	public class ButtonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			System.out.println("pressed");
-		}
-	}
-	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
-	{
-		Solution solution = new Solution(personGuess, roomGuess, weaponGuess);
-		return handleSuggestion(solution, accuser);
-	}
-
-	// NOTE: debating whether having an accuser even matters.
-	// It currently uses the information to not check the 
-	// accuser's hand, but that may not be the correct way
-	// of doing things. The accuser may guess cards in
-	// their own hand, after all. 
-	public Card handleSuggestion(Solution s, Player accuser)
-	{	
-		ArrayList<Player> tempPlayerList = new ArrayList<Player>(gamePlayers);
-		tempPlayerList.remove(accuser);
-		Card evidence = null;
-		for (Player p : tempPlayerList)
-		{
-			for (Card c : p.getCards())
-			{
-				if(c.getName() == s.getPerson() || c.getName() == s.getWeapon() || c.getName() == s.getRoom())
-					evidence = c;
-			}	
-		}
-
-		if (evidence != null) updateSeen(evidence);
-
-		return evidence;	
-	}
-
-	private void updateSeen(Card card) {
-		for (Player p : gamePlayers)
-		{
-			if(!p.isHuman()) ((ComputerPlayer)p).updateSeen(card);
-		}
-
-	}
-
-	private class BoardListener implements MouseListener {
-		@Override
-		public void mousePressed (MouseEvent e)
-		{
-			if(board.getCP().isHuman()){
-				if(!board.getCP().canAdvance()){
-					Point newPoint = e.getPoint();
-					BoardCell clickedCell = board.getBoard()[(((int)newPoint.getY()-OFFSET))/board.SCALE_FACTOR][((int)newPoint.getX())/board.SCALE_FACTOR];
-					if(clickedCell.isTargeted())
-					{
-						board.getCP().setLocation(clickedCell);
-						board.getCP().setCanAdvance(true);
-						if(clickedCell.isRoom())
-						{
-						HumanSuggestion suggestion = new HumanSuggestion(gamePlayers, rooms.get(((RoomCell)clickedCell).getInitial()), gameWeapons); 
-						suggestion.setVisible(true);
-						}}
-						else
-						{
-							JOptionPane.showMessageDialog( null, "Invalid Move Selection");
-						}
-					}
-				repaint();
-			}
-		}
 	
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-	}
 	
 	public boolean checkAccusation(Solution solution)
 	{
-		if (this.solution == solution) return true;
-		return false;
+		return this.solution.equals(solution);
 	}
 
 	public int getPlayerQuantity()
@@ -509,7 +426,7 @@ public class ClueGame extends JFrame{
 			}
 
 			
-			board = new Board(FileID, rooms, null, null);
+			board = new Board(FileID, rooms, null);
 			createPlayers();
 			
 
@@ -584,10 +501,164 @@ public class ClueGame extends JFrame{
 			System.out.println("Couldn't close the legend file?");
 		}
 
-		board = new Board(FileID, rooms, null, null);
+		board = new Board(FileID, rooms, null);
 	}
 	
-	//GAME FLOW
+	//GAME LISTENERS AND GAME FLOW -----------------------------------------------------------------------------------
+	//
+	//
+	//
+	
+	public class ButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			System.out.println("pressed");
+		}
+	}
+	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
+	{
+		Solution solution = new Solution(personGuess, roomGuess, weaponGuess);
+		return handleSuggestion(solution, accuser);
+	}
+
+	// NOTE: debating whether having an accuser even matters.
+	// It currently uses the information to not check the 
+	// accuser's hand, but that may not be the correct way
+	// of doing things. The accuser may guess cards in
+	// their own hand, after all. 
+
+	public Card handleSuggestion(Solution s, Player accuser)
+	{	
+		ArrayList<Player> tempPlayerList = new ArrayList<Player>(gamePlayers);
+		tempPlayerList.remove(accuser);
+		
+		playerNames.get(s.getPerson()).setLocation(accuser.getLocation());
+		
+		
+		Card evidence = null;
+		for (Player p : tempPlayerList)
+		{
+			for (Card c : p.getCards())
+			{
+				if(c.getName() == s.getPerson() || c.getName() == s.getWeapon() || c.getName() == s.getRoom())
+					evidence = c;
+			}	
+		}
+
+		if (evidence != null) updateSeen(evidence);
+		repaint();
+		return evidence;	
+	
+	}
+	
+	private void updateSeen(Card card) {
+		for (Player p : gamePlayers)
+		{
+			if(!p.isHuman()) ((ComputerPlayer)p).updateSeen(card);
+		}
+
+	}
+	
+	private class AccuseButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			if(currentPlayer.canAccuse()){
+				accusation = new HumanAccusation(gamePlayers,new ArrayList<String>(rooms.values()), gameWeapons);
+				accusation.getSubmitButton().addActionListener(new AccusationListener());
+				accusation.setVisible(true);
+			}else{
+				JOptionPane.showMessageDialog( null, "You cannot make an accusation at this time!");
+			}
+			
+		}
+	}
+	private class AccusationListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			
+			Solution newAccusation = new Solution(accusation.get_Name().getSelectedItem().toString(), 
+												accusation.getWeapon().getSelectedItem().toString(), 
+												accusation.getRoom().getSelectedItem().toString());
+			boolean response = checkAccusation(newAccusation);
+			if(response){
+				JOptionPane.showMessageDialog( null, "Congratulations, you won!");
+				accusation.setVisible(false);
+			}else{
+				JOptionPane.showMessageDialog( null, "Sorry, not correct!");
+				currentPlayer.setCanAccuse(false);
+				currentPlayer.setCanAdvance(true);
+				accusation.setVisible(false);
+			}
+		}
+
+		
+	}
+	private class SuggestionListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Solution newSuggestion = new Solution(suggestion.get_Name().getSelectedItem().toString(), 
+												suggestion.getWeapon().getSelectedItem().toString(), 
+												suggestion.getRoom().getSelectedItem().toString());
+			
+			Card response = handleSuggestion(newSuggestion, currentPlayer);	
+			controlPanel.getGuess().setText(newSuggestion.toString());
+			controlPanel.getResponse().setText(response.getName());
+			suggestion.setVisible(false);
+			repaint();
+			
+		}
+		
+	}
+	private class BoardListener implements MouseListener {
+		@Override
+		public void mousePressed (MouseEvent e)
+		{
+			if(currentPlayer.isHuman()){
+				if(!currentPlayer.canAdvance()){
+					Point newPoint = e.getPoint();
+					BoardCell clickedCell = board.getBoard()[(((int)newPoint.getY()-OFFSET))/board.SCALE_FACTOR][((int)newPoint.getX())/board.SCALE_FACTOR];
+					if(clickedCell.isTargeted())
+					{
+						currentPlayer.setLocation(clickedCell);
+						currentPlayer.setCanAccuse(false);
+						currentPlayer.setCanAdvance(true);
+						if(clickedCell.isRoom())
+						{
+						suggestion = new HumanSuggestion(gamePlayers, rooms.get(((RoomCell)clickedCell).getInitial()), gameWeapons); 
+						suggestion.getSubmitButton().addActionListener(new SuggestionListener());
+						suggestion.setVisible(true);
+						}}
+						else
+						{
+							JOptionPane.showMessageDialog( null, "Invalid Move Selection");
+						}
+					}
+				repaint();
+			}
+		}
+	
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 	
 	private class TurnListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
@@ -604,6 +675,8 @@ public class ClueGame extends JFrame{
 		Random rand = new Random();
 		if (firstTurn){
 			currentPlayer = gamePlayers.get(whoseTurn);
+			currentPlayer.setCanAccuse(true);
+			
 		}
 
 
@@ -646,26 +719,39 @@ public class ClueGame extends JFrame{
 				currentPlayer.setCanAdvance(false);
 				advanceTurn();
 			}else{
-				((ComputerPlayer) currentPlayer).move(board.getTargets());
-				if(currentPlayer.getLocation().isRoom()){
-					Solution guess;
-					guess = ((ComputerPlayer) currentPlayer).createSuggestion(
-							rooms.get(
-									((RoomCell)currentPlayer.getLocation()).getInitial()
-									)
-							);
-					lastGuess = guess;
-					Card newResponse = handleSuggestion(guess, currentPlayer);
-					if(newResponse!= null){
-						lastResponse = newResponse.getName();
+				if (((ComputerPlayer)currentPlayer).hasSolution()){
+					Solution newAccusation = ((ComputerPlayer)currentPlayer).makeAccusation();
+					System.out.println("ready" + newAccusation.toString());
+					if(checkAccusation(newAccusation)){
+						JOptionPane.showMessageDialog(null, currentPlayer.getName()+ " has won with " + newAccusation.toString());
 					}else{
-						lastResponse = "no new clue";
+						JOptionPane.showMessageDialog(null, currentPlayer.getName()+ " was incorrect with " + newAccusation.toString());
+						((ComputerPlayer)currentPlayer).notReadyToAccuse();
 					}
-					
-					
-					
-					
+				}else{
+					((ComputerPlayer) currentPlayer).move(board.getTargets());
+					if(currentPlayer.getLocation().isRoom()){
+						Solution guess;
+						guess = ((ComputerPlayer) currentPlayer).createSuggestion(
+								rooms.get(
+										((RoomCell)currentPlayer.getLocation()).getInitial()
+										)
+								);
+						lastGuess = guess;
+						Card newResponse = handleSuggestion(guess, currentPlayer);
+						if(newResponse!= null){
+							lastResponse = newResponse.getName();
+						}else{
+							((ComputerPlayer)currentPlayer).readyToAccuse();
+							lastResponse = "no new clue";
+						}
+
+
+
+
+					}
 				}
+				
 				currentPlayer.setCanAdvance(true);
 			}
 
@@ -673,6 +759,7 @@ public class ClueGame extends JFrame{
 		}
 		repaint();
 	}
+
 	
 	public void nextPlayer(){
 		if(whoseTurn < gamePlayers.size()-1){
@@ -681,6 +768,7 @@ public class ClueGame extends JFrame{
 			whoseTurn = 0;
 		}
 		currentPlayer = gamePlayers.get(whoseTurn);
+		currentPlayer.setCanAccuse(true);
 	}
 	
 	public Board getBoard() { return board;	}

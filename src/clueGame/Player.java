@@ -15,6 +15,7 @@ public abstract class Player {
 	private boolean human;
 	private BoardCell location;
 	private boolean canAdvance;
+	private boolean canAccuse;
 
 
 	public Player(String name, Color color, BoardCell location, boolean human)
@@ -25,6 +26,7 @@ public abstract class Player {
 		this.location = location;
 		this.human = human;
 		this.canAdvance = false;
+		this.canAccuse = false;
 	}
 
 	public abstract Solution createSuggestion(String roomName);
@@ -98,7 +100,14 @@ public abstract class Player {
 	public void setCanAdvance(boolean bool){
 		this.canAdvance = bool;
 	}
-
+	
+	public boolean canAccuse(){
+		return canAccuse;
+	}
+	public void setCanAccuse(boolean bool){
+		this.canAccuse = bool;
+	}
+	
 	public void draw(Graphics g)
 	{
 		g.setColor(color);
@@ -112,9 +121,7 @@ public abstract class Player {
 		g.setColor(p1.color);
 		g.fillArc(p1.location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR, 0, 180);
 		g.setColor(p2.color);
-		System.out.println("p2 color = " + p2.color);
-		System.out.println("p1 color = " + p1.color);
-		g.fillArc(p2.location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR, 180, 360);
+		g.fillArc(p2.location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR, 180, 180);
 		g.setColor(Color.BLACK);
 		g.drawOval(location.getC() * Board.SCALE_FACTOR, location.getR() * Board.SCALE_FACTOR, Board.SCALE_FACTOR, Board.SCALE_FACTOR);
 	}

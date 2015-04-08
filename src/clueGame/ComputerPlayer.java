@@ -11,6 +11,8 @@ public class ComputerPlayer extends Player{
 	private char lastRoomVisited;
 	private ArrayList<Card> seenCards;
 	private ArrayList<Card> possibleChoices;
+	private boolean hasSolution = false;
+	private Solution lastSolution;
 
 	public ComputerPlayer(String name, Color color, BoardCell location)
 	{
@@ -29,6 +31,7 @@ public class ComputerPlayer extends Player{
 			if (b.isDoorway() && ((RoomCell)b).getInitial() != lastRoomVisited) 
 			{
 				setLocation(b);
+				lastRoomVisited = ((RoomCell)b).getInitial();
 				return getLocation();
 			}
 		}
@@ -53,6 +56,7 @@ public class ComputerPlayer extends Player{
 	
 	public void move(Set<BoardCell> targets){
 		BoardCell throwaway = pickLocation(targets);
+		setCanAccuse(false);
 	}
 
 	@Override
@@ -66,17 +70,7 @@ public class ComputerPlayer extends Player{
 		
 		for(Card choice : possibleChoices)
 		{
-			boolean seen = false;
-			for (Card seenCard : seenCards)
-			{
-				if (choice.getName() == seenCard.getName()) 
-				{
-					seen = true;
-					break;
-				}
-			}
-			
-			if (!seen) suggestions.add(choice);
+			if (!seenCards.contains(choice)) suggestions.add(choice);
 		}
 		
 		// shuffles the suggestions
@@ -85,11 +79,20 @@ public class ComputerPlayer extends Player{
 		// find the first person and weapon in the suggestions list
 		for (Card c : suggestions)
 		{
-			if (c.getType() == Card.CardType.PERSON) personName = c.getName();
-			if (c.getType() == Card.CardType.WEAPON) weaponName = c.getName();
+			if (c.getType() == Card.CardType.PERSON && personName == "") personName = c.getName();
+			if (c.getType() == Card.CardType.WEAPON && weaponName == "") weaponName = c.getName();
 			
 		}
-		return new Solution(personName, weaponName, roomName);	
+		Solution newSolution = new Solution(personName, weaponName, roomName);
+		lastSolution = newSolution;
+		System.out.println(lastSolution);
+		return 	newSolution;
+	}
+	
+	public Solution makeAccusation(){
+	
+		System.out.println(lastSolution.toString());
+		return lastSolution;
 	}
 
 	public void updateSeen(Card card)
@@ -119,5 +122,15 @@ public class ComputerPlayer extends Player{
 	
 	public ArrayList<Card> getSeenCards(){
 		return seenCards;
+	}
+	public void readyToAccuse(){
+		this.hasSolution = true;
+		System.out.println("ready");
+	}
+	public void notReadyToAccuse(){
+		this.hasSolution = false;
+	}
+	public boolean hasSolution(){
+		return hasSolution;
 	}
 }
