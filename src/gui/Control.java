@@ -25,6 +25,8 @@ public class Control extends JPanel {
     private JTextField response;
     private JTextField die;
     private JTextField current;
+    private JButton next;
+    private JButton accuse;
     private Board gameBoard;
     
     
@@ -44,17 +46,7 @@ public class Control extends JPanel {
     	add(panel, BorderLayout.EAST);
   	
     }
-    private class TurnListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		gameBoard.advanceTurn();
-    		current.setText(gameBoard.getCPName());
-    		die.setText(Integer.toString(gameBoard.getDieRoll()));
-    		
-    		guess.setText(gameBoard.lastGuess.toString());
-    		response.setText(gameBoard.lastResponse);
-    		
-    	}
-    }
+    
     private JPanel createTurnAndDiePanel()
     {
     	JPanel panel = new JPanel();
@@ -81,9 +73,9 @@ public class Control extends JPanel {
     
     private JPanel createActionPanel()
     {
-    	JButton next = new JButton("Next Player");
-    	JButton accuse = new JButton("Accuse");
-    	next.addActionListener(new TurnListener());
+    	next = new JButton("Next Player");
+    	accuse = new JButton("Accuse");
+    	
     	
     	JPanel panel = new JPanel();
     	panel.add(next);
@@ -119,7 +111,29 @@ public class Control extends JPanel {
 		return panel;
     }
 
-    
+    public JTextField getGuess() {
+		return guess;
+	}
+
+	public JTextField getResponse() {
+		return response;
+	}
+
+	public JTextField getDie() {
+		return die;
+	}
+
+	public JTextField getCurrent() {
+		return current;
+	}
+	
+	public JButton getNext(){
+		return next;
+	}
+	
+	public JButton getAccuse(){
+		return accuse;
+	}
    
 	
 }

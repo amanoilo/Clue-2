@@ -28,6 +28,17 @@ public class ClueGame extends JFrame{
 	private ArrayList<String> gameWeapons;  //weapons are: Sword, Pen, Mace, Laughing Gas, Endless Breadsticks, Heartbreak.
 	private HumanPlayer human;
 	
+	private Control controlPanel;
+	private PlayerHand playerHand;
+	
+	private int dieRoll;
+	private int whoseTurn = 0;
+	private Player currentPlayer;
+	private boolean firstTurn = true;
+	private Set<BoardCell> toClear;
+	
+	public Solution lastGuess = new Solution("","","");
+	public String lastResponse = "";
 	
 	private ArrayList<String> gameRooms;
 	
@@ -83,11 +94,13 @@ public class ClueGame extends JFrame{
 		menuBar.add(file);
 		file.add(detectiveNotes);
 		file.add(exit);
-		JPanel controlPanel = new Control(board);
-		JPanel PlayerHand = new PlayerHand(human);
-		add(PlayerHand, BorderLayout.EAST);
+		controlPanel = new Control(board);
+		playerHand = new PlayerHand(human);
+		add(playerHand, BorderLayout.EAST);
 		add(controlPanel,BorderLayout.SOUTH);
 		add(board, BorderLayout.CENTER);
+		
+		controlPanel.getNext().addActionListener(new TurnListener());
 		
 	}
 	
@@ -513,9 +526,105 @@ public class ClueGame extends JFrame{
 
 		board = new Board(FileID, rooms, null, null);
 	}
+	
+	//GAME FLOW
+	
+	private class TurnListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		advanceTurn();
+    		controlPanel.getCurrent().setText(currentPlayer.getName());
+    		controlPanel.getDie().setText(Integer.toString(dieRoll));
+    		controlPanel.getGuess().setText(lastGuess.toString());
+    		controlPanel.getResponse().setText(lastResponse);
+    		
+    	}
+    }
+	
+	public void advanceTurn(){
+		Random rand = new Random();
+		if (firstTurn){
+			currentPlayer = gamePlayers.get(whoseTurn);
+		}
 
+
+		if(!currentPlayer.canAdvance()){
+			dieRoll = rand.nextInt(6)+1;
+		}
+		if(toClear == null){
+			board.calcTargets(currentPlayer.getLocation(), dieRoll);
+		}
+
+		if(toClear != null && !currentPlayer.canAdvance()){
+			JOptionPane.showMessageDialog(null, "You must move before ending your turn!");
+		}
+
+		if(currentPlayer.isHuman()){
+			for(BoardCell x: board.getTargets()){
+				x.setisTargeted(true);
+			}
+			if(currentPlayer.canAdvance() && toClear != null){
+				for(BoardCell x: toClear){
+					x.setisTargeted(false);
+				}
+
+				toClear = null;
+				nextPlayer();
+				currentPlayer.setCanAdvance(false);	
+				board.calcTargets(currentPlayer.getLocation(), dieRoll);
+
+
+			}else{
+				
+				toClear = new HashSet<BoardCell>(board.getTargets());
+			}
+
+		}
+
+		if(!currentPlayer.isHuman()){
+			if(currentPlayer.canAdvance()){
+				nextPlayer();
+				currentPlayer.setCanAdvance(false);
+				advanceTurn();
+			}else{
+				((ComputerPlayer) currentPlayer).move(board.getTargets());
+				if(currentPlayer.getLocation().isRoom()){
+					Solution guess;
+					guess = ((ComputerPlayer) currentPlayer).createSuggestion(
+							rooms.get(
+									((RoomCell)currentPlayer.getLocation()).getInitial()
+									)
+							);
+					lastGuess = guess;
+					Card newResponse = handleSuggestion(guess, currentPlayer);
+					if(newResponse!= null){
+						lastResponse = newResponse.getName();
+					}else{
+						lastResponse = "no new clue";
+					}
+					
+					
+					
+					
+				}
+				currentPlayer.setCanAdvance(true);
+			}
+
+
+		}
+		repaint();
+	}
+	
+	public void nextPlayer(){
+		if(whoseTurn < gamePlayers.size()-1){
+			whoseTurn++;
+		}else{
+			whoseTurn = 0;
+		}
+		currentPlayer = gamePlayers.get(whoseTurn);
+	}
+	
 	public Board getBoard() { return board;	}
-
+	
 
 	public static void main(String[] args) 
 	{

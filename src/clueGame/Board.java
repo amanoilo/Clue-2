@@ -428,7 +428,7 @@ public class Board extends JPanel
 		}
 	}
 
-	public void advanceTurn(){
+	/*public void advanceTurn(){
 		Random rand = new Random();
 		if (firstTurn){
 			currentPlayer = players.get(whoseTurn);
@@ -500,7 +500,7 @@ public class Board extends JPanel
 
 		}
 		repaint();
-	}
+	}*/
 
 	
 	public Card handleSuggestion(String personGuess, String roomGuess, String weaponGuess, Player accuser)
@@ -547,14 +547,14 @@ public class Board extends JPanel
 	}
 	
 	
-	public void nextPlayer(){
+	/*public void nextPlayer(){
 		if(whoseTurn < players.size()-1){
 			whoseTurn++;
 		}else{
 			whoseTurn = 0;
 		}
 		currentPlayer = players.get(whoseTurn);
-	}
+	}*/
 	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
 	}

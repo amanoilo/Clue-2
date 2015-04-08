@@ -20,7 +20,8 @@ public class HumanSuggestion extends JDialog
 	private JComboBox name;
 	private JComboBox room;
 	private JComboBox weapon;
-	private Board board;
+	private JButton submitButton;
+	private JButton cancelButton;
     private ArrayList<String> gameWeapons;
     private ArrayList<Player> gamePlayers;
     private String[] theRoom = new String[1];
@@ -55,8 +56,9 @@ public class HumanSuggestion extends JDialog
 		JLabel weaponLabel = new JLabel("Weapon");
 		JLabel nameLabel = new JLabel("Person");
 		
-		JButton submitButton = new JButton("Submit");
-		JButton cancelButton = new JButton("Cancel");
+		this.submitButton = new JButton("Submit");
+		this.cancelButton = new JButton("Cancel");
+
 		cancelButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				setVisible(false);
@@ -75,9 +77,8 @@ public class HumanSuggestion extends JDialog
 	
 	
 	}
-	
-	public void setBoard(Board board){
-		this.board = board;
+	public JButton getSubmitButton(){
+		return this.submitButton;
 	}
 	
 	
